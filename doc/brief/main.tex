@@ -101,7 +101,7 @@ Mathieu Letrone,
 Tri-Thien Truong
 \\[1cm]
 \today \\ [1cm]
-Version 1
+Version 1.1
 \end{titlepage}
 \vspace{\baselineskip}
 
@@ -123,23 +123,25 @@ Ainsi, le sujet qui nous est confié s’inscrit dans leur vision R$\&$ D sur le
 
 \vspace{\baselineskip}
 \section{SECTION "QUOI"  (LE BESOIN UNIQUEMENT)}
-
+La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur
 \vspace{\baselineskip}
 \begin{itemize}
-	\item La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension.\par
+	 
 
-	\item La solution permettra également la mise en avant d’éléments sur une carte d’intensité à partir de fausses couleurs. Ce besoin permettra à l’utilisateur d’avoir plus facilement une distinction entre les éléments, via des panels de couleurs.\par
+	\item  s'il est déjà en couleur: on applique le filtre de plage colorimétrique pour isoler les éléments (exemple: isoler les tubes proches du blanc).\par
 
-	\item La suppression ou l’atténuation du mouchetage des couleurs sur les éléments. Cependant, ce besoin n’est pas une priorité, il sera à traiter seulement si les autres besoins sont satisfaits.
+	\item  s'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.\par
+
+
 \end{itemize}\par
 
 \vspace{\baselineskip}
 \section{LISTE DES BESOINS PAR ORDRE DE PRIORITÉ}
 
 \vspace{\baselineskip}
-Besoin numéro 1 : Isoler un élément dans un nuage de points donné\par
+Besoin numéro 1 : Isoler un élément dans un nuage de points donné, selon sa plage de couleur\par
 
-Besoin numéro 2 : Implémenter des fausses couleurs\par
+Besoin numéro 2 : Faire apparaître des couleurs sur des nuages de points en intensité de gris\par
 
 Besoin numéro 3 : Traitement des problèmes de $``$mouchetage$"$ \par
 
@@ -214,8 +216,6 @@ Besoin numéro 3 : Traitement des problèmes de $``$mouchetage$"$ \par
  \end{table}
 
 
-%%%%%%%%%%%%%%%%%%%% Table No: 2 ends here %%%%%%%%%%%%%%%%%%%%
-
 
 \vspace{\baselineskip}
 \begin{justify}
@@ -225,8 +225,6 @@ Besoin numéro 3 : Traitement des problèmes de $``$mouchetage$"$ \par
 
 \vspace{\baselineskip}
 
-
-%%%%%%%%%%%%%%%%%%%% Table No: 3 starts here %%%%%%%%%%%%%%%%%%%%
 
 
 \begin{table}[H]
@@ -290,9 +288,6 @@ Besoin numéro 3 : Traitement des problèmes de $``$mouchetage$"$ \par
  \end{table}
 
 
-\vspace{\baselineskip}
-\vspace{\baselineskip}
-\vspace{\baselineskip}
 \begin{justify}
 \textbf{ENGAGEMENTS DE LA MOE :}
 \end{justify}\par
