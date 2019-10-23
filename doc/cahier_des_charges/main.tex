@@ -203,7 +203,7 @@ La solution devra permettre d’isoler, classifier un élément dans le nuage de
 
 	\item  s'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.\par
 
-\end{itemize}\par
+\end{itemize}
 
 Vocabulaire :
 
@@ -211,13 +211,6 @@ Vocabulaire :
 
 \section{Besoins fonctionnels}
 
-Faire un tableau avec Fonctions, Critères, Niveaux, Flexibilité (aller dans les détails)
-
-Description des acteurs / utilisateurs (situation, expérience, expertise technique, niveau de formation, etc.
-
-Liste hierarchisee des besoins du client (MosCow : Must, Should, Could, Won't)
-
-Utilisez des schémas pour expliquer (fonctionnement, processus, IHM, etc.).
 
 \begin{tabular}{|p{6cm}|p{4cm}|p{3cm}|p{3cm}|}
   \hline
@@ -226,21 +219,22 @@ Utilisez des schémas pour expliquer (fonctionnement, processus, IHM, etc.).
   & Niveaux
   & Flexibilité \\
   \hline
+  Lire un fichier de données contenant un nuage de points. 
+  & Type de fichier 
+  & Fichier au format ASCII
+  & L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre. \\
+  \hline
   Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
-  & Efficacité de la distinction des couleurs
+  & Correspondance entre la plage de couleur désirée et les points isolés
   & blablabla
   & blablabla\\
   \hline
   Faire apparaître des couleurs sur des nuages de points en intensité de gris
-  & blablabla
+  & Distinction des différentes nuances de gris
   & blablabla
   & blablabla\\
   \hline
 \end{tabular}
-
-- Lire le scan
-- Interpreter les couleurs dans le nuage de points
-- Isoler 
 
 \section{Besoins non fonctionnels}
 
@@ -250,35 +244,36 @@ Utilisez des schémas pour expliquer (fonctionnement, processus, IHM, etc.).
     Fonctions
     & Commentaires \\
     \hline
-    Traitement des problèmes de “mouchetage” 
+    Traitement des problèmes de "mouchetage"
     & Dans un premier temps, le mouchetage ne sera pas pris en compte dans le traitement du nuage de points.\\
+    \hline
+    Sélection de la plage de couleurs à extraire 
+    & Le programme fournit une interface graphique comportant un "color-picker" permettant à l'utilisateur d'effectuer la sélection.\\
     \hline
     Performances de l'ordinateur
     & A cause des nuages de points, il est nécessaire d'avoir des ordinateurs un minimum performants. Cela veut donc impliquer le fait que le programme développé nécessitera aussi un ordinateur performant. \\
     \hline
     Fichiers en entrée
-    & L'utilisation du programme devra prendre en compte la conformité des scans que l'on nous fournira \\
+    & L'utilisation du programme devra vérifier la conformité des scans que l'on nous fournira. \\
     \hline
     Language utilisé
-    & Il n'y a aucun language requis par le client, nous utilisons \\
+    & Il n'y a aucun language requis par le client, nous utiliseront Python, un langage maitrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points.\\
     \hline
 \end{tabular}
 
 
 \section{Evolution potentielle des besoins}
 
+Intégration des algorithmes développés dans le logiciel de l'entreprise.
 
 \section{Limites du projet}
 
-Les fichiers de scans en entrée.
-On a des limites sur le traitement du mouchetage (très complexe)
-
+La coorrection des erreurs et artefacts des fichiers fournis en entrée du programme ne font pas partie du projet.
+De même que la visualisation du nuage de points directement depuis le programme. Cette fonctionalité est assurée par le logiciel de l'entreprise, plus performant. Cette fonctionnalité peut être présente mais uniquement à des fins de test.
 \section{Risques}
 
-Risque par rapport aux distinctions des éléments
-Risque par rapport à une mauvaise isolation de l'élément voulu
-Risque : mouchetage (visible directement sur le scan)
-
+Incapacité à distinguer les éléments de façon efficace.
+Impact trop important du mouchetage sur la qualité de la segmentation.
 
 \section{Plannings}
 
@@ -289,7 +284,7 @@ Risque : mouchetage (visible directement sur le scan)
 \section{Connaissances utiles}
 \begin{justify}
 
-\end{justify}\par
+\end{justify}
 
 
 
