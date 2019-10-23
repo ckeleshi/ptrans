@@ -35,7 +35,7 @@ Mathieu Letrone,
 Tri-Thien Truong
 \\[1cm]
 \today \\ [1cm]
-Version 1
+Version 1.1
 \end{titlepage}
 
 \section{Contexte general du projet dans l'entreprise}
@@ -48,18 +48,18 @@ Ainsi, le sujet qui nous est confié s'inscrit dans leur vision R\&D sur leur lo
 \section{Section "quoi"}
 
 \begin{itemize}
-  \item La solution devra permettre d'isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension.
-  \item La solution permettra également la mise en avant d'éléments sur une carte d'intensité à partir de fausses couleurs. Ce besoin permettra à l'utilisateur d'avoir plus facilement une distinction entre les éléments, via des panels de couleurs.
-  \item La suppression ou l'atténuation du mouchetage des couleurs sur les éléments. Cependant, ce besoin n'est pas une priorité, il sera à traiter seulement si les autres besoins sont satisfaits.
+  \item La solution devra permettre d'isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur.
+  \item S'il est déjà en couleur: on applique le filtre de plage colorimétrique pour isoler les éléments (exemple: isoler les tubes proches du blanc).
+  \item S'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.
 \end{itemize}
 
 \section{Liste des besoins par ordre de priorité}
 
-Besoin numéro 1: Isoler un élément dans un nuage de points donné
+Besoin numéro 1: Isoler un élément dans un nuage de points donné, selon sa plage de couleur
 
-Besoin numéro 2: Implémenter des fausses couleurs
+Besoin numéro 2: Faire apparaître des couleurs sur des nuages de points en intensité de gris
 
-Besoin numéro 3: Traitement des problèmes de <<\,mouchetage\,>> 
+Besoin numéro 3: Traitement des problèmes de <<\,mouchetage\,>>
 
 
 \section{Planning du projet dans son ensemble}
