@@ -40,16 +40,17 @@ Version 1.1
 
 \section{Introduction}
 
-Nous tenons avant tout à remercier l'entreprise TagLabs pour avoir participer à la rédaction de ce cahier des charges.
+Nous tenons avant tout à remercier l'entreprise TagLabs, et plus particulièrement M. Yan KOCH, pour sa disponibilité et de sa confiance pour l'élaboration de ce projet.
 
-\section{Contexte general du projet dans l'entreprise}
+Nous remercions également notre tuteur de stage, M. Nicolas NORMAND, pour son temps accordé sur ce projet.
+
+\subsection*{Contexte general du projet dans l'entreprise}
 
 Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entreprise s’inscrit dans le domaine de la modélisation 3D d’ouvrages. Ils proposent la modélisation et l’exploitation de nuages de points. Mais, ils travaillent surtout en interne sur un logiciel « ScanSap », le but de ce logiciel est d’exploiter les nuages de points 3D avec efficacité et simplicité inégalées.
 
 Voulant continuer leur développement dans ce domaine encore nouveau, l'entreprise cherche maintenant à améliorer leurs outils, afin de compléter l'exploitation des nuages de points. L'ensemble de ces fonctionnalités permettent à leurs clients de pouvoir analyser un environnement en numérique, à un instant précis (qui sera sous la forme d'un scan de nuages de points). Par exemple, une entreprise peut avoir le besoin d'avoir un scan d'une de leur usine, afin d'analyser le positionnement de leurs machines, les potentielles fuites au niveau des tuyaux, etc.
 
 L'équipe qui sera à la charge de ce projet est composé de trois étudiants en informatique à Polytech Nantes. Dans le cadre de la quatrième année dans la formation d'ingénieur informatique, nous devons réaliser un projet transversal avec une entreprise.
-
 \subsection*{MOA}
 
 \noindent\begin{tabu} to \textwidth {X[c]X[c]X[c]X[c]}\toprule
@@ -90,26 +91,66 @@ TODO
 
 \section{Besoins fonctionnels}
 
-\noindent\begin{tabu} to \textwidth {X[c2]X[c]X[c]X[c3]}\toprule
-\thead{Fonctions}&
-\thead{Critères}&                       
-\thead{Niveaux}&
-\thead{Flexibilité}\\\toprule
-Lire un fichier de données contenant un nuage de points. 
-& Type de fichier 
-& Fichier au format ASCII
-& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre. \\\midrule
-Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
-& Correspondance entre la plage de couleur désirée et les points isolés.
-Sélection des points appartenant à l'objet ciblé mais de teintes différentes (ombrages, réflexion, ...).
-& blablabla
-& blablabla\\\midrule
-Faire apparaître des couleurs sur des nuages de points en intensité de gris
-& Distinction des différentes nuances de gris
-& blablabla
-& blablabla\\\bottomrule
-
+\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c2]X[c3]}\toprule
+     \thead{MoSCoW}&\thead{Fonctions}&\thead{Critères}&\thead{Flexibilité}\\\toprule
+M &Lire un fichier de données contenant un nuage de points
+& Le nuage doit être visible à l'écran. La solution doit pouvoir lire un fichier au format ASCII
+& Visibilité complète du nuage de points donné. L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\midrule
+M & Modifier une couleur selon une intensité définie
+& Affichage dans la lecture du scan
+& La couleur qui sera affichée devra correspondre à la couleur voulue\\\midrule
+C & Segmenter le nuage de points en ensembles plus petits
+& Afficher une partie du nuage de points
+& \\\midrule
+M &Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
+& Les points isolés doivents appartenir à la plage de couleur désirée.
+Les points appartenant à l'élément ciblé mais de teintes différentes doivents également extraits (ombrages, réflexion, ...).
+& \\\midrule
+M & Exporter le nuage de points
+& Le nuage devra garder les modifications effectuées
+& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\bottomrule
 \end{tabu}
+
+\subsection*{Cas d'utilisation}
+
+\begin{center}
+    \includegraphics{usecase.PNG}
+\end{center}
+
+\subsection*{User story}
+
+\begin{enumerate}
+    \item Isoler un élément dans le nuage de points
+    
+En tant qu'utilisateur du logiciel, je veux isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
+
+\textbf{Tests d'acceptation :}
+
+\begin{enumerate}
+    \item Scénario 1
+    
+Etant donné que j'ai affiché un nuage de points via un fichier\\
+Quand je clique sur l'option pour isoler un élément\\
+Alors une interface avec un color picker apparaît\\
+Quand je sélectionne une plage de couleur\\
+Et que je clique sur le bouton Valider\\
+Alors Le nuage de points n'affiche uniquement que les points respectant la plage d'intensité de couleur.
+
+
+\end{enumerate}
+\item Réaliser de la fausse couleur sur un nuage de points en intensité
+En tant qu'utilisateur du logiciel, je souhaite faire resortir des variations de gris du nuage afin de mettre en lumière de nouveaux éléments et faciliter la compréhension.
+\begin{enumerate}
+    \item Scénario 1
+    
+Étant donné que j'ai affiché un nuage de point via un fichier\\
+Quand je clique sur l'option fausse couleur\\
+Alors une interface avec un outil utilisateur\\
+Quand je l'utilise\\
+Et que je clique sur valider\\
+Alors le nuage de point s'affiche en fausse couleur.
+\end{enumerate}
+\end{enumerate}
 
 
 \section{Besoins non fonctionnels}
