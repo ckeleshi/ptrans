@@ -91,11 +91,24 @@ TODO
 \section{Besoins fonctionnels}
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c]X[c]X[c3]}\toprule
-     \thead{Fonctions}&\thead{Critères}&                       \thead{Niveaux}&\thead{Flexibilité}\\\toprule
-Lire un fichier de données contenant un nuage de points.
-& Type de fichier
+\thead{Fonctions}&
+\thead{Critères}&                       
+\thead{Niveaux}&
+\thead{Flexibilité}\\\toprule
+Lire un fichier de données contenant un nuage de points. 
+& Type de fichier 
 & Fichier au format ASCII
-& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\bottomrule
+& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre. \\\midrule
+Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
+& Correspondance entre la plage de couleur désirée et les points isolés.
+Sélection des points appartenant à l'objet ciblé mais de teintes différentes (ombrages, réflexion, ...).
+& blablabla
+& blablabla\\\midrule
+Faire apparaître des couleurs sur des nuages de points en intensité de gris
+& Distinction des différentes nuances de gris
+& blablabla
+& blablabla\\\bottomrule
+
 \end{tabu}
 
 
@@ -104,22 +117,28 @@ Lire un fichier de données contenant un nuage de points.
 \noindent\begin{tabu} to \textwidth {X[c]X[c3]}\toprule
      \thead{Fonctions}&\thead{Commentaires}\\\toprule
 Traitement des problèmes de "mouchetage"
-& Dans un premier temps, le mouchetage ne sera pas pris en compte dans le traitement du nuage de points.
-\\\midrule
+& Dans un premier temps, le mouchetage ne sera pas pris en compte dans le traitement du nuage de points.\\\midrule
 Sélection de la plage de couleurs à extraire 
 & Le programme fournit une interface graphique comportant un "color-picker" permettant à l'utilisateur d'effectuer la sélection.\\\midrule
 Performances de l'ordinateur
-& A cause des nuages de points, il est nécessaire d'avoir des ordinateurs un minimum performants. Cela veut donc impliquer le fait que le programme développé nécessitera aussi un ordinateur performant.\\\midrule
+& A cause des nuages de points, il est nécessaire d'avoir des ordinateurs un minimum performants. Cela veut donc impliquer le fait que le programme développé nécessitera aussi un ordinateur performant. \\\midrule
 Fichiers en entrée
-& L'utilisation du programme devra vérifier la conformité des scans que l'on nous fournira.\\\midrule
+& L'utilisation du programme devra vérifier la conformité des scans que l'on nous fournira. \\\midrule
 Language utilisé
-& Il n'y a aucun language requis par le client, nous utiliseront Python, un langage maitrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points\\\bottomrule
+& Il n'y a aucun language requis par le client, nous utiliseront Python, un langage maitrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points.\\\bottomrule
+
 \end{tabu}
+
+\section{Evolution potentielle des besoins}
+
+Intégration des algorithmes développés dans le logiciel de l'entreprise.
+
 
 \section{Limites du projet}
 
 La correction des erreurs et artefacts des fichiers fournis en entrée du programme ne font pas partie du projet.
 De même que la visualisation du nuage de points directement depuis le programme. Cette fonctionalité est assurée par le logiciel de l'entreprise, plus performant. Cette fonctionnalité peut être présente mais uniquement à des fins de test.
+
 \section{Risques}
 
 Incapacité à distinguer les éléments de façon efficace.
