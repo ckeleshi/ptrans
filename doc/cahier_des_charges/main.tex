@@ -40,6 +40,8 @@ Version 1.1
 
 \section{Introduction}
 
+\subsection*{Remerciements}
+
 Nous tenons avant tout à remercier l'entreprise TagLabs, et plus particulièrement M. Yan KOCH, pour sa disponibilité et de sa confiance pour l'élaboration de ce projet.
 
 Nous remercions également notre tuteur de stage, M. Nicolas NORMAND, pour son temps accordé sur ce projet.
@@ -51,7 +53,10 @@ Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entre
 Voulant continuer leur développement dans ce domaine encore nouveau, l'entreprise cherche maintenant à améliorer leurs outils, afin de compléter l'exploitation des nuages de points. L'ensemble de ces fonctionnalités permettent à leurs clients de pouvoir analyser un environnement en numérique, à un instant précis (qui sera sous la forme d'un scan de nuages de points). Par exemple, une entreprise peut avoir le besoin d'avoir un scan d'une de leur usine, afin d'analyser le positionnement de leurs machines, les potentielles fuites au niveau des tuyaux, etc.
 
 L'équipe qui sera à la charge de ce projet est composée de trois étudiants en informatique à Polytech Nantes. Dans le cadre de la quatrième année dans la formation d'ingénieur informatique, nous devons réaliser un projet transversal avec une entreprise.
-\subsection*{MOA}
+
+\subsection*{Présentation des parties prenantes du projet}
+
+\subsubsection*{MOA}
 
 \noindent\begin{tabu} to \textwidth {X[c]X[c]X[c]X[c]}\toprule
    \thead{Qui}&\thead{Rôle}&        \thead{Mail}&\thead{Mobile}\\\toprule
@@ -59,7 +64,7 @@ L'équipe qui sera à la charge de ce projet est composée de trois étudiants e
 Robin Kervadec&   Ingénieur&rkervadec@taglabs.fr&    0619656021\\\bottomrule
 \end{tabu}
 
-\subsection*{MOE}
+\subsubsection*{MOE}
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c]X[c3]X[c]}\toprule
      \thead{Qui}&\thead{Rôle}&                       \thead{Mail}&\thead{Mobile}\\\toprule
@@ -68,7 +73,7 @@ Tri-thien Truong& Développeur&tri-thien.truong@etu.univ-nantes.fr&    063119366
  Mathieu Letrone& Développeur& mathieu.letrone@etu.univ-nantes.fr&    0789662916\\\bottomrule
 \end{tabu}
 
-\subsection*{Tuteur}
+\subsubsection*{Tuteur}
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c2]X[c3]X[c]}\toprule
      \thead{Qui}&\thead{Rôle}&                       \thead{Mail}&\thead{Mobile}\\\toprule
@@ -87,28 +92,59 @@ La solution devra permettre d’isoler, classifier un élément dans le nuage de
 
 Vocabulaire :
 
-TODO
 
 \section{Besoins fonctionnels}
 
-\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c2]X[c3]}\toprule
+\subsection*{Priorisation des tâches}
+
+Afin de pouvoir définir la priorité des tâches et ainsi mettre en valeur leur importance, nous utiliserons la méthode MoSCoW. Cette méthode consiste à classifier les tâches selon 4 catégories :
+
+\begin{itemize}
+    \item \textbf{Must have} : Indispensables. Ils devront être traités en priorité.
+    \item \textbf{Should have} : Importants. Ces tâches seront réalisables si tous les "Must have" auront été traité, et s'il reste du temps.
+    \item \textbf{Could have} : Exigences additionnelles de confort. Cela pourra être intéressant de les avoir, mais peuvent être retirés des priorités s'il le faut.
+    \item \textbf{Won't have} : Ils sont exclus de ce projet mais reste à côté pour une intégration future.
+\end{itemize}
+
+\subsection*{Description des besoins fonctionnels}
+
+\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c3]X[c3]}\toprule
      \thead{MoSCoW}&\thead{Fonctions}&\thead{Critères}&\thead{Flexibilité}\\\toprule
-M &Lire un fichier de données contenant un nuage de points
-& Le nuage doit être visible à l'écran. La solution doit pouvoir lire un fichier au format ASCII
+Must have
+&Lire un fichier de données contenant un nuage de points
+& Le nuage doit être visible à l'écran. La solution doit pouvoir lire un fichier au format ASCII. Elle doit reconnaître le format XYZ + RGB + intensité
 & Visibilité complète du nuage de points donné. L'extension du fichier ainsi que l'ordre des points et des données de ces points sont laissés libre.\\\midrule
-M & Modifier une couleur selon une intensité définie
+Must have 
+& Réaliser de la fausse couleur sur un nuage de points en intensité de gris
 & Affichage dans la lecture du scan
-& La couleur qui sera affichée devra correspondre à la couleur voulue\\\midrule
-C & Segmenter le nuage de points en ensembles plus petits
-& Afficher une partie du nuage de points
-& \\\midrule
-M &Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
+& La couleur qui sera affichée devra correspondre à la couleur voulue avec une marge d'intensité de 5\%\\\midrule
+Must have 
+& Exporter le nuage de points.
+& Le nuage devra garder les modifications effectuées
+& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\midrule
+Must have 
+&Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
 & Les points isolés doivent appartenir à la plage de couleur désirée.
 Les points appartenant à l'élément ciblé, mais de teintes différentes doivent également extraits (ombrages, réflexion, ...).
-& Plage de couleur +- 10\% \\\midrule
-M & Exporter le nuage de points.
-& Le nuage devra garder les modifications effectuées
-& L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\bottomrule
+& Tolérance : plage de couleur +- 10\% \\\midrule
+Could have 
+& Segmenter le nuage de points en ensembles plus petits
+& Afficher une partie du nuage de points
+& \\\bottomrule
+
+
+\end{tabu}
+
+\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c3]X[c3]}\toprule
+     \thead{MoSCoW}&\thead{Fonctions}&\thead{Critères}&\thead{Flexibilité}\\\toprule
+Could have
+& Sélection de la plage de couleurs à extraire 
+& Le programme fournit une interface graphique comportant un "color-picker"
+& \\\midrule
+Won't have
+& Traitement des problèmes de "mouchetage"
+& 
+&\\\bottomrule
 \end{tabu}
 
 \subsection*{Cas d'utilisation}
@@ -117,37 +153,65 @@ M & Exporter le nuage de points.
     \includegraphics{usecase.PNG}
 \end{center}
 
-\subsection*{User story}
+\subsection*{User stories}
 
 \begin{enumerate}
-    \item Isoler un élément dans le nuage de points
+    \item \textbf{Lire un fichier de données contenant un nuage de points}
     
-En tant qu'utilisateur du logiciel, je veux isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
+En tant qu'utilisateur du logiciel, je souhaite lire un fichier contenant un nuage de points afin d'avoir sa visualisation en 3D.
 
 \textbf{Tests d'acceptation :}
 
 \begin{enumerate}
-    \item Scénario 1
+    \item \textbf{Scénario 1}
+Étant donné que je suis sur un terminal de commandes\\
+Quand je lance le programme en renseignant un fichier de nuage de points en paramètre\\
+Alors une fenêtre apparaît avec la visualisation du nuage en 3D.
+
+    \item \textbf{Scénario 2}
+Étant donné que je suis sur un terminal de commandes\\
+Quand je lance le programme en renseignant un fichier de mauvais format\\
+Alors un message d'erreur indiquant que le format de fichier ne correspond pas apparaît.
+
+    \item \textbf{Scénario 3}
+Étant donné que je suis sur un terminal de commandes\\
+Quand je lance le programme en renseignant un fichier de nuage de points avec une mauvaise structure (XYZ + RGB + intensité)\\
+Alors un message d'erreur indiquant que la structure du fichier ne corespond pas apparaît.
+
+\end{enumerate}
+
+    \item \textbf{Isoler un élément dans le nuage de points}
+    
+En tant qu'utilisateur du logiciel, je souhate isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
+
+\textbf{Tests d'acceptation :}
+
+\begin{enumerate}
+    \item \textbf{Scénario 1}
     
 Étant donné que j'ai affiché un nuage de points via un fichier\\
 Quand je clique sur l'option pour isoler un élément\\
 Alors une interface avec un color picker apparaît\\
 Quand je sélectionne une plage de couleur\\
-Et que je clique sur le bouton Valider\\
+Et que je clique sur le bouton de validation\\
 Alors le nuage de points n'affiche uniquement que les points respectant la plage d'intensité de couleur.
 
-
 \end{enumerate}
-\item Réaliser de la fausse couleur sur un nuage de points en intensité
-En tant qu'utilisateur du logiciel, je souhaite faire ressortir des variations de gris du nuage afin de mettre en lumière de nouveaux éléments et faciliter la compréhension.
+\item \textbf{Réaliser de la fausse couleur sur un nuage de points en intensité de gris}
+
+En tant qu'utilisateur du logiciel, je souhaite faire ressortir des variations de gris du nuage en fausse couleur afin de mettre en lumière de nouveaux éléments et faciliter la compréhension.
+
+\textbf{Tests d'acceptation :}
+
 \begin{enumerate}
-    \item Scénario 1
+    \item \textbf{Scénario 1}
     
-Étant donné que j'ai affiché un nuage de point via un fichier\\
+Étant donné que j'ai affiché un nuage de points via un fichier\\
 Quand je clique sur l'option fausse couleur\\
-Alors une interface avec un outil utilisateur\\
-Quand je l'utilise\\
-Et que je clique sur valider\\
+Alors une interface avec un outil utilisateur apparaît\\
+Quand je sélectionne l'intensité de gris à mettre en fausse couleur\\
+Et que je choisis la couleur voulue\\
+Et que je clique sur le bouton de validation\\
 Alors le nuage de point s'affiche en fausse couleur.
 \end{enumerate}
 \end{enumerate}
@@ -155,13 +219,10 @@ Alors le nuage de point s'affiche en fausse couleur.
 
 \section{Besoins non fonctionnels}
 
+\subsection*{Description des besoins non fonctionnels}
+
 \noindent\begin{tabu} to \textwidth {X[c]X[c3]}\toprule
 \thead{Fonctions}&\thead{Commentaires}\\\toprule
-Traitement des problèmes de "mouchetage"
-& Dans un premier temps, le mouchetage ne sera pas pris en compte dans le traitement du nuage de points.
-\\\midrule
-Sélection de la plage de couleurs à extraire 
-& Le programme fournit une interface graphique comportant un "color-picker" permettant à l'utilisateur d'effectuer la sélection.\\\midrule
 Performances de l'ordinateur
 & A cause des nuages de points, il est nécessaire d'avoir des ordinateurs un minimum performant. Cela veut donc impliquer le fait que le programme développé nécessitera aussi un ordinateur performant.\\\midrule
 Fichiers en entrée
