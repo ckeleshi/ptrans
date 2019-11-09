@@ -180,7 +180,7 @@ Alors un message d'erreur indiquant que la structure du fichier ne corespond pas
 
 \end{enumerate}
 
-    \item \textbf{Isoler un élément dans le nuage de points}
+    \item \textbf{Isoler un élément dans le nuage de points, selon sa plage de couleur}
     
 En tant qu'utilisateur du logiciel, je souhate isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
 
@@ -213,6 +213,61 @@ Quand je sélectionne l'intensité de gris à mettre en fausse couleur\\
 Et que je choisis la couleur voulue\\
 Et que je clique sur le bouton de validation\\
 Alors le nuage de point s'affiche en fausse couleur.
+\end{enumerate}
+
+\item \textbf{Exporter le nuage de points}
+    
+En tant qu'utilisateur du logiciel, je souhaite enregistrer les modifiactions que j'ai effectué en exportant le nuage de points actuel sous la forme d'un fichier pouvant être ouvert dans un autre programme.
+
+\textbf{Tests d'acceptation :}
+
+\begin{enumerate}
+    \item \textbf{Scénario 1}
+Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
+Quand je clique sur le bouton de sauvegarde\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
+Aucun format n'est choisis par défaut\\
+Je choisis l'ordre des colonnes qui me convient en le cochant\\
+Je clique sur le bouton Appliquer\\
+La fenêtre se ferme\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
+Je choisis une localisation dans l'explorateur de fichier\\
+Et je choisis un nom\\
+J'appuie sur le bouton d'enregistrement\\
+Le fichier est enregistré à l'emplacement sélectionné avec le nom choisis.
+
+    \item \textbf{Scénario 2}
+Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
+Quand je clique sur le bouton de sauvegarde\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
+Aucun format n'est choisis par défaut\\
+Je choisis l'ordre des colonnes qui me convient en le cochant\\
+Je clique sur le bouton Appliquer\\
+La fenêtre se ferme\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
+Je choisis une localisation dans l'explorateur de fichier\\
+Et je choisis un nom invalide (avec des caractères interdits)\\
+J'appuie sur le bouton d'enregistrement\\
+Alors un message d'erreur indiquant que le nom choisis est invalide apparait\\
+Je peux modifier le nom du fichier.
+
+    \item \textbf{Scénario 3}
+Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
+Quand je clique sur le bouton de sauvegarde\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
+Aucun format n'est choisis par défaut\\
+Je choisis l'ordre des colonnes qui me convient en le cochant\\
+Je clique sur le bouton Appliquer\\
+La fenêtre se ferme\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
+Je choisis une localisation dans l'explorateur de fichier\\
+Et je choisis un nom correspondant à un fichier déjà existant\\
+J'appuie sur le bouton d'enregistrement\\
+Alors un message d'alerte indiquant qu'un fichier portant le même nom existe déjà apparait, j'ai le choix d'écraser ou d'annuler\\
+Je choisis d'écraser le fichier\\
+Alors le fichier est enregistré à l'emplacement sélectionné avec le nom choisis, remplaçant le fichier existant.
+
+
 \end{enumerate}
 \end{enumerate}
 
