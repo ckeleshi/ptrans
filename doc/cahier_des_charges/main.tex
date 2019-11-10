@@ -38,6 +38,9 @@ Tri-Thien Truong
 Version 1.1
 \end{titlepage}
 
+\tableofcontents
+\newpage
+
 \section{Introduction}
 
 \subsection*{Remerciements}
@@ -46,7 +49,7 @@ Nous tenons avant tout à remercier l'entreprise TagLabs, et plus particulièrem
 
 Nous remercions également notre tuteur de stage, M. Nicolas NORMAND, pour son temps accordé sur ce projet.
 
-\subsection*{Contexte general du projet dans l'entreprise}
+\subsection*{Contexte général du projet dans l'entreprise}
 
 Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entreprise s’inscrit dans le domaine de la modélisation 3D d’ouvrages. Ils proposent la modélisation et l’exploitation de nuages de points. Toutefois, ils travaillent surtout en interne sur un logiciel « ScanSap », le but de ce logiciel est d’exploiter les nuages de points 3D avec efficacité et simplicité inégalées.
 
@@ -77,7 +80,7 @@ Tri-thien Truong& Développeur&tri-thien.truong@etu.univ-nantes.fr&    063119366
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c2]X[c3]X[c]}\toprule
      \thead{Qui}&\thead{Rôle}&                       \thead{Mail}&\thead{Mobile}\\\toprule
-Nicolas Normand& Département informatique&Nicolas.Normand@univ-nantes.fr&    0240683207\\\bottomrule
+Nicolas Normand& Enseignant chercheur&Nicolas.Normand@univ-nantes.fr&    0240683207\\\bottomrule
 \end{tabu}
 
 \section{Modèle du domaine / vocabulaire}
@@ -94,6 +97,9 @@ Vocabulaire :
 
 
 \section{Besoins fonctionnels}
+
+\subsection*{Utilisateur}
+L'outil que nous développerons sera utilisé par les utilisateurs de "ScanSap", que ça soit les clients de l'entreprise ou les membres de l'entreprise TagLabs.
 
 \subsection*{Priorisation des tâches}
 
@@ -176,13 +182,13 @@ Alors un message d'erreur indiquant que le format de fichier ne correspond pas a
     \item \textbf{Scénario 3}
 Étant donné que je suis sur un terminal de commandes\\
 Quand je lance le programme en renseignant un fichier de nuage de points avec une mauvaise structure (XYZ + RGB + intensité)\\
-Alors un message d'erreur indiquant que la structure du fichier ne corespond pas apparaît.
+Alors un message d'erreur indiquant que la structure du fichier ne correspond pas apparaît.
 
 \end{enumerate}
 
     \item \textbf{Isoler un élément dans le nuage de points, selon sa plage de couleur}
     
-En tant qu'utilisateur du logiciel, je souhate isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
+En tant qu'utilisateur du logiciel, je souhaite isoler un élément dans le nuage de points afin d'afficher à l'écran uniquement l'élément voulu selon sa couleur.
 
 \textbf{Tests d'acceptation :}
 
@@ -217,7 +223,7 @@ Alors le nuage de point s'affiche en fausse couleur.
 
 \item \textbf{Exporter le nuage de points}
     
-En tant qu'utilisateur du logiciel, je souhaite enregistrer les modifiactions que j'ai effectué en exportant le nuage de points actuel sous la forme d'un fichier pouvant être ouvert dans un autre programme.
+En tant qu'utilisateur du logiciel, je souhaite enregistrer les modifications que j'ai effectué en exportant le nuage de points actuel sous la forme d'un fichier pouvant être ouvert dans un autre programme.
 
 \textbf{Tests d'acceptation :}
 
@@ -225,47 +231,47 @@ En tant qu'utilisateur du logiciel, je souhaite enregistrer les modifiactions qu
     \item \textbf{Scénario 1}
 Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
 Quand je clique sur le bouton de sauvegarde\\
-Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
-Aucun format n'est choisis par défaut\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est-à-dire l'ordre des colonnes\\
+Aucun format n'est choisi par défaut\\
 Je choisis l'ordre des colonnes qui me convient en le cochant\\
 Je clique sur le bouton Appliquer\\
 La fenêtre se ferme\\
-Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
-Je choisis une localisation dans l'explorateur de fichier\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichiers apparait\\
+Je choisis une localisation dans l'explorateur de fichiers\\
 Et je choisis un nom\\
 J'appuie sur le bouton d'enregistrement\\
-Le fichier est enregistré à l'emplacement sélectionné avec le nom choisis.
+Le fichier est enregistré à l'emplacement sélectionné avec le nom choisi.
 
     \item \textbf{Scénario 2}
 Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
 Quand je clique sur le bouton de sauvegarde\\
-Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
-Aucun format n'est choisis par défaut\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est-à-dire l'ordre des colonnes\\
+Aucun format n'est choisi par défaut\\
 Je choisis l'ordre des colonnes qui me convient en le cochant\\
 Je clique sur le bouton Appliquer\\
 La fenêtre se ferme\\
-Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
-Je choisis une localisation dans l'explorateur de fichier\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichiers apparait\\
+Je choisis une localisation dans l'explorateur de fichiers\\
 Et je choisis un nom invalide (avec des caractères interdits)\\
 J'appuie sur le bouton d'enregistrement\\
-Alors un message d'erreur indiquant que le nom choisis est invalide apparait\\
+Alors un message d'erreur indiquant que le nom choisi est invalide apparaît\\
 Je peux modifier le nom du fichier.
 
     \item \textbf{Scénario 3}
 Étant donné que j'ai affiché un nuage de points via un fichier et que je l'ai modifié\\
 Quand je clique sur le bouton de sauvegarde\\
-Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est à dire l'ordre des colonnes\\
-Aucun format n'est choisis par défaut\\
+Alors une fenêtre apparaît proposant de choisir le formatage des données, c'est-à-dire l'ordre des colonnes\\
+Aucun format n'est choisi par défaut\\
 Je choisis l'ordre des colonnes qui me convient en le cochant\\
 Je clique sur le bouton Appliquer\\
 La fenêtre se ferme\\
-Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichier apparait\\
-Je choisis une localisation dans l'explorateur de fichier\\
+Une nouvelle fenêtre demandant de choisir un emplacement dans l'explorateur de fichiers apparaît\\
+Je choisis une localisation dans l'explorateur de fichiers\\
 Et je choisis un nom correspondant à un fichier déjà existant\\
 J'appuie sur le bouton d'enregistrement\\
-Alors un message d'alerte indiquant qu'un fichier portant le même nom existe déjà apparait, j'ai le choix d'écraser ou d'annuler\\
+Alors un message d'alerte indiquant qu'un fichier portant le même nom existe déjà apparaît, j'ai le choix d'écraser ou d'annuler\\
 Je choisis d'écraser le fichier\\
-Alors le fichier est enregistré à l'emplacement sélectionné avec le nom choisis, remplaçant le fichier existant.
+Alors le fichier est enregistré à l'emplacement sélectionné avec le nom choisi, remplaçant le fichier existant.
 
 
 \end{enumerate}
@@ -283,7 +289,7 @@ Performances de l'ordinateur
 Fichiers en entrée
 & L'utilisation du programme devra vérifier la conformité des scans que l'on nous fournira.\\\midrule
 Langage utilisé
-& Il n'y a aucun langage requis par le client. Nous utiliserons Python, un langage maitrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points\\\bottomrule
+& Il n'y a aucun langage requis par le client. Nous utiliserons Python, un langage maîtrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points\\\bottomrule
 \end{tabu}
 
 \section{Evolution potentielle des besoins}
@@ -292,21 +298,21 @@ Les besoins énoncés ici concernent des fonctionnalités que le client voudrait
 
 Il y a donc déjà des fonctionnalités existantes, sur des logiciels tels que Cloud Compare, permettant de nous aider sur nos besoins fonctionnels (par exemple, la lecture d'un scan, la segmentation, etc.). La majeur partie à développer ici sera le changement de couleur et l'isolation de points.
 
-Il sera peut-être possible que la réalisation des tâches soit plus rapide que prévue. Des nouveaux besoins pourront donc apparaître chez le client, afin d'améliorer les outils ou de développer des nouvelles fonctionnalités qui n'ont pas été abordées jusqu'ici.
+Il sera également possible que la réalisation des tâches soit plus rapide que prévue. Des nouveaux besoins pourront donc apparaître chez le client, afin d'améliorer les outils ou de développer des nouvelles fonctionnalités qui n'ont pas été abordées jusqu'ici.
 
 
 \section{Limites du projet}
 
-La correction des erreurs et artefacts des fichiers fournis en entrée du programme ne fait pas partie du projet.
+La correction des erreurs et artéfacts des fichiers fournis en entrée du programme ne fait pas partie du projet.
 De même que la visualisation du nuage de points directement depuis le programme. Cette fonctionnalité est assurée par le logiciel de l'entreprise, plus performant. Cette fonctionnalité peut être présente, mais uniquement à des fins de test.
 
 \section{Risques}
 
 Au cours de la réalisation du projet, des risques peuvent apparaître. Ce sont des situations qu'il est possible d'identifier au préalable, et qui pourront être un obstacle potentiel au développement du projet. Il est nécessaire de les noter au maximum, en se basant sur les connaissances de la MOE et de la MOA. Les différents risques pour ce projet sont listés ci-dessous :
 \begin{enumerate}
-\item Incapacité à distinguer les éléments de façon efficace dus à des artefacts ou manques d'informations sur une zone du nuage de points
+\item Incapacité à distinguer les éléments de façon efficace dus à des artéfacts ou manques d'informations sur une zone du nuage de points
 \item Impact trop important du mouchetage sur la qualité de la segmentation.
-\item Des points résidus qui reste dans le nuage de points après filtre (notamment à cause des artefacts).
+\item Des points résiduels qui restent dans le nuage de points après filtrage (notamment à cause des artéfacts).
 \item Panne du matériel de travail.
 \end{enumerate}
 
@@ -316,7 +322,7 @@ Au cours de la réalisation du projet, des risques peuvent apparaître. Ce sont 
 \includegraphics[width=\textwidth]{planning.png}
 \label{fig:Planning général}
 \end{center}
-L'ensemble du Projet transversale se déroule de septembre à mi-mai. Et il est jalonné par quatre grandes étapes : 
+L'ensemble du Projet transversale se déroule de septembre à mi-mai. Et, il est jalonné par quatre grandes étapes : 
 \begin{enumerate}
 \item De mi-septembre à mi-octobre : réalisation du Brief
 \item De mi-octobre à mi-novembre : réalisation du Cahier des charges 
