@@ -15,7 +15,6 @@
 \linespread{1.5}
 
 \begin{document}
-%\renewcommand{\thesection}{\arabic{section}} % utilisé pour spécifier la numérotation des sections
 
 \begin{titlepage}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -132,7 +131,7 @@ Must have
 & Le nuage devra garder les modifications effectuées
 & L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\midrule
 Must have 
-&Isoler un élément dans un nuage de points donné, selon sa plage de couleur 
+&Isoler un élément dans un nuage de points donné, selon sa plage de couleur, son voisinage
 & Les points isolés doivent appartenir à la plage de couleur désirée.
 Les points appartenant à l'élément ciblé, mais de teintes différentes doivent également extraits (ombrages, réflexion, ...).
 & Tolérance : plage de couleur +- 10\% \\\midrule
@@ -361,4 +360,38 @@ Quant à la MOA, elle se tient de garder un contact avec la MOE, et de respecter
 \section{Connaissances utiles}
 
 Cette section se remplira au fur et à mesure de l'avancement dans le projet.
+
+\subsection*{Bibliothèques de manipulation de nuages de points}
+Il existe de nombreuses bibliothèques permettant d'interagir avec les nuages de points. La majorité d'entre elles sont programmées en C++ et offrent souvent un support Python, qui semble être les deux langages phares du traitement de nuage de points.
+Certaines bibliothèques se démarquent du lot et sont employés dans le cadre de projets ou d'activités de recherche.
+
+C'est le cas de PCL (Point Cloud Library), une bibliothèque open source puissante proposant de nombreuses fonctionnalités allant de la segmentation à la reconnaissance en passant par la visualisation. Elle dispose également d'un module Python l'adaptant. Elle est distribuée sous licence BSD.
+
+On peut également citer Open3D, une bibliothèque dont le champ d'application est plus large encore, puisqu'elle permet de gérer la 3D en général. Elle est disponible pour C++ et Python sous licence MIT.
+
+PDAL (Point Data Abstraction Library), une bibliothèque moins connue, propose une manipulation des nuages de points au travers de "pipelines". Elle est développée en C++ sous licence BSD et propose également un support Python.
+
+Bien que ces trois bibliothèques aient retenu notre attention, aucun choix pour l'une d'entre elle n'a encore été formulé. Elles permettent de conforter notre choix du langage Python qui semble adapté aux besoins formulés.
+
+\begin{thebibliography}{9}
+\bibitem{cc} Présentation de Cloud Compare:
+\url{https://www.danielgm.net/cc/}
+
+\bibitem{3DList} Liste regroupant les principales bibliothèques 3D:
+\url{https://github.com/openMVG/awesome_3DReconstruction_list#mesh-storage-processing}
+
+\bibitem{PCL} Présentation de PCL:
+\url{http://www.pointclouds.org/}
+
+\bibitem{Open3D} Présentation de Open3D:
+\url{http://www.open3d.org/}
+
+\bibitem{PDAL} Présentation de PDAL:
+\url{https://pdal.io/index.html}
+
+\bibitem{seg} Punya Prasad Sapkota, \textit{Segmentation of Coloured Point Cloud Data}, 2008
+\url{https://pdfs.semanticscholar.org/efdb/3ff43d5beffa3845e6434b580f775e2abf85.pdf}
+
+\bibitem{seg1} Erzhuo Che, Jaehoon Jung, et Michael J. Olsen, \textit{Object Recognition, Segmentation, and Classification of Mobile Laser Scanning Point Clouds: A State of the Art Review}, 2019
+\end{thebibliography}
 \end{document}
