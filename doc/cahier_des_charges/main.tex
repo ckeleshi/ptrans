@@ -37,7 +37,9 @@ Tri-Thien Truong
 Version 1.1
 \end{titlepage}
 
-\tableofcontents
+\tableofcontents % table des matières
+\newpage
+\listoffigures  % table des figures
 \newpage
 
 \section{Introduction}
@@ -100,18 +102,22 @@ Nicolas Normand& Enseignant chercheur&Nicolas.Normand@univ-nantes.fr&    0240683
 \section{Modèle du domaine}
 
 La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur.
+
 \begin{itemize}
 	\item  s'il est déjà en couleur : on applique le filtre de plage colorimétrique pour isoler les éléments (Exemple: isoler les tubes proches du blanc).\par
 
 	\item  s'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.\par
-
 \end{itemize}
 
-\begin{figure}
+La figure~\ref{Modèle du domaine} ci-dessous permet de résumer le modèle du domaine. Pour qu'un utilisateur classifie son élément dans un nuage de points donné, il devra segmenter ce dernier pour récupérer uniquement les éléments voulus. Il devra donc choisir une certaine couleur, représentée par les couleurs rouge, vert, bleu. Un nuage contient un grand nombre de points, qui ont pour caractéristique les coordonnées x, y, z (en trois dimensions). Chacun de ces points devront avoir une couleur.
+
+\begin{figure}[!htbp]
     \centering
 
-    \includegraphics[scale=0.75]{modele_domaine.png}
     \caption{Modèle du domaine}
+    \label{Modèle du domaine}
+    \includegraphics[scale=0.58]{modele_domaine.png}
+    
 \end{figure}
 
 
@@ -175,14 +181,15 @@ Won't have
 \end{tabu}
 
 \subsection*{Cas d'utilisation}
-Le diagramme de cas d'utilisation suivant décrit le fonctionnement global de l'application.
+Le diagramme de cas d'utilisation suivant (figure \ref{Diagramme de cas d'utilisation}) décrit le fonctionnement global de l'application.
 Il comprend les différentes actions que permet la solution, et le ou les acteurs qui intéragissent avec le système.
 
 \begin{figure}[!htbp] 
     \centering
-
-    \includegraphics[scale=0.5]{use_cases.png}
     \caption{Diagramme de cas d'utilisation}
+    \label{Diagramme de cas d'utilisation}
+    \includegraphics[scale=0.5]{use_cases.png}
+    
 \end{figure}
 
 \subsection*{User stories}
