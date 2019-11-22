@@ -111,6 +111,9 @@ La solution devra permettre d’isoler, classifier un élément dans le nuage de
 
 \section{Besoins fonctionnels}
 
+Cette section concerne les besoins fonctionnels du projet.
+Il s'agit des besoins du client auquel la solution se doit de répondre. 
+
 \subsection*{Utilisateur}
 L'outil que nous développerons sera utilisé par les utilisateurs de "ScanSap", que ça soit les clients de l'entreprise ou les membres de l'entreprise TagLabs.
 
@@ -151,7 +154,6 @@ Could have
 & Afficher une partie du nuage de points
 & \\\bottomrule
 
-
 \end{tabu}
 
 \noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c3]X[c3]}\toprule
@@ -167,7 +169,8 @@ Won't have
 \end{tabu}
 
 \subsection*{Cas d'utilisation}
-
+Le diagramme d'utilisation suivant décrit le fonctionnement global de l'application.
+Il comprend les différentes actions que permet la solution.
 \begin{figure}
     \centering
 
@@ -177,6 +180,9 @@ Won't have
 
 \subsection*{User stories}
 
+Afin de décrire précisément le déroulement des différents cas d'utilisation présentés, il convient de réaliser des "user stories".
+Chaque "user story" correspond à un cas d'utilisation.
+Pour chacun des cas on décrit le scénario nominal (si tout se déroule comme prévu), et les scénarios secondaires décrivant des comportements imprévus.
 \begin{enumerate}
     \item \textbf{Lire un fichier de données contenant un nuage de points}
     
@@ -296,7 +302,7 @@ Alors le fichier est enregistré à l'emplacement sélectionné avec le nom choi
 
 \section{Besoins non fonctionnels}
 
-\subsection*{Description des besoins non fonctionnels}
+Cette section regroupe les différentes contraintes techniques ainsi que les besoins secondaires pris en compte.
 
 \noindent\begin{tabu} to \textwidth {X[c]X[c3]}\toprule
 \thead{Fonctions}&\thead{Commentaires}\\\toprule
