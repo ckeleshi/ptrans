@@ -66,6 +66,9 @@ L'équipe qui sera à la charge de ce projet est composée de trois étudiants e
 Robin Kervadec&   Ingénieur&rkervadec@taglabs.fr&    0619656021\\\bottomrule
 \end{tabu}
 
+Le MOA, ou maître d'ouvrage, est la partie cliente, elle représente l'entreprise formulant le besoin.
+Elle va être chargée de valider les différentes itérations de la solution au fur et à mesure du projet.
+
 \subsubsection*{MOE}
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c]X[c3]X[c]}\toprule
@@ -75,14 +78,20 @@ Tri-thien Truong& Développeur&tri-thien.truong@etu.univ-nantes.fr&    063119366
  Mathieu Letrone& Développeur& mathieu.letrone@etu.univ-nantes.fr&    0789662916\\\bottomrule
 \end{tabu}
 
+Le MOE, ou maître d'oeuvre, correspond au groupe responsable de la conception de la solution.
+Le MOE dispose du choix des moyens techniques.
+Dans le cadre de notre projet, la partie MOE est confondue avec l'équipe de développement, étant donné quelle est responsable à la fois de la conception et du développement.
+
 \subsubsection*{Tuteur}
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c2]X[c3]X[c]}\toprule
      \thead{Qui}&\thead{Rôle}&                       \thead{Mail}&\thead{Mobile}\\\toprule
 Nicolas Normand& Enseignant chercheur&Nicolas.Normand@univ-nantes.fr&    0240683207\\\bottomrule
 \end{tabu}
+Le tuteur est l'encadrant du projet. Il veille à la conformité du projet avec les attentes du corps enseignant.
+Il constitue une source de conseil sur le MOE mais est aussi capable de lui appliquer des contraintes techniques. 
 
-\section{Modèle du domaine / vocabulaire}
+\section{Modèle du domaine}
 
 La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur.
 \begin{itemize}
@@ -92,9 +101,12 @@ La solution devra permettre d’isoler, classifier un élément dans le nuage de
 
 \end{itemize}
 
-\begin{center}
-    \includegraphics[scale=0.5]{modele_domaine.png}
-\end{center}
+\begin{figure}
+    \centering
+
+    \includegraphics[scale=0.75]{modele_domaine.png}
+    \caption{Modèle du domaine}
+\end{figure}
 
 
 \section{Besoins fonctionnels}
@@ -118,7 +130,7 @@ Afin de pouvoir définir la priorité des tâches et ainsi mettre en valeur leur
 \noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c3]X[c3]}\toprule
      \thead{MoSCoW}&\thead{Fonctions}&\thead{Critères}&\thead{Flexibilité}\\\toprule
 Must have
-&Lire un fichier de données contenant un nuage de points
+& Lire un fichier de données contenant un nuage de points
 & Le nuage doit être visible à l'écran. La solution doit pouvoir lire un fichier au format ASCII. Elle doit reconnaître le format XYZ + RGB + intensité
 & Visibilité complète du nuage de points donné. L'extension du fichier ainsi que l'ordre des points et des données de ces points sont laissés libre.\\\midrule
 Must have 
@@ -130,12 +142,12 @@ Must have
 & Le nuage devra garder les modifications effectuées
 & L'extension du fichier ainsi que l'ordre des points et des données de ces points est laissé libre.\\\midrule
 Must have 
-&Isoler un élément dans un nuage de points donné, selon sa plage de couleur, son voisinage
+& Isoler un élément dans un nuage de points donné, selon sa plage de couleur, son voisinage
 & Les points isolés doivent appartenir à la plage de couleur désirée.
 Les points appartenant à l'élément ciblé, mais de teintes différentes doivent également extraits (ombrages, réflexion, ...).
 & Tolérance : plage de couleur +- 10\% \\\midrule
 Could have 
-& Segmenter le nuage de points en ensembles plus petits
+& Sélectionner une zone à segmenter
 & Afficher une partie du nuage de points
 & \\\bottomrule
 
@@ -156,9 +168,12 @@ Won't have
 
 \subsection*{Cas d'utilisation}
 
-\begin{center}
+\begin{figure}
+    \centering
+
     \includegraphics[scale=0.5]{use_cases.png}
-\end{center}
+    \caption{Diagramme de cas d'utilisation}
+\end{figure}
 
 \subsection*{User stories}
 
