@@ -60,7 +60,7 @@ L'équipe qui sera à la charge de ce projet est composée de trois étudiants e
 
 \subsection*{Présentation des parties prenantes du projet}
 
-\subsubsection*{MOA}
+\subsubsection*{Maître d'ouvrage (MOA)}
 
 Le MOA, ou \textbf{maître d'ouvrage}, est la partie cliente, elle représente l'entreprise formulant le besoin.
 Elle va être chargée de valider les différentes itérations de la solution au fur et à mesure du projet.\\
@@ -72,9 +72,7 @@ Elle va être chargée de valider les différentes itérations de la solution au
 Robin Kervadec&   Ingénieur&rkervadec@taglabs.fr&    0619656021\\\bottomrule
 \end{tabu}
 
-
-\subsubsection*{MOE}
-
+\subsubsection*{Maître d'œuvre (MOE)}
 
 Le MOE, ou \textbf{maître d'œuvre}, correspond au groupe responsable de la conception de la solution.
 Le MOE dispose du choix des moyens techniques.
@@ -82,7 +80,7 @@ Dans le cadre de notre projet, la partie MOE est confondue avec l'équipe de dé
 
 \noindent\begin{tabu} to \textwidth {X[c2]X[c]X[c3]X[c]}\toprule
      \thead{Qui}&\thead{Rôle}&                       \thead{Mail}&\thead{Mobile}\\\toprule
-Tri-thien Truong& Développeur&tri-thien.truong@etu.univ-nantes.fr&    0631193663\\\midrule
+Tri-thien Truong& Chef de projet&tri-thien.truong@etu.univ-nantes.fr&    0631193663\\\midrule
    Ronan Collier& Développeur&   ronan.collier@etu.univ-nantes.fr&    0666847162\\\midrule
  Mathieu Letrone& Développeur& mathieu.letrone@etu.univ-nantes.fr&    0789662916\\\bottomrule
 \end{tabu}
@@ -101,26 +99,29 @@ Nicolas Normand& Enseignant chercheur&Nicolas.Normand@univ-nantes.fr&    0240683
 
 \section{Modèle du domaine}
 
-La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur.
+Cette partie va permettre de mieux représenter le projet vers une modélisation objet. Elle le décrit dans son ensemble via l'identification des entités ou concepts du domaine, et des associations entre ces derniers. \\
+
+La solution devra permettre d’isoler, classifier un élément dans le nuage de points pour une meilleure visibilité et compréhension. Pour cela, la classification se basera selon la plage de couleur.\\
 
 \begin{itemize}
-	\item  s'il est déjà en couleur : on applique le filtre de plage colorimétrique pour isoler les éléments (Exemple: isoler les tubes proches du blanc).\par
+	\item  S'il est déjà en couleur : on applique le filtre de plage colorimétrique pour isoler les éléments (Exemple: isoler les tubes proches du blanc).\par
 
-	\item  s'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.\par
+	\item  S'il est en intensité de gris, on passe d'abord par de la fausse couleur, étape qui permet à l'utilisateur de mieux percevoir le nuage, puis on applique le filtre par plage colorimétrique.\\ \par
 \end{itemize}
 
-La figure~\ref{Modèle du domaine} ci-dessous permet de résumer le modèle du domaine. Pour qu'un utilisateur classifie son élément dans un nuage de points donné, il devra segmenter ce dernier pour récupérer uniquement les éléments voulus. Il devra donc choisir une certaine couleur, représentée par les couleurs rouge, vert, bleu. Un nuage contient un grand nombre de points, qui ont pour caractéristique les coordonnées x, y, z (en trois dimensions). Chacun de ces points devront avoir une couleur.
-
-\begin{figure}[!htbp]
+\begin{figure} [!hbtp]
+\begin{minipage}[c]{0.60\linewidth}
+La figure~\ref{Modèle du domaine} permet de résumer le modèle du domaine. Pour qu'un utilisateur classifie son élément dans un nuage de points donné, il devra segmenter ce dernier pour récupérer uniquement les éléments voulus. Il devra donc choisir une certaine couleur, représentée par les couleurs rouge, vert, bleu. Un nuage contient un grand nombre de points, qui ont pour caractéristique les coordonnées x, y, z (en trois dimensions). Chacun de ces points devront avoir une couleur.
+\end{minipage} \hfill
+\begin{minipage}[c]{0.40\linewidth}
     \centering
-
     \caption{Modèle du domaine}
     \label{Modèle du domaine}
-    \includegraphics[scale=0.58]{modele_domaine.png}
-    
+    \includegraphics[scale=0.60]{modele_domaine.png}
+    \end{minipage}
 \end{figure}
 
-
+\break
 \section{Besoins fonctionnels}
 
 Cette section concerne les besoins fonctionnels du projet.
@@ -177,21 +178,24 @@ Could have
 Won't have
 & Traitement des problèmes de "mouchetage"
 & 
-&\\\bottomrule
+&\\\bottomrule \\
 \end{tabu}
 
+Comme nous pouvons le constater, nous avons en majorité des besoins fonctionnels de type "Must have", donc des tâches indispensables pour le projet. Certaines tâches peuvent quand même être appréciables par le MOA, mais il désire prioriser le projet sur la partie algorithmique du projet. Il ne désire pas en priorité que le projet se porte sur le côté expérience utilisateur, puisque la finalité du projet sera l'implémentation de la réalisation sur leur logiciel déjà existant.
+
 \subsection*{Cas d'utilisation}
+
 Le diagramme de cas d'utilisation suivant (figure \ref{Diagramme de cas d'utilisation}) décrit le fonctionnement global de l'application.
 Il comprend les différentes actions que permet la solution, et le ou les acteurs qui intéragissent avec le système.
 
-\begin{figure}[!htbp] 
-    \centering
+\begin{figure} [!hbtp]
+ \centering
     \caption{Diagramme de cas d'utilisation}
     \label{Diagramme de cas d'utilisation}
-    \includegraphics[scale=0.5]{use_cases.png}
-    
+    \includegraphics[scale=0.6]{use_cases.png}
 \end{figure}
 
+\break
 \subsection*{User stories}
 
 Afin de décrire précisément le déroulement des différents cas d'utilisation présentés, il convient de réaliser des "user stories".
@@ -309,10 +313,10 @@ Alors un message d'alerte indiquant qu'un fichier portant le même nom existe d�
 Je choisis d'écraser le fichier\\
 Alors le fichier est enregistré à l'emplacement sélectionné avec le nom choisi, remplaçant le fichier existant.
 
-
 \end{enumerate}
 \end{enumerate}
 
+Chaque User story va nous permettre de tester notre solution, afin de savoir si ce que nous allons développer va correspondre avec les attentes du client. Il faudra alors dérouler chaque scénario définit précédemment, et constater si la fonctionnalité développée respecte son ou ses scénarios de tests d'acceptation.
 
 \section{Besoins non fonctionnels}
 
@@ -325,8 +329,10 @@ Performances de l'ordinateur
 Fichiers en entrée
 & L'utilisation du programme devra vérifier la conformité des scans que l'on nous fournira.\\\midrule
 Langage utilisé
-& Il n'y a aucun langage requis par le client. Nous utiliserons Python, un langage maîtrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points\\\bottomrule
+& Il n'y a aucun langage requis par le client. Nous utiliserons Python, un langage maîtrisé par toute l'équipe de développement et adapté à la manipulation de données telles que des nuages de points\\\bottomrule \\
 \end{tabu}
+
+Nous pouvons constater qu'il n'y a pas énormément de besoins non fonctionnels à prendre en compte pour ce projet. Néanmoins, d'autres besoins non fonctionnels n'ont peut-être pas encore défini jusqu'à aujourd'hui mais pourront apparaître au cours du projet.
 
 \section{Evolution potentielle des besoins}
 
