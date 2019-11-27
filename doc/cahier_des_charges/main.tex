@@ -410,8 +410,26 @@ C'est le cas de PCL (Point Cloud Library), une bibliothèque open source puissan
 On peut également citer Open3D, une bibliothèque dont le champ d'application est plus large encore, puisqu'elle permet de gérer la 3D en général. Elle est disponible pour C++ et Python sous licence MIT.
 
 PDAL (Point Data Abstraction Library), une bibliothèque moins connue, propose une manipulation des nuages de points au travers de "pipelines". Elle est développée en C++ sous licence BSD et propose également un support Python.
+Elle se veut un complément à PCL.
 
 Bien que ces trois bibliothèques aient retenu notre attention, aucun choix pour l'une d'entre elle n'a encore été formulé. Elles permettent de conforter notre choix du langage Python qui semble adapté aux besoins formulés.
+
+\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c3]X[c3]X[c3]}\toprule
+    \thead{Bibliothèque}&\thead{Licence}&\thead{Langages}&\thead{Fonctionnalités}\\\toprule
+PCL
+& BSD
+& C++, Python
+& Filtrage, segmentation, reconnaissance, visualisation.\\\midrule
+Open3D
+& MIT
+& C++, Python
+& Traitement général de la 3D.\\\midrule
+PDAL
+& BSD
+& C++, Python
+& Complémentaire à PCL, utilisation de "pipelines" pour lier les traitements.\\\bottomrule
+\end{tabu}
+
 
 \begin{thebibliography}{9}
 \bibitem{cc} Présentation de Cloud Compare:
