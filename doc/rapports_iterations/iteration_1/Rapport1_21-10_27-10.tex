@@ -43,24 +43,60 @@ Tri-Thien Truong
 
 \section{Rappel des objectifs de l'itération}
 La présente itération avait pour objectifs principaux l'étude des techniques qui vont être utilisées pour les itérations suivantes.
-Il s'agit d'un travail principalement de documentation.
+Il s'agit d'un travail principalement de recherche, et de documentation. En effet, nous voulons être sûr du langage à utiliser, et des bibliothèques qui nous seront utiles pour le projet, avant de commencer à développer notre première solution.\\
+Les principales tâches à réaliser durant cette première itération sont les suivantes :
+\begin{itemize}
+  \item Se renseigner sur l'implémentation d'un plugin pour CloudCompare
+  \item Recherches de bibliothèques liées aux traitements de nuages de points (pour les langages C++, et/ou Python)
+  \item Recherches sur le langage qui serait le plus intéressant à utiliser pour notre projet
+  \item Commencer à réfléchir sur l'organisation, l'architecture du code source
+  \item Trouver et comparer des espaces colorimétriques pour un nuage de points
+  \item Rechercher des algorithmes de segmentation, à des méthodes pour isoler des points/éléments dans le nuage
+  \item Rechercher des méthodes pour réaliser de la fausse couleur dans le nuage
+\end{itemize}
+
+L'ensemble de ces tâches vont nous permettre à la fin de l'itération, de partager nos recherches avec notre tuteur académique et notre client, et de choisir les outils les plus adaptés pour la production de notre projet.
 
 \section{Production / réalisation durant l'itération}
+
+\subsection{Interrogation du plugin pour CloudCompare}
+
+
+\subsection{Bibliothèques liées aux traitements de nuages de points}
+
 Nous avons produit un comparatif des bibliothèques C++ et Python permettant la manipulation de nuage de points et la segmentation.
 Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points.
 
+\subsection{Langage : C++, Python, ou autres ?}
+
+
+\subsection{Architecture du code source}
+
+
+\subsection{Les espaces colorimétriques pour un nuage de points}
+
+
+\subsection{Algorithmes de segmentation}
+
+
+\subsection{Méthodes pour la fausse couleur}
+
+
 \section{Risques éliminés durant l'itération}
-L'itération n'a pas permise l'élimination de risques. En effet, nous n'avons que peux expérimenté sur les données fournies.
+L'itération n'a pas permis l'élimination de risques. En effet, nos risques portent surtout sur la production de nos algorithmes, et des données qui nous sont fournies en entrée. Pour cette itération, nous étions focalisés sur la réalisation de tests sur les différents outils.
 
 \section{Commentaires sur l'itération}
 
 \subsection{Commentaires sur l'itération de façon générale}
-L'organisation de l'itération a été difficile étant donné la présence de nombreux examens et rendus de projets dans les semaines.
+L'organisation de l'itération a été difficile étant donné la présence de nombreux examens et rendus de projets dans les semaines. Toutefois, nous avons pu réaliser l'ensemble de nos tâches prévues pour cette itération.\\
+Il nous a été difficile de vraiment montrer quelque chose de concret, puisque nous avons principalement fait de la recherche. La prochaine itération portera davantage sur du développement, et nous pourrons ainsi discuter sur ce que nous aurons produit.
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
-Nous nous sommes répartis les différentes recherches à réaliser. 
+Nous avons essayé au maximum de nous répartir sur les tâches à réaliser. Cela nous a permis d'être plus ou moins indépendants sur nos recherches. Néanmoins, nous avons à certains moments fait des recherches similaires, puisque certaines sources permettaient d'avoir des informations sur les autres recherches à effectuer.
 
 \section{Trois principaux risques restants}
+Cette partie est un rappel des principaux risques qu'il faudra garder en mémoire pour les prochaines itérations.
+
 \begin{itemize}
   \item Incapacité à distinguer les éléments de façon efficace dus à des artéfacts ou manques d'informations sur une zone du nuage de points
   \item Impact trop important du mouchetage sur la qualité de la segmentation.
@@ -68,28 +104,53 @@ Nous nous sommes répartis les différentes recherches à réaliser.
 \end{itemize}
 
 \section{Objectifs de la prochaine itération}
-Développement des fonctionnalités principales de la solution à partir des recherches éffectuées.
+Grâce à cette itération, nous avons effacé des parties floues concernant le projet. En effet, nous avons plus d'informations sur la vision générale du projet et des outils que nous utiliserons. \\
+Pour la prochaine itération, les tâches qui sont prévues sont :
+\begin{itemize}
+  \item Développer la sélection de points selon une couleur définie
+  \item Développer une solution pour supprimer des points dans le nuage
+  \item Faire le lien entre la sélection et la suppression de points.
+\end{itemize}
 
 \section{Résumé}
-
 \subsection{Tâches principales réalisées dans l'itération}
-\noindent\begin{tabu} to \textwidth {p{0.15\textwidth}X[c2]X[c3]X[c3]}\toprule
+\noindent\begin{tabu} to \textwidth {p{0.2\textwidth}X[c2]X[c]X[c3]}\toprule
   \thead{Tâche}&\thead{Responsable}&\thead{Statut}&\thead{Commentaire}\\\toprule
+Plugin pour CloudCompare
+& Mathieu
+& Achevé
+& TODO\\\midrule
+Bibliothèques pour le traitement de nuages de points
+& Ronan, Tri-Thien
+& Achevé
+& TODO\\\midrule
+Choix du langage
+& Tri-Thien
+& Achevé
+& TODO\\\midrule
+Architecture du code source
+& Ronan, Tri-Thien, Mathieu
+& Achevé
+& TODO\\\midrule
+Espaces colorimétriques
+& Mathieu
+& Achevé
+& TODO\\\midrule
+Algorithmes de segmentation
+& Ronan, Tri-Thien, Mathieu
+& Achevé
+& TODO\\\midrule
 Recherche sur les méthodes de fausse couleurs
 & Ronan
 & Achevé
-& Peux d'informations décrivant la création d'une palette de couleurs\\\midrule
-gdhsh
-& sh
-& hsh
-& hsh\\\bottomrule \\
+& Peu d'informations décrivant la création d'une palette de couleurs\\\bottomrule  \\
 \end{tabu}
 
 \subsection{Tâches principales à réaliser pour la prochaine itération}
 \begin{itemize}
-  \item Développement de la sélection de points selon la couleur
-  \item Développement de suppression de points
-  \item Développement du lien entre sélection et suppression
+  \item Développer la sélection de points selon une couleur définie
+  \item Développer une solution pour supprimer des points dans le nuage
+  \item Faire le lien entre la sélection et la suppression de points.
 \end{itemize}
 \end{document}
 
