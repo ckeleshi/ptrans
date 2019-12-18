@@ -136,6 +136,21 @@ Après réunion avec notre client et tuteur académique,
 
 \subsection{Les espaces colorimétriques pour un nuage de points}
 
+Durant ce sprint, nous avons recherché l'espace colorimétrique le plus adéquat pour travailler.
+En effet, la segmentation est basée sur la couleur des éléments, ainsi l'espace de couleur est important.
+Les principaux espaces sont le RGB, L*a*b* et le CIE XYZ ou encore le HSV.
+\begin{itemize}
+    \item Le RGB, définit une couleur suivant une proportion de rouge, vert et bleu, cet espace est également la représentation standard des couleurs des points des nuages.
+    \item Le HSV, Teinte Saturation Valeur (Hue Saturation Value), n'a pas été retenu, car il n'est pas vraiment un espace de couleur et est basé sur le RGB, mais permet une meilleure representation/modélisation des couleurs.
+IL reste intéressant pour les outils graphiques comme le color picker.
+    \item Le CIELab, définit comme le RGB une couleur via une representation en 3 dimensions. l* : la luminance, a* et b* la chrominance.
+\end{itemize}
+Cette distinction est particulièrement intéressante. En effet, dans le cas du RGB, les composantes de la couleur d'un object sont toutes corrélées à la proportion de lumière qui l'a frappée, ce qui rends difficile la description suivant ces composantes.
+Or, pour le cas de lab, seule la luminance sera impactée. C'est pourquoi, nous pourrions peut-être seulement prendre en compte la chrominance pour la segmentation, cela pourrait palier les differences d'éclairage imputés par les stations.
+De plus, le lab plutôt que le CIE XYZ car bien qu'il soit basé en parti sur le XYZ, il a une plus grande uniformité perceptuelle. Le critère d'uniformité concerne la tolérance pour dire qu'un jeu de couleurs sont acceptablement proche ou non suivant un seuil.
+Dans le cas d'une uniformité, le seuil n'est qu'une constante au lieu d'être une fonction.
+Cependant, l'utilisation de lab a des désavantages, il est faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pour réaliser le processus de segmentation, 
+et la représentation lab requière plus d'espace mémoire ce qui est a prendre en compte.
 
 \subsection{Algorithmes de segmentation}
 Plusieurs méthodes de segmentations existent. La plus naïve consiste a filter les points selon une couleur avec un seuil d'erreur.
