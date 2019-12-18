@@ -77,10 +77,21 @@ Nous avons également développé des scripts Python courts permettant de nous f
 
 
 \subsection{Algorithmes de segmentation}
-
+Plusieurs méthodes de segmentations existent. La plus naïve consiste a filter les points selon une couleur avec un seuil d'erreur.
+Des recherches montre une méthodes alternatives plus poussées.
+La piste envisageable repose sur 3 étapes.
+Premièrement, la classification des points par une méthode basée sur les KNN appliquée à la distance colorimétrique entre les points (Region growing):
+$
+CD(C_1,C_2)=\sqrt[]{(R_1-R_2)^2 + (R_1-R_2)^2 + (R_1-R_2)^2}
+$
+Ensuite, on réalise une seconde classification sur les régions afin d'obtenir des groupes de régions homogènes.
+Ces groupes sont ensuite fusionnés. La liste des régions de couleurs similaires est alors obtenue.
+Une troisième étape dite de rafinement peut être ajoutée. Elle consiste à imposer un seuil minimal de points par régions.
+Si une région ne remplit pas cette contrainte, elle est fusionnée avec l'autre région ayant la distance colorimétrique la plus proche.
 
 \subsection{Méthodes pour la fausse couleur}
-
+Dans le cas d'un nuage de points en nuances de gris, ce procédé consiste à faire correspondre la valeur en intensité d'un point avec une couleur en RGB (Rouge, Vert, Bleu), ou d'un autre espace de couleurs.
+Les intensités sont decoupées en plage de valeurs et chaque plage se voit assignée une couleur RGB, on obtient ainsi une palette de couleurs. L'intensité de chaque point est ensuite remplacé par la couleur associée dans la palette.
 
 \section{Risques éliminés durant l'itération}
 L'itération n'a pas permis l'élimination de risques. En effet, nos risques portent surtout sur la production de nos algorithmes, et des données qui nous sont fournies en entrée. Pour cette itération, nous étions focalisés sur la réalisation de tests sur les différents outils.
@@ -152,5 +163,18 @@ Recherche sur les méthodes de fausse couleurs
   \item Développer une solution pour supprimer des points dans le nuage
   \item Faire le lien entre la sélection et la suppression de points.
 \end{itemize}
+\end{document}
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{seg1} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+
+\bibitem{Open3D} Méthode de la fausse couleur sur une image:
+\url{https://www.imageeprocessing.com/2016/03/gray-scale-to-pseudo-color.html}
+
+\bibitem{PIL} Fausse couleur appliquée à une image en python:
+\url{https://stackoverflow.com/questions/31507479/how-to-turn-grayscale-into-false-color-using-pil}
+
+\end{thebibliography}
 \end{document}
 
