@@ -44,7 +44,7 @@ Tri-Thien Truong
 \newpage
 
 \section{Rappel des objectifs de l'itération}
-La présente itération avait pour objectifs principaux l'étude des techniques qui vont être utilisées pour les itérations suivantes.
+La présente itération avait pour objectif principal l'étude des techniques qui vont être utilisées pour les itérations suivantes.
 Il s'agit d'un travail principalement de recherche, et de documentation. En effet, nous voulons être sûr du langage à utiliser, et des bibliothèques qui nous seront utiles pour le projet, avant de commencer à développer notre première solution.
 
 Les principales tâches à réaliser durant cette première itération sont les suivantes :
@@ -64,18 +64,18 @@ L'ensemble de ces tâches vont nous permettre à la fin de l'itération, de part
 
 \subsection{Interrogation du plugin pour CloudCompare}
 
-La réalisation d'un plugin CloudCompare avait a être explorée. Le fait d'utiliser CloudCompare comme logiciel de fondement pour le projet, aurait pu nous permettre la gestion de la lecture, manipulation et visualisation des nuages de points via celui-ci. Cela, nous permettrait de nous concentrer sur l'algorithmie et l'implémentation de la segmentation et de la fausse couleur.
+La réalisation d'un plugin CloudCompare avait à être explorée. Le fait d'utiliser CloudCompare comme logiciel de fondement pour le projet, aurait pu nous permettre la gestion de la lecture, manipulation et visualisation des nuages de points via celui-ci. Cela, nous permettrait de nous concentrer sur l'algorithmie et l'implémentation de la segmentation et de la fausse couleur.
 Le logiciel est sous licence "GNU General Public License", ce qui vise à garantir des droits à l'utilisateur.
 \begin{itemize}
-    \item Liberté 0. La liberté d'exécuter le logiciel, pour n'importe quel usage ;
-    \item Liberté 1. La liberté d'étudier le fonctionnement d'un programme et de l'adapter à ses besoins, ce qui passe par l'accès aux codes sources ;
-    \item Liberté 2. La liberté de redistribuer des copies ;
-    \item Liberté 3. L'obligation de faire bénéficier la communauté des versions modifiées
+\item Liberté 0. La liberté d'exécuter le logiciel, pour n'importe quel usage ;
+\item Liberté 1. La liberté d'étudier le fonctionnement d'un programme et de l'adapter à ses besoins, ce qui passe par l'accès aux codes sources ;
+\item Liberté 2. La liberté de redistribuer des copies ;
+\item Liberté 3. L'obligation de faire bénéficier la communauté des versions modifiées
 \end{itemize}
 
-Ainsi, suivant ces libertés, nous sommes autorisés de modifier le programme en ajoutant ledit plugin et nous ne sommes pas tenus de le publier tant qu'il s'agit d'un usage locale. Dans le cas d'une distribution, il faudrait le distruber sous la même licence.
+Ainsi, suivant ces libertés, nous sommes autorisés de modifier le programme en ajoutant ledit plugin et nous ne sommes pas tenus de le publier tant qu'il s'agit d'un usage local. Dans le cas d'une distribution, il faudrait le distribuer sous la même licence.
 
-Le Git de CloudCompare est prévu pour accueillir des contributions au logiciel, cependant, la documentation sur la manoeuvre à suivre se focalise sur les normes synthaxiques à respecter plutôt que sur la marche à suivre pour créer le plugin.
+Le Git de CloudCompare est prévu pour accueillir des contributions au logiciel, cependant, la documentation sur la manœuvre à suivre se focalise sur les normes syntaxiques à respecter plutôt que sur la marche à suivre pour créer le plugin.
 Malgré la faisabilité de la chose, on peut se demander s'il est vraiment nécessaire d'y avoir recours, tout en sachant que des bibliothèques Python et C++ permettent une lecture et manipulation de nuages de points.
 
 
@@ -84,13 +84,13 @@ Malgré la faisabilité de la chose, on peut se demander s'il est vraiment néce
 Nous avons produit un comparatif des bibliothèques C++ et Python permettant la manipulation de nuage de points et la segmentation.
 Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points, et de tester les différentes bibliothèques.
 
-Après nos recherches sur les bibliothèques, la plupart que nous avons relevé liées aux nuages de points, sont utilisables dans les langages principaux de traitement de nuages de points que nous avons relevé, qui sont le C++ et Python.
+Après nos recherches sur les bibliothèques, celles nous avons relevé liées aux nuages de points, sont utilisables en C++ et Python. 
 
 Un tableau récapitulatif sur ces bibliothèques est le suivant : \\
 
 \noindent\begin{tabu} to \textwidth {X[l]X[l]}\toprule
   \thead{Bibliothèques dans les 2 langages}&\thead{Remarques pour le projet}\\\toprule
-PCL : Beaucoup de  fonctionnalités. Mais utiliser PCL nécessite d’utiliser des fichiers d’entrée de format \og.pcd\fg (Point Cloud Data). Licence BSD (libre).
+PCL : Beaucoup de fonctionnalités. Mais utiliser PCL nécessite d’utiliser des fichiers d’entrée de format \og.pcd\fg (Point Cloud Data). Licence BSD (libre).
 & Pour avoir essayé cette bibliothèque, il est assez facile de l’utiliser et de charger le nuage de points en entrée dans un objet.\\\midrule
 PDAL (format LAS, pour du traitement de nuages de points lidar (light detection and radar))
 & Le format LAS est très utilisé pour les données en 3D. Le problème est que ce format de fichier est très volumineux, car il contient de nombreuses informations pour chaque point (x,y,z,i,numéro de retour, angle de balayage…).
@@ -107,7 +107,7 @@ Pour conclure sur cette partie, PCL pourrait être la bibliothèque qui nous ser
 
 \subsection{Langage : C++, Python, ou autres ?}
 
-Pour cette partie, nous pensions au départ qu'il allait y avoir des différences au niveau des outils qui pourraient être propre au C++ ou au Python. Comme dit précédemment, nous avons remarqué au final, que les bibliothèques étaient utilisables dans les deux langages. Le comparatif s'est alors surtout posé sur les langages en eux mêmes.
+Pour cette partie, nous pensions au départ qu'il allait y avoir des différences au niveau des outils qui pourraient être propre au C++ ou au Python. Comme dit précédemment, nous avons remarqué au final, que les bibliothèques étaient utilisables dans les deux langages. Le comparatif s'est alors surtout posé sur les langages en eux-mêmes.
 
 Nous avons réalisé un tableau comparatif entre ces langages : \\
 
@@ -143,23 +143,23 @@ En effet, la segmentation est basée sur la couleur des éléments, ainsi l'espa
 Les principaux espaces sont le RGB, L*a*b* et le CIE XYZ ou encore le HSV.
 \begin{itemize}
     \item Le RGB, définit une couleur suivant une proportion de rouge, vert et bleu, cet espace est également la représentation standard des couleurs des points des nuages.
-    \item Le HSV, Teinte Saturation Valeur (Hue Saturation Value), n'a pas été retenu, car il n'est pas vraiment un espace de couleur et est basé sur le RGB, mais permet une meilleure representation/modélisation des couleurs.
+    \item Le HSV, Teinte Saturation Valeur (Hue Saturation Value), n'a pas été retenu, car il n'est pas vraiment un espace de couleur et est basé sur le RGB, mais permet une meilleure représentation/modélisation des couleurs.
 IL reste intéressant pour les outils graphiques comme le color picker.
-    \item Le CIELab, définit comme le RGB une couleur via une representation en 3 dimensions. l* : la luminance, a* et b* la chrominance.
+    \item Le CIELab, définit comme le RGB une couleur via une représentation en 3 dimensions. l* : la luminance, a* et b* la chrominance.
 \end{itemize}
 Cette distinction est particulièrement intéressante. En effet, dans le cas du RGB, les composantes de la couleur d'un object sont toutes corrélées à la proportion de lumière qui l'a frappée, ce qui rends difficile la description suivant ces composantes.
 
-Or, pour le cas de lab, seule la luminance sera impactée. C'est pourquoi, nous pourrions peut-être seulement prendre en compte la chrominance pour la segmentation, cela pourrait palier les differences d'éclairage imputés par les stations.
+Or, pour le cas de lab, seule la luminance sera impactée. C'est pourquoi, nous pourrions peut-être seulement prendre en compte la chrominance pour la segmentation, cela pourrait palier les différences d'éclairage imputés par les stations.
 
-De plus, le lab plutôt que le CIE XYZ car bien qu'il soit basé en parti sur le XYZ, il a une plus grande uniformité perceptuelle. Le critère d'uniformité concerne la tolérance pour dire qu'un jeu de couleurs sont acceptablement proche ou non suivant un seuil.
+De plus, le lab plutôt que le CIE XYZ, car bien qu'il soit basé en parti sur le XYZ, il a une plus grande uniformité perceptuelle. Le critère d'uniformité concerne la tolérance pour dire qu'un jeu de couleurs sont acceptablement proche ou non suivant un seuil.
 
 Dans le cas d'une uniformité, le seuil n'est qu'une constante au lieu d'être une fonction.
 
-Cependant, l'utilisation de lab a des désavantages, il est faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pour réaliser le processus de segmentation, et la représentation lab requière plus d'espace mémoire ce qui est a prendre en compte.
+Cependant, l'utilisation de lab a des désavantages, il est faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pour réaliser le processus de segmentation, et la représentation lab requière plus d'espace mémoire ce qui est à prendre en compte.
 
 \subsection{Algorithmes de segmentation}
-Plusieurs méthodes de segmentations existent. La plus naïve consiste a filter les points selon une couleur avec un seuil d'erreur.
-Des recherches montre une méthodes alternatives plus poussées.
+Plusieurs méthodes de segmentations existent. La plus naïve consiste à filtrer les points selon une couleur avec un seuil d'erreur.
+Des recherches montrent une méthode alternative plus poussées.
 La piste envisageable repose sur 3 étapes.
 Premièrement, la classification des points par une méthode basée sur les KNN appliquée à la distance colorimétrique entre les points (Region growing):
 $
