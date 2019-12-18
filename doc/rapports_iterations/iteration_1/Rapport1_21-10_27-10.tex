@@ -14,6 +14,8 @@
 
 \linespread{1.5}
 
+\newcounter{firstbib}
+
 \begin{document}
 %\renewcommand{\thesection}{\arabic{section}} % utilisé pour spécifier la numérotation des sections
 
@@ -146,11 +148,14 @@ IL reste intéressant pour les outils graphiques comme le color picker.
     \item Le CIELab, définit comme le RGB une couleur via une representation en 3 dimensions. l* : la luminance, a* et b* la chrominance.
 \end{itemize}
 Cette distinction est particulièrement intéressante. En effet, dans le cas du RGB, les composantes de la couleur d'un object sont toutes corrélées à la proportion de lumière qui l'a frappée, ce qui rends difficile la description suivant ces composantes.
+
 Or, pour le cas de lab, seule la luminance sera impactée. C'est pourquoi, nous pourrions peut-être seulement prendre en compte la chrominance pour la segmentation, cela pourrait palier les differences d'éclairage imputés par les stations.
+
 De plus, le lab plutôt que le CIE XYZ car bien qu'il soit basé en parti sur le XYZ, il a une plus grande uniformité perceptuelle. Le critère d'uniformité concerne la tolérance pour dire qu'un jeu de couleurs sont acceptablement proche ou non suivant un seuil.
+
 Dans le cas d'une uniformité, le seuil n'est qu'une constante au lieu d'être une fonction.
-Cependant, l'utilisation de lab a des désavantages, il est faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pour réaliser le processus de segmentation, 
-et la représentation lab requière plus d'espace mémoire ce qui est a prendre en compte.
+
+Cependant, l'utilisation de lab a des désavantages, il est faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pour réaliser le processus de segmentation, et la représentation lab requière plus d'espace mémoire ce qui est a prendre en compte.
 
 \subsection{Algorithmes de segmentation}
 Plusieurs méthodes de segmentations existent. La plus naïve consiste a filter les points selon une couleur avec un seuil d'erreur.
@@ -210,11 +215,11 @@ Plugin pour CloudCompare
 Bibliothèques pour le traitement de nuages de points
 & Ronan, Tri-Thien
 & Achevé
-& TODO\\\midrule
+& PCL est la principale bibliothèque lié aux nuages de points qui pourrait nous être utile pour notre projet, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
 Choix du langage
 & Tri-Thien
 & Achevé
-& TODO\\\midrule
+& TODO après la réunion client\\\midrule
 Architecture du code source
 & Ronan, Tri-Thien, Mathieu
 & Achevé
@@ -241,14 +246,72 @@ Recherche sur les méthodes de fausse couleurs
 \end{itemize}
 
 \newpage
-\begin{thebibliography}{9}
-\bibitem{seg1} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
 
-\bibitem{Open3D} Méthode de la fausse couleur sur une image:
+\section {Références}
+
+\renewcommand{\refname}{Fausse couleur}
+\begin{thebibliography}{3}
+\bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+
+\bibitem{B02} Méthode de la fausse couleur sur une image:
 \url{https://www.imageeprocessing.com/2016/03/gray-scale-to-pseudo-color.html}
 
-\bibitem{PIL} Fausse couleur appliquée à une image en python:
+\bibitem{B03} Fausse couleur appliquée à une image en python:
 \url{https://stackoverflow.com/questions/31507479/how-to-turn-grayscale-into-false-color-using-pil}
 
+\setcounter{firstbib}{\value{enumiv}}
 \end{thebibliography}
+
+
+\renewcommand{\refname}{C++}
+\begin{thebibliography}{3}
+\setcounter{enumiv}{\value{firstbib}}
+
+\bibitem{B04} Segmentation de nuages de points 3D pour le phenotypage de tournesols :
+\url{https://orasis2017.sciencesconf.org/135580/document?fbclid=IwAR2mng-m55ouiJ3_bqHQE61-_VoJ6M1lQLRzWHLLBfLbt1fZm4StWtCyglY}
+
+\bibitem{B05} Extraction d'éléments géométriques dans un nuage de points LiDAR terrestre : application aux relevés de façades :
+\url{https://dumas.ccsd.cnrs.fr/dumas-01164570/document?fbclid=IwAR2jKbrR7yHmLxiV2_BJ0qt5q3Ik-EMz2C5_gcR-mldgtvuCIimlbPOoCDg}
+
+\bibitem{B06} Exemple de chargement d'un fichier de nuage de points :
+\url{https://stackoverflow.com/questions/43521711/why-is-the-point-cloud-librarys-loadpcdfile-so-slow}
+
+\bibitem{B07} Lecture d'un fichier .pcd en C++ :
+\url{http://pointclouds.org/documentation/tutorials/reading_pcd.php}
+
+\bibitem{B08} Récupérer le R, G et B avec PCL :
+\url{http://www.pcl-users.org/Unreadable-RGB-values-almost-everywhere-in-Point-Cloud-td4045585.html}
+
+\setcounter{firstbib}{\value{enumiv}}
+\end{thebibliography}
+
+
+\renewcommand{\refname}{Comparaison C++/Python}
+\begin{thebibliography}{3}
+\setcounter{enumiv}{\value{firstbib}}
+
+\bibitem{B09} C++ vs Python :
+\url{https://www.quora.com/Which-is-better-Python-or-C++}
+
+\bibitem{B10} C++ vs Python :
+\url{https://www.bitdegree.org/tutorials/python-vs-c-plus-plus/}
+
+\setcounter{firstbib}{\value{enumiv}}
+\end{thebibliography}
+
+
+\renewcommand{\refname}{Formats de fichier}
+\begin{thebibliography}{3}
+\setcounter{enumiv}{\value{firstbib}}
+
+\bibitem{B11} Format PCD :
+\url{http://pointclouds.org/documentation/tutorials/pcd_file_format.php}
+
+\bibitem{B10} Format LAS :
+\url{https://www.onyxscan-lidar.com/le-format-de-fichier-las/ }
+
+\setcounter{firstbib}{\value{enumiv}}
+\end{thebibliography}
+
+
 \end{document}
