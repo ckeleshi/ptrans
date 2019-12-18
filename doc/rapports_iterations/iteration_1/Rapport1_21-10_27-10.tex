@@ -22,7 +22,7 @@
 \center
 
   \includegraphics[width=0.45\textwidth]{../../ressources/img_logos/logo_polytech.png}\\[1cm]
-   
+
   \includegraphics[width=0.45\textwidth]{../../ressources/img_logos/logo_taglabs.png}
 
 
@@ -62,13 +62,27 @@ L'ensemble de ces tâches vont nous permettre à la fin de l'itération, de part
 
 \subsection{Interrogation du plugin pour CloudCompare}
 
+La réalisation d'un plugin CloudCompare avait a être explorée. Le fait d'utiliser CloudCompare comme logiciel de fondement pour le projet, aurait pu nous permettre la gestion de la lecture, manipulation et visualisation des nuages de points via celui-ci. Cela, nous permettrait de nous concentrer sur l'algorithmie et l'implémentation de la segmentation et de la fausse couleur.
+Le logiciel est sous licence "GNU General Public License", ce qui vise à garantir des droits à l'utilisateur.
+\begin{itemize}
+    \item Liberté 0. La liberté d'exécuter le logiciel, pour n'importe quel usage ;
+    \item Liberté 1. La liberté d'étudier le fonctionnement d'un programme et de l'adapter à ses besoins, ce qui passe par l'accès aux codes sources ;
+    \item Liberté 2. La liberté de redistribuer des copies ;
+    \item Liberté 3. L'obligation de faire bénéficier la communauté des versions modifiées
+\end{itemize}
+
+Ainsi, suivant ces libertés, nous sommes autorisés de modifier le programme en ajoutant ledit plugin et nous ne sommes pas tenus de le publier tant qu'il s'agit d'un usage locale. Dans le cas d'une distribution, il faudrait le distruber sous la même licence.
+
+Le Git de CloudCompare est prévu pour accueillir des contributions au logiciel, cependant, la documentation sur la manoeuvre à suivre se focalise sur les normes synthaxiques à respecter plutôt que sur la marche à suivre pour créer le plugin.
+Malgré la faisabilité de la chose, on peut se demander s'il est vraiment nécessaire d'y avoir recours, tout en sachant que des bibliothèques Python et C++ permettent une lecture et manipulation de nuages de points.
+
 
 \subsection{Bibliothèques liées aux traitements de nuages de points}
 
 Nous avons produit un comparatif des bibliothèques C++ et Python permettant la manipulation de nuage de points et la segmentation.
 Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points, et de tester les différentes bibliothèques.
 
-Après nos recherches sur les bibliothèques, la plupart que nous avons relevé liées aux nuages de points, sont utilisables dans les langages principaux de traitement de nuages de points que nous avons relevé, qui sont le C++ et Python. 
+Après nos recherches sur les bibliothèques, la plupart que nous avons relevé liées aux nuages de points, sont utilisables dans les langages principaux de traitement de nuages de points que nous avons relevé, qui sont le C++ et Python.
 
 Un tableau récapitulatif sur ces bibliothèques est le suivant : \\
 
@@ -79,9 +93,9 @@ PCL : Beaucoup de  fonctionnalités. Mais utiliser PCL nécessite d’utiliser d
 PDAL (format LAS, pour du traitement de nuages de points lidar (light detection and radar))
 & Le format LAS est très utilisé pour les données en 3D. Le problème est que ce format de fichier est très volumineux, car il contient de nombreuses informations pour chaque point (x,y,z,i,numéro de retour, angle de balayage…).
 
-Par rapport à la bibliothèque, il y a moins de documentation par rapport à PCL. 
+Par rapport à la bibliothèque, il y a moins de documentation par rapport à PCL.
 \\\midrule
-CGAL => bibliothèque pour des calculs géométriques (2D/3D). 
+CGAL => bibliothèque pour des calculs géométriques (2D/3D).
 & Elle fournit de nombreux algorithmes, similaires à PCL.\\\midrule
 Opend3D => Permet de traiter des données 3D.
 &  Ici, cette bibliothèque traite la 3D en général, et n’est pas spécialisé dans les nuages de points 3D.\\\bottomrule \\
@@ -113,7 +127,7 @@ Nous avons réalisé un tableau comparatif entre ces langages : \\
 
 Les majeurs critères sont donc la rapidité, la compatibilité avec CloudCompare (si l'option du plugin est intéressant dans le cadre de notre projet) et la complexité du langage à prendre en main.
 
-Après réunion avec notre client et tuteur académique, 
+Après réunion avec notre client et tuteur académique,
 %TODO
 ...
 
@@ -158,7 +172,7 @@ Cette partie est un rappel des principaux risques qu'il faudra garder en mémoir
 \begin{itemize}
   \item Incapacité à distinguer les éléments de façon efficace dus à des artéfacts ou manques d'informations sur une zone du nuage de points
   \item Impact trop important du mouchetage sur la qualité de la segmentation.
-  \item Des points résiduels qui restent dans le nuage de points après filtrage (notamment à cause des artéfacts).  
+  \item Des points résiduels qui restent dans le nuage de points après filtrage (notamment à cause des artéfacts).
 \end{itemize}
 
 \section{Objectifs de la prochaine itération}
@@ -223,4 +237,3 @@ Recherche sur les méthodes de fausse couleurs
 
 \end{thebibliography}
 \end{document}
-
