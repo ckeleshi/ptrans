@@ -43,7 +43,8 @@ Tri-Thien Truong
 
 \section{Rappel des objectifs de l'itération}
 La présente itération avait pour objectifs principaux l'étude des techniques qui vont être utilisées pour les itérations suivantes.
-Il s'agit d'un travail principalement de recherche, et de documentation. En effet, nous voulons être sûr du langage à utiliser, et des bibliothèques qui nous seront utiles pour le projet, avant de commencer à développer notre première solution.\\
+Il s'agit d'un travail principalement de recherche, et de documentation. En effet, nous voulons être sûr du langage à utiliser, et des bibliothèques qui nous seront utiles pour le projet, avant de commencer à développer notre première solution.
+
 Les principales tâches à réaliser durant cette première itération sont les suivantes :
 \begin{itemize}
   \item Se renseigner sur l'implémentation d'un plugin pour CloudCompare
@@ -65,10 +66,56 @@ L'ensemble de ces tâches vont nous permettre à la fin de l'itération, de part
 \subsection{Bibliothèques liées aux traitements de nuages de points}
 
 Nous avons produit un comparatif des bibliothèques C++ et Python permettant la manipulation de nuage de points et la segmentation.
-Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points.
+Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points, et de tester les différentes bibliothèques.
+
+Après nos recherches sur les bibliothèques, la plupart que nous avons relevé liées aux nuages de points, sont utilisables dans les langages principaux de traitement de nuages de points que nous avons relevé, qui sont le C++ et Python. 
+
+Un tableau récapitulatif sur ces bibliothèques est le suivant : \\
+
+\noindent\begin{tabu} to \textwidth {X[l]X[l]}\toprule
+  \thead{Bibliothèques dans les 2 langages}&\thead{Remarques pour le projet}\\\toprule
+PCL : Beaucoup de  fonctionnalités. Mais utiliser PCL nécessite d’utiliser des fichiers d’entrée de format \og.pcd\fg (Point Cloud Data). Licence BSD (libre).
+& Pour avoir essayé cette bibliothèque, il est assez facile de l’utiliser et de charger le nuage de points en entrée dans un objet.\\\midrule
+PDAL (format LAS, pour du traitement de nuages de points lidar (light detection and radar))
+& Le format LAS est très utilisé pour les données en 3D. Le problème est que ce format de fichier est très volumineux, car il contient de nombreuses informations pour chaque point (x,y,z,i,numéro de retour, angle de balayage…).
+
+Par rapport à la bibliothèque, il y a moins de documentation par rapport à PCL. 
+\\\midrule
+CGAL => bibliothèque pour des calculs géométriques (2D/3D). 
+& Elle fournit de nombreux algorithmes, similaires à PCL.\\\midrule
+Opend3D => Permet de traiter des données 3D.
+&  Ici, cette bibliothèque traite la 3D en général, et n’est pas spécialisé dans les nuages de points 3D.\\\bottomrule \\
+\end{tabu}
+
+Pour conclure sur cette partie, PCL pourrait être la bibliothèque qui nous servira le plus dans le contexte de notre projet, de part sa facilité à utiliser, et des fonctionnalités qu'elle peut nous apporter pour développer nos algorithmes.
 
 \subsection{Langage : C++, Python, ou autres ?}
 
+Pour cette partie, nous pensions au départ qu'il allait y avoir des différences au niveau des outils qui pourraient être propre au C++ ou au Python. Comme dit précédemment, nous avons remarqué au final, que les bibliothèques étaient utilisables dans les deux langages. Le comparatif s'est alors surtout posé sur les langages en eux mêmes.
+
+Nous avons réalisé un tableau comparatif entre ces langages : \\
+
+\noindent\begin{tabu} to \textwidth {X[c]X[c]}\toprule
+  \thead{C++}&\thead{Python}\\\toprule
++ Langage compilé
+& + Langage interprété\\\midrule
++ Rapidité
+& - Plus lent que le C++\\\midrule
++ Langage bas niveau
+& + Langage plus haut niveau\\\midrule
++ Compatible avec CloudCompare
+& - Pas compatible avec CloudCompare\\\midrule
+- Langage qui peut être complexe à utiliser, adapté pour des systèmes embarqués, des gros programmes
+& + Plus simple à prendre en main, permet donc de se focaliser sur les algos\\\midrule
+ Bibliothèque ROOT (Panda pour du c++)
+& + Bibliothèque Panda (traitement de données, ici pour traiter les fichiers d'entrée en .txt)\\\bottomrule  \\
+\end{tabu}
+
+Les majeurs critères sont donc la rapidité, la compatibilité avec CloudCompare (si l'option du plugin est intéressant dans le cadre de notre projet) et la complexité du langage à prendre en main.
+
+Après réunion avec notre client et tuteur académique, 
+%TODO
+...
 
 \subsection{Architecture du code source}
 
