@@ -135,6 +135,11 @@ Après réunion avec notre client et tuteur académique,
 
 \subsection{Architecture du code source}
 
+Nous avons dédié du temps pour réfléchir sur l'architecture du projet. En effet, cela nous permettra de commencer avec un code organisé, et d'éviter de faire du refactoring en milieu de développement. Il nous a été quand même difficile de vraiment imaginer l'organisation du code, puisque le sujet de notre projet porte surtout sur l'implémentation d'algorithmes. Il n'y a donc pas vraiment d'architecture comme un client/serveur, ou autre.
+
+Nous avons tout de même pensé au fait qu'il nous faudra séparer le code qui pourra potentiellement évoluer, avec du code qui sera "fixe". Par exemple, le code fixe sera par exemple des fonctions qui utiliseront les bibliothèques, et d'autres part, les algorithmes que nous développerons.
+
+Ensuite, il nous sera aussi possible de distinguer en plusieurs packages (ensemble de fichiers de code), le code qui servira au pré-traitement des données d'entrée, le code pour la segmentation/isolation d'éléments, et le code pour la sortie (l'exportation).
 
 \subsection{Les espaces colorimétriques pour un nuage de points}
 
@@ -167,12 +172,12 @@ CD(C_1,C_2)=\sqrt[]{(R_1-R_2)^2 + (R_1-R_2)^2 + (R_1-R_2)^2}
 $
 Ensuite, on réalise une seconde classification sur les régions afin d'obtenir des groupes de régions homogènes.
 Ces groupes sont ensuite fusionnés. La liste des régions de couleurs similaires est alors obtenue.
-Une troisième étape dite de rafinement peut être ajoutée. Elle consiste à imposer un seuil minimal de points par régions.
+Une troisième étape dite de raffinement peut être ajoutée. Elle consiste à imposer un seuil minimal de points par régions.
 Si une région ne remplit pas cette contrainte, elle est fusionnée avec l'autre région ayant la distance colorimétrique la plus proche.
 
 \subsection{Méthodes pour la fausse couleur}
 Dans le cas d'un nuage de points en nuances de gris, ce procédé consiste à faire correspondre la valeur en intensité d'un point avec une couleur en RGB (Rouge, Vert, Bleu), ou d'un autre espace de couleurs.
-Les intensités sont decoupées en plage de valeurs et chaque plage se voit assignée une couleur RGB, on obtient ainsi une palette de couleurs. L'intensité de chaque point est ensuite remplacé par la couleur associée dans la palette.
+Les intensités sont découpées en plage de valeurs et chaque plage se voit assigner une couleur RGB, on obtient ainsi une palette de couleurs. L'intensité de chaque point est ensuite remplacée par la couleur associée dans la palette.
 
 \section{Risques éliminés durant l'itération}
 L'itération n'a pas permis l'élimination de risques. En effet, nos risques portent surtout sur la production de nos algorithmes, et des données qui nous sont fournies en entrée. Pour cette itération, nous étions focalisés sur la réalisation de tests sur les différents outils.
@@ -180,7 +185,7 @@ L'itération n'a pas permis l'élimination de risques. En effet, nos risques por
 \section{Commentaires sur l'itération}
 
 \subsection{Commentaires sur l'itération de façon générale}
-L'organisation de l'itération a été difficile étant donné la présence de nombreux examens et rendus de projets dans les semaines. Toutefois, nous avons pu réaliser l'ensemble de nos tâches prévues pour cette itération.\\
+L'organisation de l'itération a été difficile étant donné la présence de nombreux examens et des rendus de projets dans les semaines. Toutefois, nous avons pu réaliser l'ensemble de nos tâches prévues pour cette itération.\\
 Il nous a été difficile de vraiment montrer quelque chose de concret, puisque nous avons principalement fait de la recherche. La prochaine itération portera davantage sur du développement, et nous pourrons ainsi discuter sur ce que nous aurons produit.
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
@@ -190,9 +195,9 @@ Nous avons essayé au maximum de nous répartir sur les tâches à réaliser. Ce
 Cette partie est un rappel des principaux risques qu'il faudra garder en mémoire pour les prochaines itérations.
 
 \begin{itemize}
-  \item Incapacité à distinguer les éléments de façon efficace dus à des artéfacts ou manques d'informations sur une zone du nuage de points
+  \item Incapacité à distinguer les éléments de façon efficace dus à des artefacts ou manques d'informations sur une zone du nuage de points
   \item Impact trop important du mouchetage sur la qualité de la segmentation.
-  \item Des points résiduels qui restent dans le nuage de points après filtrage (notamment à cause des artéfacts).
+  \item Des points résiduels qui restent dans le nuage de points après filtrage (notamment à cause des artefacts).
 \end{itemize}
 
 \section{Objectifs de la prochaine itération}
@@ -215,7 +220,7 @@ Plugin pour CloudCompare
 Bibliothèques pour le traitement de nuages de points
 & Ronan, Tri-Thien
 & Achevé
-& PCL est la principale bibliothèque lié aux nuages de points qui pourrait nous être utile pour notre projet, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
+& PCL est la principale bibliothèque liée aux nuages de points qui pourrait nous être utile pour notre projet, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
 Choix du langage
 & Tri-Thien
 & Achevé
@@ -232,7 +237,7 @@ Algorithmes de segmentation
 & Ronan, Tri-Thien, Mathieu
 & Achevé
 & TODO\\\midrule
-Recherche sur les méthodes de fausse couleurs
+Recherche sur les méthodes de fausses couleurs
 & Ronan
 & Achevé
 & Peu d'informations décrivant la création d'une palette de couleurs\\\bottomrule  \\
