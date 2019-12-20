@@ -168,7 +168,7 @@ Des recherches montrent une méthode alternative plus poussées.
 La piste envisageable repose sur 3 étapes.
 Premièrement, la classification des points par une méthode basée sur les KNN appliquée à la distance colorimétrique entre les points (Region growing):
 $
-CD(C_1,C_2)=\sqrt[]{(R_1-R_2)^2 + (R_1-R_2)^2 + (R_1-R_2)^2}
+CD(C_1,C_2)=\sqrt[]{(R_1-R_2)^2 + (G_1-G_2)^2 + (B_1-B_2)^2}
 $
 Ensuite, on réalise une seconde classification sur les régions afin d'obtenir des groupes de régions homogènes.
 Ces groupes sont ensuite fusionnés. La liste des régions de couleurs similaires est alors obtenue.
@@ -216,7 +216,7 @@ Pour la prochaine itération, les tâches qui sont prévues sont :
 Plugin pour CloudCompare
 & Mathieu
 & Achevé
-& TODO\\\midrule
+& \\\midrule
 Bibliothèques pour le traitement de nuages de points
 & Ronan, Tri-Thien
 & Achevé
@@ -224,19 +224,19 @@ Bibliothèques pour le traitement de nuages de points
 Choix du langage
 & Tri-Thien
 & Achevé
-& TODO après la réunion client\\\midrule
+& \\\midrule
 Architecture du code source
 & Ronan, Tri-Thien, Mathieu
 & Achevé
-& TODO\\\midrule
+& \\\midrule
 Espaces colorimétriques
 & Mathieu
 & Achevé
-& TODO\\\midrule
+& \\\midrule
 Algorithmes de segmentation
 & Ronan, Tri-Thien, Mathieu
 & Achevé
-& TODO\\\midrule
+& \\\midrule
 Recherche sur les méthodes de fausses couleurs
 & Ronan
 & Achevé
@@ -254,9 +254,18 @@ Recherche sur les méthodes de fausses couleurs
 
 \section {Références}
 
-\renewcommand{\refname}{Fausse couleur}
+
+\renewcommand{\refname}{Segmentation}
 \begin{thebibliography}{3}
 \bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+
+\setcounter{firstbib}{\value{enumiv}}
+\end{thebibliography}
+
+\renewcommand{\refname}{Fausse couleur}
+\begin{thebibliography}{3}
+\setcounter{enumiv}{\value{firstbib}}
+
 
 \bibitem{B02} Méthode de la fausse couleur sur une image:
 \url{https://www.imageeprocessing.com/2016/03/gray-scale-to-pseudo-color.html}
