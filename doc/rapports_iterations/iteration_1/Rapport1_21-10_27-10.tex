@@ -31,7 +31,7 @@
 \HRule \\[0.4cm]
 { \huge \bfseries Rapport itération 1\\[0.15cm] }
 Classification colorimétrique de nuages de points 3D\\
-Version 1.0\\
+Version 1.1\\
 Le \today \\
 \HRule \\[1.5cm]
 Ronan Collier,
@@ -42,6 +42,12 @@ Tri-Thien Truong
 
 \tableofcontents % table des matières
 \newpage
+
+\section{Remerciements}
+
+Avant de commencer la présentation de notre première itération sur notre projet transversal, nous voulions, une nouvelle fois, remercier notre client M. Yan Koch, et M. Nicolas Normand, pour leur investissement et de leur présence aux réunions.
+
+De plus, nous remercions M. Aurelien Milliart, qui a rejoint M. Yan Koch, pour avoir participé à nos réunions, qui s'intéresse et offre son aide pour que nous puissions mener à bien ce projet.
 
 \section{Rappel des objectifs de l'itération}
 La présente itération avait pour objectif principal l'étude des techniques qui vont être utilisées pour les itérations suivantes.
@@ -105,6 +111,8 @@ Opend3D => Permet de traiter des données 3D.
 
 Pour conclure sur cette partie, PCL pourrait être la bibliothèque qui nous servira le plus dans le contexte de notre projet, de part sa facilité à utiliser, et des fonctionnalités qu'elle peut nous apporter pour développer nos algorithmes.
 
+Nous avions tout de même quelques questions par rapport aux formats que le client pourrait nous fournir. En effet, pour l'instant, nous avions des nuages de points en format texte. Il nous fallait alors réfléchir à un moyen pour traiter ces données. Grâce à CloudCompare, il est possible de charger le nuage de points en format texte (ou autre) sur le logiciel, puis de l'exporter au format que nous voulons (ici, au format PCD).
+
 \subsection{Langage : C++, Python, ou autres ?}
 
 Pour cette partie, nous pensions au départ qu'il allait y avoir des différences au niveau des outils qui pourraient être propre au C++ ou au Python. Comme dit précédemment, nous avons remarqué au final, que les bibliothèques étaient utilisables dans les deux langages. Le comparatif s'est alors surtout posé sur les langages en eux-mêmes.
@@ -129,9 +137,7 @@ Nous avons réalisé un tableau comparatif entre ces langages : \\
 
 Les majeurs critères sont donc la rapidité, la compatibilité avec CloudCompare (si l'option du plugin est intéressant dans le cadre de notre projet) et la complexité du langage à prendre en main.
 
-Après réunion avec notre client et tuteur académique,
-%TODO
-...
+Après réunion, comme nous allons nous diriger vers la solution d'un plugin pour CloudCompare, le choix de C++ semble plus intéressant. Toutefois, il serait aussi possible de faire le lien avec CloudCompare en C++, et de faire nos algorithmes en Python dans un premier temps. Après réflexion de notre part, nous avons décidé de réaliser entièrement le projet en C++, et ainsi éviter de faire des dépendances uniquement pour faire nos algorithmes en Python.
 
 \subsection{Architecture du code source}
 
@@ -140,6 +146,8 @@ Nous avons dédié du temps pour réfléchir sur l'architecture du projet. En ef
 Nous avons tout de même pensé au fait qu'il nous faudra séparer le code qui pourra potentiellement évoluer, avec du code qui sera "fixe". Par exemple, le code fixe sera par exemple des fonctions qui utiliseront les bibliothèques, et d'autres part, les algorithmes que nous développerons.
 
 Ensuite, il nous sera aussi possible de distinguer en plusieurs packages (ensemble de fichiers de code), le code qui servira au pré-traitement des données d'entrée, le code pour la segmentation/isolation d'éléments, et le code pour la sortie (l'exportation).
+
+Après réunion, l'architecture du projet va donc plutôt séparer le code permettant de faire le plugin CloudCompare, et nos algorithmes.
 
 \subsection{Les espaces colorimétriques pour un nuage de points}
 
@@ -208,12 +216,15 @@ Cette partie est un rappel des principaux risques qu'il faudra garder en mémoir
 
 \section{Objectifs de la prochaine itération}
 Grâce à cette itération, nous avons effacé des parties floues concernant le projet. En effet, nous avons plus d'informations sur la vision générale du projet et des outils que nous utiliserons. \\
-Pour la prochaine itération, les tâches qui sont prévues sont :
+Pour la prochaine itération, les tâches prévues étaient :
 \begin{itemize}
-  \item Développer la sélection de points selon une couleur définie
+  \item Plugin CloudCompare OU lecture / export
+  \item Développer la sélection de points selon une couleur définie (via RGB, et/ou LAB)
   \item Développer une solution pour supprimer des points dans le nuage
   \item Faire le lien entre la sélection et la suppression de points.
 \end{itemize}
+
+Après concertation avec notre client, nous allons donc avoir une tâche pour faire le plugin CloudCompare, et nous n'aurons donc pas à faire la lecture / exportation du nuage de points, puisque ces tâches seront disponibles directement sur l'outil.
 
 \section{Résumé}
 \subsection{Tâches principales réalisées dans l'itération}
@@ -251,6 +262,7 @@ Recherche sur les méthodes de fausses couleurs
 
 \subsection{Tâches principales à réaliser pour la prochaine itération}
 \begin{itemize}
+  \item Plugin CloudCompare
   \item Développer la sélection de points selon une couleur définie
   \item Développer une solution pour supprimer des points dans le nuage
   \item Faire le lien entre la sélection et la suppression de points.
