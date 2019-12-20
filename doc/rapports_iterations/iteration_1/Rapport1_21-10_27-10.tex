@@ -178,7 +178,13 @@ Si une région ne remplit pas cette contrainte, elle est fusionnée avec l'autre
 \subsection{Méthodes pour la fausse couleur}
 Dans le cas d'un nuage de points en nuances de gris, ce procédé consiste à faire correspondre la valeur en intensité d'un point avec une couleur en RGB (Rouge, Vert, Bleu), ou d'un autre espace de couleurs.
 Les intensités sont découpées en plage de valeurs et chaque plage se voit assigner une couleur RGB, on obtient ainsi une palette de couleurs. L'intensité de chaque point est ensuite remplacée par la couleur associée dans la palette.
+Dans l'exemple suivant, on découpe l'échelle d'intensité en 4. Chaque portion se voit attribuée une couleur, que l'on retrouve ensuite sur l'image.
 
+\begin{figure}[!hbtp]
+  \caption{\label{} Echelle de fausse couleur et résultat}
+  \includegraphics[width=0.45\textwidth]{./false_color_scale.png}
+  \includegraphics[width=0.45\textwidth]{./false_color.png}
+\end{figure}
 \section{Risques éliminés durant l'itération}
 L'itération n'a pas permis l'élimination de risques. En effet, nos risques portent surtout sur la production de nos algorithmes, et des données qui nous sont fournies en entrée. Pour cette itération, nous étions focalisés sur la réalisation de tests sur les différents outils.
 
