@@ -220,7 +220,7 @@ Pour la prochaine itération, les tâches prévues étaient :
 \begin{itemize}
   \item Plugin CloudCompare OU lecture / export
   \item Développer la sélection de points selon une couleur définie (via RGB, et/ou LAB)
-  \item Développer une solution pour supprimer des points dans le nuage
+  \item Développer une solution pour extraire des points dans le nuage.
   \item Faire le lien entre la sélection et la suppression de points.
 \end{itemize}
 
@@ -228,50 +228,51 @@ Après concertation avec notre client, nous allons donc avoir une tâche pour fa
 
 \begin{figure}[!hbtp]
   \caption{\label{} Diagramme de Gantt détaillé - Sprint 2}
-  \includegraphics[width=1.1\textwidth]{./img/sprint_iteration_2.PNG}
+  \includegraphics[width=1\textwidth]{./img/sprint_iteration_2_tableau.PNG}
+  \includegraphics[width=1\textwidth]{./img/sprint_iteration_2_diagramme.PNG}
 \end{figure}
 
 Ce diagramme présente la deuxième sprint sur le prochain mois à venir. Chacun aura une tâche précise à développer. Une phase entre la période de Noël et le nouvel an est prise en compte dans notre sprint, où nous ne passerons pas forcément du temps sur le projet. 
 
 \section{Résumé}
 \subsection{Tâches principales réalisées dans l'itération}
-\noindent\begin{tabu} to \textwidth {p{0.2\textwidth}X[c2]X[c]X[c3]}\toprule
+\noindent\begin{tabu} to \textwidth {p{0.18\textwidth}X[c2]X[c]X[c4]}\toprule
   \thead{Tâche}&\thead{Responsable}&\thead{Statut}&\thead{Commentaire}\\\toprule
 Plugin pour CloudCompare
 & Mathieu
 & Achevé
-& \\\midrule
+& Plugin CloudCompare possible, ou développer une interface à la main. Le choix est de faire un plugin CloudCompare.\\\midrule
 Bibliothèques pour le traitement de nuages de points
 & Ronan, Tri-Thien
 & Achevé
-& PCL est la principale bibliothèque liée aux nuages de points qui pourrait nous être utile pour notre projet, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
+& PCL semble la bibliothèque principale à utiliser, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
 Choix du langage
 & Tri-Thien
 & Achevé
-& \\\midrule
+& C++ ou Python. Le choix est le C++ pour faciliter l'implémentation du code avec CloudCompare. \\\midrule
 Architecture du code source
 & Ronan, Tri-Thien, Mathieu
 & Achevé
-& \\\midrule
+& Organisation avec un package pour le plugin CloudCompare, et un autre pour nos algorithmes.\\\midrule
 Espaces colorimétriques
 & Mathieu
 & Achevé
-& \\\midrule
+& Le format RGB est le plus répendu, mais l'option du CIELab semble être intéressant.\\\midrule
 Algorithmes de segmentation
 & Ronan, Tri-Thien, Mathieu
 & Achevé
-& \\\midrule
+& Méthode pour segmenter selon une couleur (et un seuil d'erreur). Autre alternative : classification des points et régions puis raffinement\\\midrule
 Recherche sur les méthodes de fausses couleurs
 & Ronan
 & Achevé
-& Peu d'informations décrivant la création d'une palette de couleurs\\\bottomrule  \\
+& Correspondre une valeur en intensité en RGB (ou autre). Création d'une palette de couleurs.\\\bottomrule  \\
 \end{tabu}
 
 \subsection{Tâches principales à réaliser pour la prochaine itération}
 \begin{itemize}
   \item Plugin CloudCompare
   \item Développer la sélection de points selon une couleur définie
-  \item Développer une solution pour supprimer des points dans le nuage
+  \item Développer une solution pour extraire des points dans le nuage
   \item Faire le lien entre la sélection et la suppression de points.
 \end{itemize}
 
