@@ -82,7 +82,8 @@ Le logiciel est sous licence "GNU General Public License", ce qui vise à garant
 Ainsi, suivant ces libertés, nous sommes autorisés de modifier le programme en ajoutant ledit plugin et nous ne sommes pas tenus de le publier tant qu'il s'agit d'un usage local. Dans le cas d'une distribution, il faudrait le distribuer sous la même licence.
 
 Le Git de CloudCompare est prévu pour accueillir des contributions au logiciel, cependant, la documentation sur la manœuvre à suivre se focalise sur les normes syntaxiques à respecter plutôt que sur la marche à suivre pour créer le plugin.
-Malgré la faisabilité de la chose, on peut se demander s'il est vraiment nécessaire d'y avoir recours, tout en sachant que des bibliothèques Python et C++ permettent une lecture et manipulation de nuages de points.
+Malgré la faisabilité de la chose, on peut se demander s'il est vraiment nécessaire d'y avoir recours, tout en sachant que des bibliothèques Python et C++ permettent une lecture et manipulation de nuages de points.\\
+Suite au sprint review, nous nous sommes accordés sur le fait de diriger le projet sur la conception des solution du client via un plugin CloudCompare.
 
 
 \subsection{Bibliothèques liées aux traitements de nuages de points}
@@ -90,7 +91,7 @@ Malgré la faisabilité de la chose, on peut se demander s'il est vraiment néce
 Nous avons produit un comparatif des bibliothèques C++ et Python permettant la manipulation de nuage de points et la segmentation.
 Nous avons également développé des scripts Python courts permettant de nous familiariser avec les nuages de points, et de tester les différentes bibliothèques.
 
-Après nos recherches sur les bibliothèques, celles nous avons relevé liées aux nuages de points, sont utilisables en C++ et Python. 
+Après nos recherches sur les bibliothèques, celles nous avons relevé liées aux nuages de points, sont utilisables en C++ et Python.
 
 Un tableau récapitulatif sur ces bibliothèques est le suivant : \\
 
@@ -341,6 +342,29 @@ Recherche sur les méthodes de fausses couleurs
 
 \bibitem{B10} Format LAS :
 \url{https://www.onyxscan-lidar.com/le-format-de-fichier-las/ }
+
+\setcounter{firstbib}{\value{enumiv}}
+\end{thebibliography}
+
+\renewcommand{\refname}{Espaces colorimétriques}
+\begin{thebibliography}{3}
+\setcounter{enumiv}{\value{firstbib}}
+
+
+\bibitem{B12} Leow Wee Kheng, National University of Singapore, \textif{Color Spaces and Color-Difference Equation}
+\url{https://www.comp.nus.edu.sg/~leowwk/papers/colordiff.pdf}
+
+\bibitem{B13} Liste non exhautive des espaces de couleur.
+\url{https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses}
+
+\bibitem{B14} Liste non exhautive des espaces de couleur.
+\url{https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses}
+
+\bibitem{B15} Comparatif des espaces colorimétrique
+\url{https://www.researchgate.net/publication/316961754_Color_Image_Segmentation_using_FCM_Clustering_Technique_in_RGB_Lab_HSV_YIQ_Color_spaces}
+
+\bibitem{B16}CIELAB
+\url{https://en.wikipedia.org/wiki/CIELAB_color_space}
 
 \setcounter{firstbib}{\value{enumiv}}
 \end{thebibliography}
