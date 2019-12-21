@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Ptrans" company="" webLink="http://" view-date="2019-12-18" view-index="0" gantt-divider-location="646" resource-divider-location="300" version="2.8.10" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Ptrans" company="" webLink="http://" view-date="2019-12-17" view-index="0" gantt-divider-location="646" resource-divider-location="300" version="2.8.10" locale="fr">
     <description/>
     <view zooming-state="default:3" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="276" order="0"/>
-        <field id="tpd13" name="Ressources" width="165" order="1"/>
+        <field id="tpd3" name="Nom" width="292" order="0"/>
+        <field id="tpd13" name="Ressources" width="149" order="1"/>
         <field id="tpd4" name="Date de début" width="103" order="2"/>
         <field id="tpd5" name="Date de fin" width="98" order="3"/>
         <option id="color.recent"><![CDATA[#ff9900 #ff3300 #00cc00 #ff0000 #00cc33 #00ffff #999999 #666666]]></option>
@@ -107,30 +107,38 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="11" name="Sprint 2" color="#8cb6ce" meeting="false" start="2019-12-19" duration="15" complete="0" thirdDate="2019-10-07" thirdDate-constraint="0" expand="true">
-            <task id="55" name="interfacage avec CloudCompare" color="#8cb6ce" meeting="false" start="2019-12-19" duration="5" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
-                <task id="287" name="Création du plugin" color="#8cb6ce" meeting="false" start="2019-12-19" duration="4" complete="0" thirdDate="2019-07-01" thirdDate-constraint="0" expand="true">
+        <task id="11" name="Sprint 2" color="#8cb6ce" meeting="false" start="2019-12-21" duration="14" complete="0" thirdDate="2019-10-07" thirdDate-constraint="0" expand="true">
+            <task id="55" name="interfacage avec CloudCompare" color="#8cb6ce" meeting="false" start="2019-12-21" duration="8" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
+                <depend id="358" type="2" difference="0" hardness="Strong"/>
+                <task id="287" name="Création du plugin" color="#8cb6ce" meeting="false" start="2019-12-21" duration="6" complete="0" thirdDate="2019-07-01" thirdDate-constraint="0" expand="true">
                     <depend id="334" type="2" difference="0" hardness="Strong"/>
+                    <depend id="360" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="334" name="Vérification du bon fonctionnement" color="#8cb6ce" meeting="false" start="2019-12-23" duration="1" complete="0" thirdDate="2019-04-01" thirdDate-constraint="0" expand="true"/>
-            </task>
-            <task id="46" name="Développement de la segmentation" color="#8cb6ce" meeting="false" start="2019-12-23" duration="5" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
-                <depend id="358" type="2" difference="0" hardness="Strong"/>
-                <task id="296" name="Sélection par couleur en RGB" color="#8cb6ce" meeting="false" start="2019-12-23" duration="4" complete="0" thirdDate="2019-07-02" thirdDate-constraint="0" expand="true">
-                    <depend id="346" type="2" difference="0" hardness="Strong"/>
+                <task id="334" name="Tests de fonctionnement" color="#8cb6ce" meeting="false" start="2020-01-07" duration="2" complete="0" thirdDate="2019-04-01" thirdDate-constraint="0" expand="true">
+                    <depend id="358" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="345" name="Sélection par couleur en CIElab" color="#8cb6ce" meeting="false" start="2020-01-04" duration="4" complete="0" thirdDate="2019-11-21" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="346" name="Méthode d'extraction de points" color="#8cb6ce" meeting="false" start="2020-01-07" duration="2" complete="0" thirdDate="2019-11-22" thirdDate-constraint="0" expand="true">
+            <task id="46" name="Développement de la segmentation" color="#8cb6ce" meeting="false" start="2019-12-21" duration="8" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
                 <depend id="358" type="2" difference="0" hardness="Strong"/>
+                <task id="296" name="Sélection par couleur en RGB" color="#8cb6ce" meeting="false" start="2019-12-21" duration="5" complete="0" thirdDate="2019-07-02" thirdDate-constraint="0" expand="true">
+                    <depend id="345" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="345" name="Sélection par couleur en CIElab" color="#8cb6ce" meeting="false" start="2020-01-06" duration="3" complete="0" thirdDate="2019-11-21" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="358" name="Liaison des solutions" color="#8cb6ce" meeting="false" start="2020-01-09" duration="1" complete="0" thirdDate="2019-11-15" thirdDate-constraint="0" expand="true">
+            <task id="346" name="Méthode d'extraction de points" color="#8cb6ce" meeting="false" start="2019-12-21" duration="8" complete="0" thirdDate="2019-11-22" thirdDate-constraint="0" expand="true">
+                <depend id="358" type="2" difference="0" hardness="Strong"/>
+                <task id="359" name="Extraction simple de points donnés" color="#8cb6ce" meeting="false" start="2019-12-21" duration="6" complete="0" thirdDate="2019-12-17" thirdDate-constraint="0" expand="true">
+                    <depend id="360" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="360" name="Création de sous-scans CloudCompare" color="#8cb6ce" meeting="false" start="2020-01-07" duration="2" complete="0" thirdDate="2020-01-07" thirdDate-constraint="0" expand="true"/>
+            </task>
+            <task id="358" name="Mise en commun du code" color="#8cb6ce" meeting="false" start="2020-01-09" duration="3" complete="0" thirdDate="2019-11-15" thirdDate-constraint="0" expand="true">
                 <depend id="44" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="44" name="Rédaction rapport sprint 2" color="#8cb6ce" meeting="false" start="2020-01-10" duration="4" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
+            <task id="44" name="Rédaction rapport sprint 2/sprint review" color="#8cb6ce" meeting="false" start="2020-01-12" duration="3" complete="0" thirdDate="2019-09-02" thirdDate-constraint="0" expand="true">
                 <depend id="242" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="242" name="Rendu rapport sprint 2" color="#ff9900" meeting="true" start="2020-01-14" duration="0" complete="0" thirdDate="2019-11-19" thirdDate-constraint="0" expand="true"/>
+            <task id="242" name="Rendu rapport sprint 2" color="#ff9900" meeting="true" start="2020-01-15" duration="0" complete="0" thirdDate="2019-11-19" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
     <resources>
@@ -143,11 +151,11 @@
         <allocation task-id="346" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="358" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="44" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="334" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="287" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="55" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="358" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="44" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="345" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
-        <allocation task-id="296" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="46" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="358" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
