@@ -47,11 +47,27 @@ Tri-Thien Truong
 
 \section{Rappel de l'objectif de l'itération}
 
+Suite à notre première itération qui était dédié à de la recherche permettant de faire nos choix d'implémentations, cette itération avait pour objectif de commencer à développer notre solution. En effet, le principal objectif était de développer nos premières méthodes de filtrage d'un nuage de points, et de les intégrer au logiciel CloudCompare sous forme de plugin. Pour cela, il nous fallait, d'une part, développer nos traitements sur les nuages de points via la bibliothèque PCL. D'autre part, nous devions installer l'environnement permettant le développement du plugin CloudCompare, c'est-à-dire, pouvoir utiliser le projet git CloudCompare et d'y intégrer nos filtres.
+
 \section{Rappel du sprint backlog}
 
+Les User stories sélectionnés pour atteindre l'objectif de l'itération, sont les suivants :
+
 \begin{itemize}
-  \item US1 : ...
+  \item US1 : Lire un fichier de données contenant un nuage de points
+  \item US2 : Isoler un élément dans le nuage de points, selon sa plage de couleur
+  \item US3 : Exporter le nuage de points
 \end{itemize}
+
+Comme nous avons fait un changement par rapport à nos choix de conception du projet lors de la première itération, les User stories sont aussi amené à être modifié. Lors de la réalisation du cahier des charges, nous pensions qu'il fallait développer nous même la lecture d'un fichier avec un nuage de points, et l'exportation du nuage. Suite à la première itération, nous avons décidé de réaliser un plugin sur le logiciel CloudCompare, donc ces tâches étaient déjà effectuées directement sur ce dernier. \\
+Ces deux User stories ont donc été modifié par : 
+\begin{itemize}
+  \item US1 : Intégrer un plugin CloudCompare
+  \item US2 : Isoler un élément dans le nuage de points, selon sa plage de couleur
+  \item US3 : Créer des sous-scans suite au filtrage
+\end{itemize}
+
+L'User story "US1 : Intégrer un plugin CloudCompare" consiste à utiliser le projet git CloudCompare 
 
 \section{Problèmes rencontrés et imprévus}
 
@@ -67,5 +83,14 @@ Tri-Thien Truong
 
 \section{Vision pour la suite}
 
+
+\noindent\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Signature du chef de projet du groupe étudiant :} & \textbf{Signature du tuteur académique :} & \textbf{Signature du tuteur industriel}\\
+    \hline
+   \rule{0pt}{3cm} &
+    &\\
+    \hline
+\end{tabularx}
 
 \end{document}
