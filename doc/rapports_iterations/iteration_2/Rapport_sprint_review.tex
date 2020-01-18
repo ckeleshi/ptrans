@@ -197,6 +197,19 @@ Ces remarques sont intéressantes, car elles nous permettront d'affiner la quali
 
 \section{Vision pour la suite}
 
+%En anticipation du sprint planning, expliquer ci-dessous la vision et l’orientation pour le prochain sprint. Vous pourriez expliciter les items / fonctionnalités / User Stories qui pourraient être l’objet du sprint suivant, en quoi est ce que cette vision serait en cohérence avec l’objectif du projet, la vision du client et du travail déjà accompli.
+%Vous êtes encouragés à utiliser des schémas et des diagrammes pour expliquer votre vision.
+
+En cette fin de deuxième itération, nous avons posé les bases de notre solution. Il faut maintenant aller plus loin et améliorer les méthodes de segmentation.
+
+Au niveau des User stories, nous avons complété la plupart des fonctionnalités de base. Il reste encore l'implémentation de la fausse couleur, que nous n'avons pas encore prévue jusqu'à maintenant. Nous pensons qu'il faut d'abord que l'on se concentre sur la segmentation, et d'y améliorer son utilisation, avant de commencer le développement d'une nouvelle fonctionnalité. Même si nous avons validé les tests d'acceptation des User stories énoncés précédemment, nous allons améliorer les solutions que nous avons proposé.
+
+Tout d'abord, nous allons faire du refactoring afin de rendre le code plus facile à maintenir, et de séparer notre code ajouté, au code déjà présent dans le projet CloudCompare et du plugin QPCL. Nous allons aussi améliorer nos méthodes sur la sélection/isolation des points dans un nuage, et comparant le temps d'exécution.
+
+De plus, nous allons pousser plus loin le moyen pour réaliser le filtrage du nuage. L'idée du client par rapport à l'utilisation du "point picking", c'est-à-dire de cliquer directement sur les points qui nous intéresse à filtrer, est très intéressant. Cela pourra rendre le filtrage RGB plus intuitif, en indiquant à l'utilisateur qu'il peut directement sélectionner les points voulus en cliquant dessus, au lieu de devoir récupérer les valeurs RGB avant de les noter dans les champs textes.
+
+Enfin, il nous faudra aussi implémenter l'autre type de segmentation que nous avons définis dans la première itération, avec l'espace chromatique CIELAB, et de l'intégrer dans un nouveau type de filtrage dans CloudCompare.\\
+
 
 \noindent\begin{tabularx}{\textwidth}{|X|X|X|}
     \hline
