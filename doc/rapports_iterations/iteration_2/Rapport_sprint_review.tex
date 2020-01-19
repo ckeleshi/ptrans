@@ -140,7 +140,7 @@ Alors l'interface disparaît\\
 Alors des sous-scans s'affichent dans la liste des scans
 \end{enumerate}
 
-\section{Problèmes rencontrés et imprévus}
+\section{Problèmes rencontrés et imprévus \label{PB}}
 
 Durant cette itération, nous avons rencontrés de nombreux problèmes, surtout par rapport à l'installation du projet source CloudCompare. Nous avions mal prévu la durée d'installation de notre environnement afin de développer nos filtrages sur les nuages de points CloudCompare.
 
@@ -152,7 +152,7 @@ Ensuite, c'était la première fois pour nous, que nous installions un projet C+
 
 Ces problèmes nous ont fait apprendre qu'il faut davantage réfléchir sur l'estimation du temps de travail pour chacune des tâches à réaliser, et que nous ne sommes pas à l'abri d'imprévus pour chacune d'entre elles. Malgré cela, nous avons pu réaliser nos principales tâches, et maintenant nous savons comment résoudre ce type de problème grâce à des documentations que nous avons écrits.
 
-\section{Items réalisés / terminés}
+\section{Items réalisés / terminés\label{US}}
 
 Cette partie va résumer les tâches que nous avons pu réaliser pendant cette itération.
 
@@ -173,13 +173,29 @@ Cette partie va résumer les tâches que nous avons pu réaliser pendant cette i
   \end{itemize}
 \end{itemize}
 
-\section{Démonstration (déroulement, USs testés, cas d'utilisation)}
-TODO (attendre mail Massoudi)
+\section{Démonstration}
+
+Au cours de la réunion de sprint review de cette deuxième itération, nous avons pu faire une démonstration du développement du projet. Celle-ci s'est déroulée en trois principales parties :
+
 \begin{itemize}
-  \item Lancement du CloudCompare custom
+  \item Lancement du logiciel CloudCompare modifié
   \item Affichage du plugin QPCL, et du filtre personnalisé
-  \item Chargement d'un fichier NDP, et lancement du filtre, et de ses paramètres
+  \item Chargement d'un fichier NDP, lancement du filtre, et de ses paramètres
 \end{itemize}
+
+Cette démonstration a eu pour but de valider les User stories présentés dans la section~\ref{US}. Les cas d'utilisation présentés ici sont sur la sélection d'une plage de couleur à extraire, et la création des sous-scans. Nous n'avons toutefois pas eu le temps nécessaire pour implémenter la segmentation via l'espace colorimétrique CIELAB, mais uniquement par le RGB (dû aux difficultés rencontrées de la section~\ref{PB}).
+
+\textbf{Lancement du logiciel CloudCompare modifié}
+
+Dans cette première partie, nous avons présenté le fonctionnement du projet git CloudCompare, et des ajouts que nous avons fait dans le code source. Nous avons ensuite lancé le logiciel avec nos ajouts.
+
+\textbf{Affichage du plugin QPCL, et du filtre personnalisé}
+
+Ensuite, nous avons parlé du plugin sur lequel nous nous sommes basé pour ajouter nos méthodes de segmentation. Il s'agit du plugin QPCL, qui nous permet d'utiliser la bibliothèque PCL (offrant des méthodes pour traiter des nuages de points) sur le logiciel CloudCompare, en C++. Puis, nous avons montré la première méthode de segmentation en RGB, et son fonctionnement.
+
+\textbf{Affichage du plugin QPCL, et du filtre personnalisé}
+
+Enfin, nous avons simulé une utilisation réelle du filtre, avec un fichier d'exemple qui nous avait été fourni par le client. Nous avons donc paramétré la plage RGB pour récupérer une certaine partie du nuage de points, caractérisée par une intensité de couleur particulière (ici, une surface rougeâtre), et nous l'avons appliqué sur le fichier chargé sur CloudCompare. Le résultat obtenu était deux sous-scans, avec l'un qui prenait uniquement les points sélectionnés, et l'autre, les points externes à la sélection.
 
 \section{Retours du client (feedback)}
 
@@ -208,7 +224,7 @@ Tout d'abord, nous allons faire du refactoring afin de rendre le code plus facil
 
 De plus, nous allons pousser plus loin le moyen pour réaliser le filtrage du nuage. L'idée du client par rapport à l'utilisation du "point picking", c'est-à-dire de cliquer directement sur les points qui nous intéresse à filtrer, est très intéressant. Cela pourra rendre le filtrage RGB plus intuitif, en indiquant à l'utilisateur qu'il peut directement sélectionner les points voulus en cliquant dessus, au lieu de devoir récupérer les valeurs RGB avant de les noter dans les champs textes.
 
-Enfin, il nous faudra aussi implémenter l'autre type de segmentation que nous avons définis dans la première itération, avec l'espace chromatique CIELAB, et de l'intégrer dans un nouveau type de filtrage dans CloudCompare.\\
+Enfin, il nous faudra aussi implémenter l'autre type de segmentation que nous avons définis dans la première itération, avec l'espace chromatique CIELAB, et de l'intégrer dans un nouveau type de filtrage dans CloudCompare. Cette méthode de segmentation va nous servir à comparer l'utilisation de différents espaces colorimétriques, et de voir la performance sur le filtrage des points dans le nuage.\\
 
 
 \noindent\begin{tabularx}{\textwidth}{|X|X|X|}
