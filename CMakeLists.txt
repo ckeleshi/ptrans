@@ -6,11 +6,11 @@ cmake_minimum_required( VERSION 3.0 )
 # AND ADAPT THE CODE BELOW TO YOUR OWN NEEDS!
 
 # Add an option to CMake to control whether we build this plugin or not
-option( PLUGIN_SEGMENTER "Check to install segmenter plugin" OFF )
+option( PLUGIN__COLORIMETRIC_SEGMENTER "Check to install segmenter plugin" OFF )
 
-if ( PLUGIN_SEGMENTER )
+if ( PLUGIN__COLORIMETRIC_SEGMENTER )
 	# Name the plugin
-    project( SegmenterPlugin )
+    project( ColorimetricSegmenter )
     
     # load any subdirectories (see qAdditionalIO for an example)
     # add_subdirectory( LIB1 )

@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="/CC/plugin/SegmenterPlugin" >
+  <qresource prefix="/CC/plugin/ColorimetricSegmenter" >
     <file>images/icon.png</file>
     <file>info.json</file>
   </qresource>

@@ -3,7 +3,7 @@
 
 //##########################################################################
 //#                                                                        #
-//#                CLOUDCOMPARE PLUGIN: ExamplePlugin                      #
+//#            CLOUDCOMPARE PLUGIN: ColorimetricSegmenter                  #
 //#                                                                        #
 //#  This program is free software; you can redistribute it and/or modify  #
 //#  it under the terms of the GNU General Public License as published by  #
@@ -14,11 +14,14 @@
 //#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
 //#  GNU General Public License for more details.                          #
 //#                                                                        #
-//#                             COPYRIGHT: XXX                             #
+//#    COPYRIGHT:	Tri-Thien TRUONG, Ronan COLLIER, Mathieu LETRONE       #
 //#                                                                        #
 //##########################################################################
 
 #include "ccStdPluginInterface.h"
+#include <QObject>
+#include <QtGui>
+
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
@@ -38,7 +41,7 @@
 	components (database, 3D views, console, etc.) - see the ccMainAppInterface
 	class in ccMainAppInterface.h.
 **/
-class SegmenterPlugin : public QObject, public ccStdPluginInterface
+class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(ccStdPluginInterface)
@@ -49,23 +52,51 @@ class SegmenterPlugin : public QObject, public ccStdPluginInterface
 	Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
 	
 public:
-	explicit SegmenterPlugin( QObject *parent = nullptr );
-	~SegmenterPlugin() override = default;
+	explicit ColorimetricSegmenter( QObject *parent = nullptr );
+	~ColorimetricSegmenter() override = default;
 	
 	// inherited from ccStdPluginInterface
 	void onNewSelection( const ccHObject::Container &selectedEntities ) override;
 	QList<QAction *> getActions() override;
-	
+
+public slots:
+	//! Handles new entity
+	void handleNewEntity(ccHObject*);
+
+	//! Handles entity (visual) modification
+	void handleEntityChange(ccHObject*);
+
+	//! Handles new error message
+	void handleErrorMessage(QString);
+
+signals:
+
+	//! Signal emitted when an entity is (visually) modified
+	void entityHasChanged(ccHObject*);
+
+	//! Signal emitted when a new entity is created by the filter
+	void newEntity(ccHObject*);
+
+	//! Signal emitted when a new error message is produced
+	void newErrorMessage(QString);
+
 private:
-	/*** ADD YOUR CUSTOM ACTIONS HERE ***/
-	void doAction();
+	std::vector<ccPointCloud*> getSelectedPointClouds();
+
+	//! Filter a cloud with a scalar field (add one if there is none)
+	void filterScalarField();
+
+	//! Filter a cloud with RGB color
+	void filterRgb();
 	
 	//! Default action
 	/** You can add as many actions as you want in a plugin.
 		Each action will correspond to an icon in the dedicated
 		toolbar and an entry in the plugin menu.
 	**/
-	QAction* m_action;
+	QAction* m_action_filterScalar;
+	QAction* m_action_filterRgb;
+
 };
 
 #endif
