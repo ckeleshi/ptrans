@@ -204,14 +204,14 @@ void ColorimetricSegmenter::filterRgb()
 	if (!rgbDlg.exec())
 		return;
 
-	double marginError = static_cast<double>(rgbDlg.spinBox_6->value()) / 100.0;
+	double marginError = static_cast<double>(rgbDlg.margin->value()) / 100.0;
 
-	int redInf = rgbDlg.spinBox_3->value() - (marginError * rgbDlg.spinBox_3->value());
-	int redSup = rgbDlg.spinBox_2->value() + marginError * rgbDlg.spinBox_2->value();
-	int greenInf = rgbDlg.spinBox->value() - marginError * rgbDlg.spinBox->value();
-	int greenSup = rgbDlg.knnSpinBox->value() + marginError * rgbDlg.knnSpinBox->value();
-	int blueInf = rgbDlg.spinBox_5->value() - marginError * rgbDlg.spinBox_5->value();
-	int blueSup = rgbDlg.spinBox_4->value() + marginError * rgbDlg.spinBox_4->value();
+	int redInf = rgbDlg.red_min->value() - (marginError * rgbDlg.red_min->value());
+	int redSup = rgbDlg.red_max->value() + marginError * rgbDlg.red_max->value();
+	int greenInf = rgbDlg.green_min->value() - marginError * rgbDlg.green_min->value();
+	int greenSup = rgbDlg.green_max->value() + marginError * rgbDlg.green_max->value();
+	int blueInf = rgbDlg.blue_min->value() - marginError * rgbDlg.blue_min->value();
+	int blueSup = rgbDlg.blue_max->value() + marginError * rgbDlg.blue_max->value();
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
