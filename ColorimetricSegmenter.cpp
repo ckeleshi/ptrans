@@ -206,12 +206,12 @@ void ColorimetricSegmenter::filterRgb()
 
 	double marginError = static_cast<double>(rgbDlg.margin->value()) / 100.0;
 
-	int redInf = rgbDlg.red_min->value() - (marginError * rgbDlg.red_min->value());
-	int redSup = rgbDlg.red_max->value() + marginError * rgbDlg.red_max->value();
-	int greenInf = rgbDlg.green_min->value() - marginError * rgbDlg.green_min->value();
-	int greenSup = rgbDlg.green_max->value() + marginError * rgbDlg.green_max->value();
-	int blueInf = rgbDlg.blue_min->value() - marginError * rgbDlg.blue_min->value();
-	int blueSup = rgbDlg.blue_max->value() + marginError * rgbDlg.blue_max->value();
+	int redInf = rgbDlg.area_red->value() - (marginError * rgbDlg.area_red->value());
+	int redSup = rgbDlg.area_red->value() + marginError * rgbDlg.area_red->value();
+	int greenInf = rgbDlg.area_green->value() - marginError * rgbDlg.area_green->value();
+	int greenSup = rgbDlg.area_green->value() + marginError * rgbDlg.area_green->value();
+	int blueInf = rgbDlg.area_blue->value() - marginError * rgbDlg.area_blue->value();
+	int blueSup = rgbDlg.area_blue->value() + marginError * rgbDlg.area_blue->value();
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
@@ -233,17 +233,23 @@ void ColorimetricSegmenter::filterRgb()
 						//not enough memory
 						delete filteredCloud;
 						filteredCloud = nullptr;
+						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
 						break;
 					}
 				}
 
 			}
 			ccPointCloud* newCloud = cloud->partialClone(filteredCloud);
-			cloud->getParent()->addChild(newCloud);
+			
+			cloud->setEnabled(false);
+			if (cloud->getParent()) {
+				cloud->getParent()->addChild(newCloud);
+			}
+
+			m_app->addToDB(newCloud, false, true, false, false);
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-			emit newEntity(newCloud);
-			emit entityHasChanged(cloud);
+			
 
 		}
 	}
