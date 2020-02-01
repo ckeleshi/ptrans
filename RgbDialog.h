@@ -19,14 +19,42 @@
 #define RgbDialog_H
 
 #include <ui_RgbDialog.h>
+#include "ccPickingListener.h"
 
 //Qt
+#include <ccHObject.h>
 #include <QDialog>
+#include <qcheckbox.h>
 
-class RgbDialog : public QDialog, public Ui::RgbDialog
+class ccGLWindow;
+class ccPlane;
+class ccHObject;
+class ccPickingHub;
+
+class RgbDialog : public QDialog, public ccPickingListener, public Ui::RgbDialog
 {
+	Q_OBJECT
 public:
-	explicit RgbDialog(QWidget* parent = 0);
+	explicit RgbDialog(ccPickingHub* pickingHub, QWidget* parent = 0);
+
+	//! Inherited from ccPickingListener
+	virtual void onItemPicked(const PickedItem& pi);
+
+	void processPickedItem(ccHObject* entity, unsigned, int, int, const CCVector3& P, const CCVector3d& uvw);
+
+public slots:
+	void pickPoint(bool);
+
+protected: //members
+
+	//! Picking window (if any)
+	ccGLWindow* m_pickingWin;
+
+	//! Associated plane (if any)
+	ccPlane* m_associatedPlane;
+
+	//! Picking hub
+	ccPickingHub* m_pickingHub;
 
 };
 

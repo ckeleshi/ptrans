@@ -22,6 +22,10 @@
 #include <QObject>
 #include <QtGui>
 
+#include <ccPickingListener.h>
+#include <ccPickingHub.h>
+#include <ccGLWindow.h>
+
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
@@ -88,6 +92,10 @@ private:
 
 	//! Filter a cloud with RGB color
 	void filterRgb();
+
+	//picked point callbacks
+	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
+	//virtual void onItemPicked(const ccPickingListener::PickedItem& pi); //inherited from ccPickingListener
 	
 	//! Default action
 	/** You can add as many actions as you want in a plugin.
@@ -96,6 +104,13 @@ private:
 	**/
 	QAction* m_action_filterScalar;
 	QAction* m_action_filterRgb;
+
+	//! Picking hub
+	ccPickingHub* m_pickingHub = nullptr;
+
+	//link to application windows
+	//ccGLWindow* m_window;
+	//QMainWindow* m_main_window;
 
 };
 

@@ -33,6 +33,8 @@
 
 #include <QtGui>
 
+
+
 #include "ColorimetricSegmenter.h"
 #include "RgbDialog.h"
 
@@ -72,7 +74,6 @@ void ColorimetricSegmenter::handleErrorMessage(QString message)
 		m_app->dispToConsole(message, ccMainAppInterface::ERR_CONSOLE_MESSAGE);
 }
 
-
 // This method should enable or disable your plugin actions
 // depending on the currently selected entities ('selectedEntities').
 void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selectedEntities )
@@ -106,6 +107,7 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 // getActions() will be called only once, when plugin is loaded.
 QList<QAction *> ColorimetricSegmenter::getActions()
 {
+
 	// default action (if it has not been already created, this is the moment to do it)
 	if ( !m_action_filterScalar )
 	{
@@ -137,6 +139,7 @@ QList<QAction *> ColorimetricSegmenter::getActions()
 		connect(m_action_filterRgb, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
 		connect(m_action_filterRgb, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
 		connect(m_action_filterRgb, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+
 	}
 
 	return { m_action_filterScalar, m_action_filterRgb };
@@ -198,8 +201,18 @@ void ColorimetricSegmenter::filterRgb()
 		return;
 	}
 
+	//check valid window
+	if (!m_app->getActiveGLWindow())
+	{
+		m_app->dispToConsole("[ccCompass] Could not find valid 3D window.", ccMainAppInterface::ERR_CONSOLE_MESSAGE);
+		return;
+	}
+
 	// Retrieve parameters from dialog
-	RgbDialog rgbDlg((QWidget*)m_app->getMainWindow());
+	//m_pickingHub = new ccPickingHub(m_app, m_app->getActiveGLWindow());
+	m_pickingHub = new ccPickingHub(m_app, (QWidget*)m_app->getMainWindow());
+
+	RgbDialog rgbDlg(m_pickingHub,(QWidget*)m_app->getMainWindow());
 
 	if (!rgbDlg.exec())
 		return;
@@ -254,3 +267,4 @@ void ColorimetricSegmenter::filterRgb()
 		}
 	}
 }
+
