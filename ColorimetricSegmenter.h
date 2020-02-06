@@ -88,6 +88,9 @@ private:
 
 	//! Filter a cloud with RGB color
 	void filterRgb();
+
+	//! Filter a cloud with LAB color
+	void filterLab();
 	
 	//! Default action
 	/** You can add as many actions as you want in a plugin.
@@ -96,6 +99,7 @@ private:
 	**/
 	QAction* m_action_filterScalar;
 	QAction* m_action_filterRgb;
+	QAction* m_action_filterLab;
 
 };
 

@@ -32,12 +32,16 @@
 //	 "authors", "maintainers", and "references" show up in the plugin dialog as well
 
 #include <QtGui>
+#include <chrono>
+#include <iostream>
+
 
 #include "ColorimetricSegmenter.h"
 #include "RgbDialog.h"
 
 #include "ccPointCloud.h"
 #include "ccScalarField.h"
+#include "ConversionLab.h"
 
 
 // Default constructor:
@@ -48,6 +52,7 @@ ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )
 	, m_action_filterScalar(nullptr )
 	, m_action_filterRgb( nullptr )
+	, m_action_filterLab( nullptr )
 {
 }
 
@@ -85,6 +90,10 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	{
 		return;
 	}
+	if (m_action_filterLab == nullptr)
+	{
+		return;
+	}
 	
 	// If you need to check for a specific type of object, you can use the methods
 	// in ccHObjectCaster.h or loop and check the objects' classIDs like this:
@@ -100,6 +109,7 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	// For example - only enable our action if something is selected.
 	m_action_filterScalar->setEnabled( !selectedEntities.empty() );
 	m_action_filterRgb->setEnabled(!selectedEntities.empty());
+	m_action_filterLab->setEnabled(!selectedEntities.empty());
 }
 
 // This method returns all the 'actions' your plugin can perform.
@@ -139,7 +149,23 @@ QList<QAction *> ColorimetricSegmenter::getActions()
 		connect(m_action_filterRgb, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 	}
 
-	return { m_action_filterScalar, m_action_filterRgb };
+	if (!m_action_filterLab)
+	{
+		// Here we use the default plugin name, description, and icon,
+		// but each action should have its own.
+		m_action_filterRgb = new QAction("Filter Lab", this);
+		m_action_filterRgb->setToolTip("Filter the points on the selected cloud by RGB color");
+		m_action_filterRgb->setIcon(getIcon());
+
+		// Connect appropriate signal
+		connect(m_action_filterRgb, &QAction::triggered, this, &ColorimetricSegmenter::filterLab);
+
+		connect(m_action_filterRgb, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+		connect(m_action_filterRgb, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+		connect(m_action_filterRgb, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+	}
+
+	return { m_action_filterScalar, m_action_filterRgb, m_action_filterLab };
 }
 
 
@@ -203,7 +229,7 @@ void ColorimetricSegmenter::filterRgb()
 
 	if (!rgbDlg.exec())
 		return;
-
+	auto start = std::chrono::high_resolution_clock::now();
 	double marginError = static_cast<double>(rgbDlg.margin->value()) / 100.0;
 
 	int redInf = rgbDlg.area_red->value() - (marginError * rgbDlg.area_red->value());
@@ -253,4 +279,80 @@ void ColorimetricSegmenter::filterRgb()
 
 		}
 	}
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	std::cout << duration.count() << std::endl;
+}
+
+void ColorimetricSegmenter::filterLab()
+{
+	if (m_app == nullptr)
+	{
+		// m_app should have already been initialized by CC when plugin is loaded
+		Q_ASSERT(false);
+
+		return;
+	}
+
+	// Retrieve parameters from dialog
+	RgbDialog rgbDlg((QWidget*)m_app->getMainWindow());
+
+	if (!rgbDlg.exec())
+		return;
+	auto start = std::chrono::high_resolution_clock::now();
+
+	double marginError = static_cast<double>(rgbDlg.margin->value()) / 100.0;
+
+	double redInf = rgbDlg.area_red->value() - (marginError * rgbDlg.area_red->value());
+	double redSup = rgbDlg.area_red->value() + marginError * rgbDlg.area_red->value();
+	double greenInf = rgbDlg.area_green->value() - marginError * rgbDlg.area_green->value();
+	double greenSup = rgbDlg.area_green->value() + marginError * rgbDlg.area_green->value();
+	double blueInf = rgbDlg.area_blue->value() - marginError * rgbDlg.area_blue->value();
+	double blueSup = rgbDlg.area_blue->value() + marginError * rgbDlg.area_blue->value();
+
+	std::vector<double> labInf = RGB_to_lab(std::vector<double> {redInf, greenInf, blueInf});
+	std::vector<double> labSup = RGB_to_lab(std::vector<double> {redSup, greenSup, blueSup});
+
+	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
+
+	for (ccPointCloud* cloud : clouds) {
+		if (cloud->hasColors())
+		{
+			// Use only references for speed reasons
+			CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
+			//211 112 91
+			for (unsigned j = 0; j < cloud->size(); ++j)
+			{
+				const ccColor::Rgb& rgb = cloud->getPointColor(j);
+				const std::vector<double> lab = RGB_to_lab(std::vector<double> {(double)rgb.r, (double)rgb.g, (double)rgb.g});
+				if (lab[1] >= labInf[1]&& lab[1] <= labSup[1] &&
+					lab[2] >= labInf[2]&& lab[2] <= labSup[2]) { // Points to select
+					if (!filteredCloud->addPointIndex(j))
+					{
+						//not enough memory
+						delete filteredCloud;
+						filteredCloud = nullptr;
+						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
+						break;
+					}
+				}
+
+			}
+			ccPointCloud* newCloud = cloud->partialClone(filteredCloud);
+
+			cloud->setEnabled(false);
+			if (cloud->getParent()) {
+				cloud->getParent()->addChild(newCloud);
+			}
+
+			m_app->addToDB(newCloud, false, true, false, false);
+
+			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+
+
+		}
+	}
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	std::cout << duration.count() << std::endl;
 }
