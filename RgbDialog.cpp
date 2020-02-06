@@ -31,6 +31,9 @@
 //common
 #include <ccPickingHub.h>
 
+#include <ccGenericPointCloud.h>
+#include <ccPointCloud.h>
+
 //qCC_gl
 #include <ccGLWidget.h>
 #include <ccGLWindow.h>
@@ -42,7 +45,6 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
 	, Ui::RgbDialog()
 	, m_pickingWin(0)
-	, m_associatedPlane(0)
 	, m_pickingHub(pickingHub)
 {
 	assert(pickingHub);
@@ -57,91 +59,54 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	area_blue->setValue(rgb.b);
 
 	//Link between Ui and actions
-	//connect(pointPickingButton, &QCheckBox::toggled, this, &RgbDialog::pickPoint);
-	connect(pointPickingButton, &QAbstractButton::toggled, this, &RgbDialog::pickPoint);
+	connect(pointPickingButton, &QCheckBox::toggled, this, &RgbDialog::pickPoint);
 		
 	//auto disable picking mode on quit
-	/*connect(this, &QDialog::finished, [&]()
+	connect(this, &QDialog::finished, [&]()
 	{
 		if (pointPickingButton->isChecked()) pointPickingButton->setChecked(false); }
-	);*/
+	);
 }
 
 void RgbDialog::pickPoint(bool state)
 {
-	if (m_pickingHub)
+	if (!m_pickingHub)
 	{
-		ccLog::Print("pickingHub");
-		if (state)
+		return;
+	}
+	if (state)
+	{
+		if (!m_pickingHub->addListener(this, true))
 		{
-			if (!m_pickingHub->addListener(this, true))
-			{
-				ccLog::Error("Can't start the picking process (another tool is using it)");
-				state = false;
-			}
-		}
-		else
-		{
-			m_pickingHub->removeListener(this);
+			ccLog::Error("Can't start the picking process (another tool is using it)");
+			state = false;
 		}
 	}
-	else if (m_pickingWin)
+	else
 	{
-		ccLog::Print("pickinWin");
-		if (state)
-		{
-			m_pickingWin->setPickingMode(ccGLWindow::POINT_OR_TRIANGLE_PICKING);
-			connect(m_pickingWin, &ccGLWindow::itemPicked, this, &RgbDialog::processPickedItem);
-		}
-		else
-		{
-			m_pickingWin->setPickingMode(ccGLWindow::DEFAULT_PICKING);
-			disconnect(m_pickingWin, &ccGLWindow::itemPicked, this, &RgbDialog::processPickedItem);
-		}
+		m_pickingHub->removeListener(this);
 	}
-
 	pointPickingButton->blockSignals(true);
 	pointPickingButton->setChecked(state);
 	pointPickingButton->blockSignals(false);
 }
 
+
 void RgbDialog::onItemPicked(const PickedItem& pi)
 {
-	if (!pi.entity)
-	{
-		return;
-	}
-
+	ccLog::Print("Point Picked");
+	assert(pi.entity);
 	m_pickingWin = m_pickingHub->activeWindow();
 
-
-	/*if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
+	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
 	{
-		rgb = pi.entity->getTempColor;
-	}*/
+		//Get RGB values of the picked point
+		ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
+		const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
 
-	area_red->setValue(10);
-	area_green->setValue(20);
-	area_blue->setValue(30);
-	ccLog::Print("Test");
-
+		area_red->setValue(rgb.r);
+		area_green->setValue(rgb.g);
+		area_blue->setValue(rgb.b);
+	}
 	pointPickingButton->setChecked(false);
 }
-
-void RgbDialog::processPickedItem(ccHObject* entity, unsigned, int, int, const CCVector3& P, const CCVector3d& uvw)
-{
-	//without picking hub (ccViewer)
-	if (!m_pickingWin)
-	{
-		assert(false);
-		return;
-	}
-
-	if (!entity)
-	{
-		return;
-	}
-
-	pickPoint(false);
-}
-

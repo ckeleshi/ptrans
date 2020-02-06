@@ -31,12 +31,12 @@
 //	 "description" is used as a tootip if the plugin has actions and is displayed in the plugin dialog
 //	 "authors", "maintainers", and "references" show up in the plugin dialog as well
 
+#include <iostream>
+
 #include <QtGui>
 
-
-
 #include "ColorimetricSegmenter.h"
-#include "RgbDialog.h"
+
 
 #include "ccPointCloud.h"
 #include "ccScalarField.h"
@@ -209,22 +209,27 @@ void ColorimetricSegmenter::filterRgb()
 	}
 
 	// Retrieve parameters from dialog
-	//m_pickingHub = new ccPickingHub(m_app, m_app->getActiveGLWindow());
-	m_pickingHub = new ccPickingHub(m_app, (QWidget*)m_app->getMainWindow());
+	if (m_app->pickingHub()) {
+		m_pickingHub = m_app->pickingHub();
+	}
+	
+	rgbDlg = new RgbDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
+	rgbDlg->show();
 
-	RgbDialog rgbDlg(m_pickingHub,(QWidget*)m_app->getMainWindow());
-
-	if (!rgbDlg.exec())
+	if (!rgbDlg->exec())
 		return;
 
-	double marginError = static_cast<double>(rgbDlg.margin->value()) / 100.0;
+	// Start timer
+	auto start = std::chrono::high_resolution_clock::now();
 
-	int redInf = rgbDlg.area_red->value() - (marginError * rgbDlg.area_red->value());
-	int redSup = rgbDlg.area_red->value() + marginError * rgbDlg.area_red->value();
-	int greenInf = rgbDlg.area_green->value() - marginError * rgbDlg.area_green->value();
-	int greenSup = rgbDlg.area_green->value() + marginError * rgbDlg.area_green->value();
-	int blueInf = rgbDlg.area_blue->value() - marginError * rgbDlg.area_blue->value();
-	int blueSup = rgbDlg.area_blue->value() + marginError * rgbDlg.area_blue->value();
+	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
+
+	int redInf = rgbDlg->area_red->value() - (marginError * rgbDlg->area_red->value());
+	int redSup = rgbDlg->area_red->value() + marginError * rgbDlg->area_red->value();
+	int greenInf = rgbDlg->area_green->value() - marginError * rgbDlg->area_green->value();
+	int greenSup = rgbDlg->area_green->value() + marginError * rgbDlg->area_green->value();
+	int blueInf = rgbDlg->area_blue->value() - marginError * rgbDlg->area_blue->value();
+	int blueSup = rgbDlg->area_blue->value() + marginError * rgbDlg->area_blue->value();
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
@@ -266,5 +271,13 @@ void ColorimetricSegmenter::filterRgb()
 
 		}
 	}
+
+	// Stop timer
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+	QString s = QString::number(duration);
+	//Print time of execution
+	//std::cout << duration.count() << std::endl;
+	ccLog::Print("Time to execute : " + s);
 }
 

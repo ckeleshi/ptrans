@@ -40,8 +40,6 @@ public:
 	//! Inherited from ccPickingListener
 	virtual void onItemPicked(const PickedItem& pi);
 
-	void processPickedItem(ccHObject* entity, unsigned, int, int, const CCVector3& P, const CCVector3d& uvw);
-
 public slots:
 	void pickPoint(bool);
 
@@ -49,9 +47,6 @@ protected: //members
 
 	//! Picking window (if any)
 	ccGLWindow* m_pickingWin;
-
-	//! Associated plane (if any)
-	ccPlane* m_associatedPlane;
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub;

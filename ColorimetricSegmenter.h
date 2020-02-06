@@ -26,6 +26,8 @@
 #include <ccPickingHub.h>
 #include <ccGLWindow.h>
 
+#include "RgbDialog.h"
+
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
@@ -107,6 +109,8 @@ private:
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub = nullptr;
+
+	RgbDialog* rgbDlg;
 
 	//link to application windows
 	//ccGLWindow* m_window;
