@@ -117,13 +117,17 @@ Suite à notre réunion de fin d'itération, l'idée de la sélection de deux po
 La conséquence est donc le fait que les valeurs RGB des points peuvent énormément variées, malgré le fait que visuellement, nous avons la même couleur. En gardant la sélection de deux points, nous pourrons donc définir des bornes minimum et maximum des valeurs RGB, au lieu de faire varier la marge d'erreur, qui n'est pas forcément très pertinent sur notre problème.
 
 En parallèle de la segmentation basée sur les valeurs RGB, le développement d'une autre basée sur l'espace colorimétrique CIElab. Cet espace permet de théoriquement de séparer la luminance de la chrominance ainsi cela pourrait résoudre les problèmes de luminosité imputés par les stations.
-La conversion du RGB vers le LAB se fait en deux temps. D'abord, la conversion du RGB vers le XYZ (espace intermédiaire permettant le lien entre les deux) puis du XYZ vers le LAB. L'ensemble des calculs sont relativement simples, majoritairement des calculs matriciels. 
+La conversion du RGB vers le LAB se fait en deux temps. D'abord, la conversion du RGB vers le XYZ (espace intermédiaire permettant le lien entre les deux) puis du XYZ vers le LAB. L'ensemble des calculs sont relativement simples, majoritairement des calculs matriciels.
 
 Lors de la saisie des valeurs colorimétriques pour la segmentation, cette valeur sera convertie en LAB au même titre que l'ensemble des points du nuage.
-La segmentation LAB est pour l'instant basée sur le même modèle que celle RGB, hormis qu'on ne teste que les composantes chromatiques des points (soit *a et *b). 
+La segmentation LAB est pour l'instant basée sur le même modèle que celle RGB, hormis qu'on ne teste que les composantes chromatiques des points (soit *a et *b).
 
 Néanmoins, cette conversion a un coup d'exécution non négligeable par rapport à celle RGB .En effet, le temps d'exécution pour un même jeu de données sont en moyenne 30 fois plus long. Ce qui représente une augmentation non négligeable du temps total. D'autant, plus qu'à l'heure actuelle les résultats sont presque identiques. C'est pourquoi, il tâchera d'améliorer les algorithmes de la segmentation et déterminer si on doit encore travailler sur cet espace ou se concentrer sur le RGB.
 
+\begin{figure}[!hbtp]
+  \caption{\label{} Comparaison LAB et RGB en temps d'exécution}
+  \includegraphics[width=0.4\textwidth]{./img/tableau_comparaisonRGB_LAB.png}
+\end{figure}
 \subsection{Intégration du Point picking, multi-scans}
 
 Nous avons aussi dédié une partie de notre temps de cette itération, pour l'amélioration de l'utilisation de notre plugin sur le logiciel CloudCompare. En effet, le client a pu nous faire des retours sur l'utilisation directe de notre plugin.\newline
@@ -147,6 +151,12 @@ Nous avions aussi des interrogations par rapport à notre méthode d'implémenta
 \end{figure}
 
 Nous pouvons observer le point picking représenté par un bouton à gauche des champs RGB. Il est donc maintenant possible de saisir manuellement les valeurs, ou de cliquer sur le nouveau bouton, qui active le mode point picking de CloudCompare. L'utilisateur peut donc ensuite cliquer sur un point du nuage. Après son clic, s'il a bien cliqué sur un point, les champs RGB se remplissent automatiquement avec les valeurs RGB du point correspondant. Il peut toujours noter sa marge d'erreur, pour définir sa plage de points, et valider avec le bouton OK.
+
+\section{Feedback}
+
+Suite à notre présentation du sprint review, nous avons pu avoir des retours client. Tout d'abord, des retours sur l'interface utilisateur, bien qu'améliorée, elle reste perfectible. Le système de marge d'erreur est à revoir, il est en effet peu parlant pour un utilisateur et peu pertinent suivant les cas d'utilisations. Si les valeurs sont faibles, "la marge" en sera impactée et réduite. Au lieu, d'avoir cette marge, il serait mieux de choisir/sélectionner deux points dans le nuage, l'un serait la borne "basse" et l'autre la borne "haute". On choisirait ainsi, l'espace de couleur qu'on choisit de segmenter.
+
+Ensuite, la possibilité de réaliser un premier process sur le nuage avant la segmentation, le process permettrai de discrétiser l'histogramme des couleurs, pour obtenir un effet cartoonesque. De ce fait, le problème des contrastes et différentes luminosités seraient déjà grandement palliés en plus de donner une meilleure idée des éléments gardés après la segmentation.
 
 \section{Commentaires sur l'itération}
 
