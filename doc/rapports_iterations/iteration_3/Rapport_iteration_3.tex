@@ -47,7 +47,7 @@ Tri-Thien Truong
 \newpage
 
 \section{Rappel des objectifs de l'itération}
-Pour cette itération, nos objectifs étaient surtout concentrés sur l'amélioration de notre solution existante. En effet, Nous avions réussi à créer un plugin sur le logiciel CloudCompare, en se basant sur le plugin existant "QPCL". Toutefois, nous voulions exporter notre projet sur un plugin à part, afin de rendre le code plus facile à maintenir, et de bien distinguer ce que nous dévelopions, à ce qui était déjà présent.
+Pour cette itération, nos objectifs étaient surtout concentrés sur l'amélioration de notre solution existante. En effet, Nous avions réussi à créer un plugin sur le logiciel CloudCompare, en se basant sur le plugin existant "QPCL". Toutefois, nous voulions exporter notre projet sur un plugin à part, afin de rendre le code plus facile à maintenir, et de bien distinguer ce que nous développions, à ce qui était déjà présent.
 
 Les tâches que nous nous sommes fixées sont les suivantes :
 
@@ -60,7 +60,7 @@ Les tâches que nous nous sommes fixées sont les suivantes :
 
 \section{Production / réalisation durant l'itération}
 
-Nous déveloperons ici chaque objectif que nous nous sommes fixé pour cette itération.
+Nous développerons ici chaque objectif que nous nous sommes fixé pour cette itération.
 
 \subsection{Refactoring du code / Exportation sur un nouveau Plugin}
 
@@ -68,7 +68,7 @@ Nous avons pris le temps pour revoir notre structure du code, afin de l'exporter
 
 Ensuite, nous avons repris notre code développé sur le plugin QPCL, pour le mettre sur notre nouveau projet. Pour faire cela, nous avons dû enlever les dépendances avec QPCL (donc les méthodes de la bibliothèques PCL pour traiter des nuages de points). Nous avons donc utilisé uniquement les outils intégrés à CloudCompare, pour faire nos traitements. \newline
 
-Nous aurions pu créer une dépendance avec le plugin QPCL, et notre propre plugin, mais nous voulions d'abord voir s'il était possible de faire nos filtrages / segmentation avec les outils de CloudCompare, ce qui était effectivement le cas. Pour voir si notre choix était le bon, nous avons comparé notre ancienne méthode (utiliser la bibliothèque de PCL), et la nouvelle (uniquement CloudCompare). Le critère de comparaison a été au niveau du temps pour réaliser notre filtrage (RGB). \newline
+Nous aurions pu créer une dépendance avec le plugin QPCL et notre propre plugin, mais nous voulions d'abord voir s'il était possible de faire nos filtrages / segmentation avec les outils de CloudCompare, ce qui était effectivement le cas. Pour voir si notre choix était le bon, nous avons comparé notre ancienne méthode (utiliser la bibliothèque de PCL), et la nouvelle (uniquement CloudCompare). Le critère de comparaison a été au niveau du temps pour réaliser notre filtrage (RGB). \newline
 
 Nous avons réalisé des tableaux comparatifs entre notre ancienne méthode d'implémentation (avec QPCL), et notre nouvelle implémentation (CloudCompare CC). \newline
 
@@ -114,6 +114,14 @@ Suite à notre réunion de fin d'itération, l'idée de la sélection de deux po
 
 La conséquence est donc le fait que les valeurs RGB des points peuvent énormément variées, malgré le fait que visuellement, nous avons la même couleur. En gardant la sélection de deux points, nous pourrons donc définir des bornes minimum et maximum des valeurs RGB, au lieu de faire varier la marge d'erreur, qui n'est pas forcément très pertinent sur notre problème.
 
+En parallèle de la segmentation basée sur les valeurs RGB, le développement d'une autre basée sur l'espace colorimétrique CIElab. Cet espace permet de théoriquement de séparer la luminance de la chrominance ainsi cela pourrait résoudre les problèmes de luminosité imputés par les stations.
+La conversion du RGB vers le LAB se fait en deux temps. D'abord, la conversion du RGB vers le XYZ (espace intermédiaire permettant le lien entre les deux) puis du XYZ vers le LAB. L'ensemble des calculs sont relativement simples, majoritairement des calculs matriciels. 
+
+Lors de la saisie des valeurs colorimétriques pour la segmentation, cette valeur sera convertie en LAB au même titre que l'ensemble des points du nuage.
+La segmentation LAB est pour l'instant basée sur le même modèle que celle RGB, hormis qu'on ne teste que les composantes chromatiques des points (soit *a et *b). 
+
+Néanmoins, cette conversion a un coup d'exécution non négligeable par rapport à celle RGB.En effet, le temps d'exécution pour un même jeu de données sont en moyenne 30 fois plus long. Ce qui représente une augmentation non négligeable du temps total. D'autant, plus qu'à l'heure actuelle les résultats sont presque identiques. C'ets pourquoi, il tâchera d'améliorer les algorithmes de la segmentation et déterminer si on doit encore travailler sur cette espace ou se concentrer surle RGB.
+% Peut-être mettre le tableau 
 % Conversion LAB, but de cette conversion, comment ca fonctionne, résultat obtenu, conclusion sur son utilisation
 % TODO : Mathieu
 
@@ -149,7 +157,7 @@ Les tâches prévues sont donc les suivantes :
 \begin{itemize}
   \item Intégration de fausses couleurs
   \item Terminer la nouvelle méthode de segmentation
-  \item 
+  \item
 \end{itemize}
 
 \begin{comment}
@@ -177,7 +185,7 @@ Architecture du code source
 Espaces colorimétriques
 & Mathieu
 & Achevé
-& Le format RGB est le plus répendu, mais l'option du CIELab semble être intéressant.\\\midrule
+& Le format RGB est le plus répandu, mais l'option du CIELab semble être intéressant.\\\midrule
 Algorithmes de segmentation
 & Ronan, Tri-Thien, Mathieu
 & Achevé
