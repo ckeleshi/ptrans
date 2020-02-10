@@ -32,7 +32,7 @@
 \HRule \\[0.4cm]
 { \huge \bfseries Rapport itération 3\\[0.15cm] }
 Classification colorimétrique de nuages de points 3D\\
-Version 1.1\\
+Version 1.0\\
 Le \today \\
 \HRule \\[1.5cm]
 Ronan Collier,
@@ -47,7 +47,7 @@ Tri-Thien Truong
 \newpage
 
 \section{Rappel des objectifs de l'itération}
-Pour cette itération, nos objectifs étaient surtout concentrés sur l'amélioration de notre solution existante. En effet, Nous avions réussi à créer un plugin sur le logiciel CloudCompare, en se basant sur le plugin existant "QPCL". Toutefois, nous voulions exporter notre projet sur un plugin à part, afin de rendre le code plus facile à maintenir, et de bien distinguer ce que nous développions, à ce qui était déjà présent.
+Pour cette itération, nos objectifs étaient surtout concentrés sur l'amélioration de notre solution existante. En effet, nous avions réussi à créer un plugin sur le logiciel CloudCompare, en se basant sur le plugin existant "QPCL". Toutefois, nous voulions exporter notre projet sur un plugin à part, afin de rendre le code plus facile à maintenir, et de bien distinguer ce que nous développions, à ce qui était déjà présent.
 
 Les tâches que nous nous sommes fixées sont les suivantes :
 
@@ -93,19 +93,15 @@ Nous observons qu'il y a une grande différence entre les deux méthodes. Le fil
 Cela est probablement dû au fait qu'avant, nous utilisions une conversion du nuage de points d'un objet avec CloudCompare, en objet de PCL. Ensuite, nous réalisions le filtre avec ce type de nuage, pour ensuite reconvertir le nuage filtré en un objet CloudCompare, pour finalement l'afficher. Ces différentes étapes n'existent plus sur notre nouveau filtrage.
 
 \subsection{Amélioration de la sélection de points dans le nuage}
-Jusqu'à présent la segmentation du nuage de point n'était qu'on simple filtrage des points par rapport à une valeur RGB de référence.
-Il s'agit d'une méthode répondant au besoin mais qui n'en demeure pas moins simpliste et manquant d'éfficacité.
-Lors de nos recherches réalisées dans le cadre de la première itération, nous avons aboutit à la découverte du'ne nouvelle méthodes de segmentation colorimétrique \cite{B01}.
-Cette 3ème itération devait permettre l'implémentation de ce nouvel algorithme.
-Cependant, les ajouts de nouvelles tâches ainsi que les imprévus nous ont freinés dans son implémentation.
-La segmentation est donc à l'heure actuelle dans un état embryonnaire.
-Seule la structuration de bases des méthodes est présente.
-% Nouvel algo en cours, expliquer où ça en est, ce qui reste à faire...
-%TODO : Ronan
+Jusqu'à présent, la segmentation du nuage de point n'était qu'un simple filtrage des points par rapport à une valeur RGB de référence. Il s'agit d'une méthode répondant au besoin mais qui n'en demeure pas moins simpliste et manquant d'efficacité. \newline
+
+Lors de nos recherches réalisées dans le cadre de la première itération, nous avons abouti à la découverte d'une nouvelle méthode de segmentation colorimétrique \cite{B01}. Cette 3ème itération devait permettre l'implémentation de ce nouvel algorithme. Cependant, les ajouts de nouvelles tâches ainsi que les imprévus nous ont freinés dans son implémentation. \newline
+
+La segmentation est donc à l'heure actuelle dans un état embryonnaire. Seule la structuration de bases des méthodes est présente.
 
 \subsection{Amélioration du filtrage RGB / Conversion LAB}
 
-Suite aux retours de notre client, nous avons pu revoir l'utilisation du filtrage RGB implémenté lors de notre précédente itération. Une des propositions était d'utiliser qu'un seul point à choisir pour appliquer le filtrage RGB, et de la marge d'erreur pour établir les bornes des points à garder. \newline
+Suite aux retours de notre client, nous avons pu revoir l'utilisation du filtrage RGB implémenté lors de notre précédente itération. Une des propositions était d'utiliser qu'un seul point à choisir pour appliquer le filtrage RGB, et de la marge d'erreur pour établir les bornes des points à garder.
 
 \begin{figure}[!hbtp]
   \caption{\label{} Ancienne interface et nouvelle interface filtrage RGB}
@@ -116,7 +112,7 @@ Suite aux retours de notre client, nous avons pu revoir l'utilisation du filtrag
 
 A gauche, nous pouvons observer l'ancienne interface (uniquement les champs pour le RGB), et à droite, la nouvelle interface. \newline
 
-Suite à notre réunion de fin d'itération, l'idée de la sélection de deux points est plus intéressante au final, puisque cela nous permettra de sélectionner des bornes plus facilement. En effet, dans un nuage de points, d'un objet d'une certaine couleur peut avoir beaucoup de variation au niveau de cette couleur, selon l'endroit d'où il est pris par la station, la luminosité etc. \newline
+Suite à notre réunion de fin d'itération, l'idée de la sélection de deux points est plus intéressante au final, puisque cela nous permettra de sélectionner des bornes plus facilement. En effet, dans un nuage de points, un objet d'une certaine couleur peut avoir beaucoup de variation au niveau de cette couleur, selon l'endroit d'où il est pris par la station, la luminosité etc. \newline
 
 La conséquence est donc le fait que les valeurs RGB des points peuvent énormément variées, malgré le fait que visuellement, nous avons la même couleur. En gardant la sélection de deux points, nous pourrons donc définir des bornes minimum et maximum des valeurs RGB, au lieu de faire varier la marge d'erreur, qui n'est pas forcément très pertinent sur notre problème.
 
@@ -126,33 +122,43 @@ La conversion du RGB vers le LAB se fait en deux temps. D'abord, la conversion d
 Lors de la saisie des valeurs colorimétriques pour la segmentation, cette valeur sera convertie en LAB au même titre que l'ensemble des points du nuage.
 La segmentation LAB est pour l'instant basée sur le même modèle que celle RGB, hormis qu'on ne teste que les composantes chromatiques des points (soit *a et *b). 
 
-Néanmoins, cette conversion a un coup d'exécution non négligeable par rapport à celle RGB.En effet, le temps d'exécution pour un même jeu de données sont en moyenne 30 fois plus long. Ce qui représente une augmentation non négligeable du temps total. D'autant, plus qu'à l'heure actuelle les résultats sont presque identiques. C'ets pourquoi, il tâchera d'améliorer les algorithmes de la segmentation et déterminer si on doit encore travailler sur cette espace ou se concentrer surle RGB.
-% Peut-être mettre le tableau 
-% Conversion LAB, but de cette conversion, comment ca fonctionne, résultat obtenu, conclusion sur son utilisation
-% TODO : Mathieu
+Néanmoins, cette conversion a un coup d'exécution non négligeable par rapport à celle RGB .En effet, le temps d'exécution pour un même jeu de données sont en moyenne 30 fois plus long. Ce qui représente une augmentation non négligeable du temps total. D'autant, plus qu'à l'heure actuelle les résultats sont presque identiques. C'est pourquoi, il tâchera d'améliorer les algorithmes de la segmentation et déterminer si on doit encore travailler sur cet espace ou se concentrer sur le RGB.
 
 \subsection{Intégration du Point picking, multi-scans}
 
-% Idée du point picking, le pourquoi, fonctionnement, pertinence pour le projet
-% TODO : Thien
+Nous avons aussi dédié une partie de notre temps de cette itération, pour l'amélioration de l'utilisation de notre plugin sur le logiciel CloudCompare. En effet, le client a pu nous faire des retours sur l'utilisation directe de notre plugin.\newline
 
-% Idem pour Multi-scans
+Les deux points les plus importants que nous voulions traiter sont le Point picking (le fait de pouvoir sélectionner un point directement sur le nuage de points, et récupérer les valeurs RGB), et le multi-scans. \newline
+
+Le premier point était important par le fait que l'utilisateur final voudra une interface la plus simple et la plus pratique possible. Au lieu d'avoir l'obligation de taper manuellement les valeurs RGB (en passant donc par le point picking intégré au logiciel CloudCompare dans un premier temps), il aura la possibilité de cliquer sur le bouton qui activera la sélection d'un point sur le nuage. \newline
+
+Le second point concernait plus l'utilisation du plugin par l'entreprise de façon générale, par rapport à leur fonctionnement. En effet, en situation réelle, l'entreprise possède plusieurs nuages de points d'un même lieu, avec des scans venant de stations positionnées à différents endroits. Le multi-scans permettra donc de faciliter le filtrage, puisque l'on veut dans la plupart des cas, filtrer tous les nuages du points correspondant à un lieu.
 
 \section{Risques éliminés durant l'itération}
 Durant cette itération, nous avons pu éliminer certains risques. En effet, le fait d'utiliser uniquement les outils de CloudCompare nous permet d'éviter d'être dépendant de la bibliothèque PCL. \newline
 
-Bien sûr, il sera peut être possible dans le futur, que nous aurions besoin d'utiliser cette biliothèque pour certaines fonctions (par exemple, l'algorithme permettant de supprimer les points isolés). Mais pour l'instant, traiter les nuages de points avec le code que nous fournis CloudCompare nous suffit, et nous apporte un gain de temps non négligeable. \newline
+Bien sûr, il sera peut-être possible dans le futur, que nous aurions besoin d'utiliser cette bibliothèque pour certaines fonctions (par exemple, l'algorithme permettant de supprimer les points isolés). Mais pour l'instant, traiter les nuages de points avec le code que nous fournis CloudCompare nous suffit, et nous apporte un gain de temps non négligeable. \newline
 
 Nous avions aussi des interrogations par rapport à notre méthode d'implémentation de notre plugin. En effet, le fait d'avoir notre propre plugin est une amélioration très importante quant à notre projet, puisque nous avons uniquement des fichiers qui servent au fonctionnement de notre plugin. L'implémentation est donc beaucoup plus aisée.
 
+\begin{figure}[!hbtp]
+  \caption{\label{} Nouvelle interface filtrage RGB}
+  \includegraphics[width=0.65\textwidth]{./img/new_ui.png}
+\end{figure}
+
+Nous pouvons observer le point picking représenté par un bouton à gauche des champs RGB. Il est donc maintenant possible de saisir manuellement les valeurs, ou de cliquer sur le nouveau bouton, qui active le mode point picking de CloudCompare. L'utilisateur peut donc ensuite cliquer sur un point du nuage. Après son clic, s'il a bien cliqué sur un point, les champs RGB se remplissent automatiquement avec les valeurs RGB du point correspondant. Il peut toujours noter sa marge d'erreur, pour définir sa plage de points, et valider avec le bouton OK.
+
 \section{Commentaires sur l'itération}
+
+Cette section va présenter nos ressentis sur notre itération. Cela peut correspondre à comment nous avons pu gérer la charge de travail que nous avions prévu en début d'itération, des potentiels imprévus, points positifs/négatifs, et autres.
 
 \subsection{Commentaires sur l'itération de façon générale}
 
+Par rapport aux deux itérations précédentes, cette itération a été très rapide par rapport à ce que nous avions prévu. En effet, nous avons au maximum essayé de respecter nos délais définis dans le cahier des charges. Notre problème a été surtout par rapport au fait que nous avions eu une semaine de moins par rapport à notre réunion client/rendu de sprint review, ce qui nous a amené donc deux semaines de développement effectives (car la réunion de cette itération a été une semaine avant la fin de l'itération, nous devions donc être prêt pour la réunion, et non pour la fin d'itération). \newline
+
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
-\section{Trois principaux risques restants}
-
+Nous avons gardé les mêmes méthodes de travail, en essayant de se répartir les tâches les plus indivualisées possibles, pour éviter d'être dépendant du travail d'une autre personne. Le développement a été ici surtout freiné par le fait que c'est un travail surtout sur de la création d'algorithmes et de prise en main des technologies, ce qui requiert beaucoup de temps.
 
 \section{Objectifs de la prochaine itération}
 
