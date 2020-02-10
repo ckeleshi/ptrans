@@ -93,7 +93,13 @@ Nous observons qu'il y a une grande différence entre les deux méthodes. Le fil
 Cela est probablement dû au fait qu'avant, nous utilisions une conversion du nuage de points d'un objet avec CloudCompare, en objet de PCL. Ensuite, nous réalisions le filtre avec ce type de nuage, pour ensuite reconvertir le nuage filtré en un objet CloudCompare, pour finalement l'afficher. Ces différentes étapes n'existent plus sur notre nouveau filtrage.
 
 \subsection{Amélioration de la sélection de points dans le nuage}
-
+Jusqu'à présent la segmentation du nuage de point n'était qu'on simple filtrage des points par rapport à une valeur RGB de référence.
+Il s'agit d'une méthode répondant au besoin mais qui n'en demeure pas moins simpliste et manquant d'éfficacité.
+Lors de nos recherches réalisées dans le cadre de la première itération, nous avons aboutit à la découverte du'ne nouvelle méthodes de segmentation colorimétrique \cite{B01}.
+Cette 3ème itération devait permettre l'implémentation de ce nouvel algorithme.
+Cependant, les ajouts de nouvelles tâches ainsi que les imprévus nous ont freinés dans son implémentation.
+La segmentation est donc à l'heure actuelle dans un état embryonnaire.
+Seule la structuration de bases des méthodes est présente.
 % Nouvel algo en cours, expliquer où ça en est, ce qui reste à faire...
 %TODO : Ronan
 
@@ -198,4 +204,8 @@ Recherche sur les méthodes de fausses couleurs
 
 \end{comment}
 
+\begin{thebibliography}{3}
+
+\bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+\end{thebibliography}
 \end{document}
