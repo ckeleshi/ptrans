@@ -138,19 +138,19 @@ Le premier point était important par le fait que l'utilisateur final voudra une
 
 Le second point concernait plus l'utilisation du plugin par l'entreprise de façon générale, par rapport à leur fonctionnement. En effet, en situation réelle, l'entreprise possède plusieurs nuages de points d'un même lieu, avec des scans venant de stations positionnées à différents endroits. Le multi-scans permettra donc de faciliter le filtrage, puisque l'on veut dans la plupart des cas, filtrer tous les nuages du points correspondant à un lieu.
 
-\section{Risques éliminés durant l'itération}
-Durant cette itération, nous avons pu éliminer certains risques. En effet, le fait d'utiliser uniquement les outils de CloudCompare nous permet d'éviter d'être dépendant de la bibliothèque PCL. \newline
-
-Bien sûr, il sera peut-être possible dans le futur, que nous aurions besoin d'utiliser cette bibliothèque pour certaines fonctions (par exemple, l'algorithme permettant de supprimer les points isolés). Mais pour l'instant, traiter les nuages de points avec le code que nous fournis CloudCompare nous suffit, et nous apporte un gain de temps non négligeable. \newline
-
-Nous avions aussi des interrogations par rapport à notre méthode d'implémentation de notre plugin. En effet, le fait d'avoir notre propre plugin est une amélioration très importante quant à notre projet, puisque nous avons uniquement des fichiers qui servent au fonctionnement de notre plugin. L'implémentation est donc beaucoup plus aisée.
-
 \begin{figure}[!hbtp]
   \caption{\label{} Nouvelle interface filtrage RGB}
   \includegraphics[width=0.65\textwidth]{./img/new_ui.png}
 \end{figure}
 
 Nous pouvons observer le point picking représenté par un bouton à gauche des champs RGB. Il est donc maintenant possible de saisir manuellement les valeurs, ou de cliquer sur le nouveau bouton, qui active le mode point picking de CloudCompare. L'utilisateur peut donc ensuite cliquer sur un point du nuage. Après son clic, s'il a bien cliqué sur un point, les champs RGB se remplissent automatiquement avec les valeurs RGB du point correspondant. Il peut toujours noter sa marge d'erreur, pour définir sa plage de points, et valider avec le bouton OK.
+
+\section{Risques éliminés durant l'itération}
+Durant cette itération, nous avons pu éliminer certains risques. En effet, le fait d'utiliser uniquement les outils de CloudCompare nous permet d'éviter d'être dépendant de la bibliothèque PCL. \newline
+
+Bien sûr, il sera peut-être possible dans le futur, que nous aurions besoin d'utiliser cette bibliothèque pour certaines fonctions (par exemple, l'algorithme permettant de supprimer les points isolés). Mais pour l'instant, traiter les nuages de points avec le code que nous fournis CloudCompare nous suffit, et nous apporte un gain de temps non négligeable. \newline
+
+Nous avions aussi des interrogations par rapport à notre méthode d'implémentation de notre plugin. En effet, le fait d'avoir notre propre plugin est une amélioration très importante quant à notre projet, puisque nous avons uniquement des fichiers qui servent au fonctionnement de notre plugin. L'implémentation est donc beaucoup plus aisée.
 
 \section{Feedback}
 
@@ -172,62 +172,61 @@ Nous avons gardé les mêmes méthodes de travail, en essayant de se répartir l
 
 \section{Objectifs de la prochaine itération}
 
-Durant cette itération, nous avons pu grandement mettre en ordre notre projet. Nous avons donc maintenant notre propre plugin. Il faut maintenant terminer ce qui était en cours, prendre en compte les retours du client, et continuer les tâches prévues du cahier des charges.
-
-Les tâches prévues sont donc les suivantes :
+Durant cette itération, nous avons pu grandement mettre en ordre notre projet. Nous avons donc maintenant notre propre plugin. Il faut maintenant terminer ce qui était en cours, prendre en compte les retours du client, et continuer les tâches prévues du cahier des charges. Les tâches prévues sont donc les suivantes :
 
 \begin{itemize}
   \item Intégration de fausses couleurs
+  \item Revoir la marge d'erreur du filtrage RGB
   \item Terminer la nouvelle méthode de segmentation
-  \item
+  \item Toon mapping \newline
 \end{itemize}
 
-\begin{comment}
+Pour la prochaine itération, il nous faudra prévoir la préparation pour notre deuxième soutenance, qui présentera nos premières solutions sur ce projet. Nous aurons une semaine de vacances, qui nous serviront justement à avancer sur le Ptrans.
+
+\begin{figure}[!hbtp]
+  \caption{\label{} Diagramme de Gantt détaillé - Sprint 4}
+  \includegraphics[width=1\textwidth]{./img/sprint_iteration_4_tableau.PNG}
+  \raisebox{-1\height}
+  {\includegraphics[width=1\textwidth]{./img/sprint_iteration_4_diagramme.PNG}} 
+\end{figure}
 
 \section{Résumé}
 \subsection{Tâches principales réalisées dans l'itération}
 \noindent\begin{tabu} to \textwidth {p{0.18\textwidth}X[c2]X[c]X[c4]}\toprule
   \thead{Tâche}&\thead{Responsable}&\thead{Statut}&\thead{Commentaire}\\\toprule
-Plugin pour CloudCompare
-& Mathieu
+Refactoring du code / exportation sur un nouveau Plugin
+& Ronan, Mathieu, Tri-Thien
 & Achevé
-& Plugin CloudCompare possible, ou développer une interface à la main. Le choix est de faire un plugin CloudCompare.\\\midrule
-Bibliothèques pour le traitement de nuages de points
-& Ronan, Tri-Thien
-& Achevé
-& PCL semble la bibliothèque principale à utiliser, par sa simplicité et toutes les fonctionnalités qu'elle peut nous fournir.\\\midrule
-Choix du langage
+& Fin de QPCL, plugin à part et indépendant.\\\midrule
+Amélioration de la sélection de points dans le nuage
+& Ronan
+& En cours
+& Continuer l'algo pour avoir une meilleure sélection des points.\\\midrule
+Amélioration du filtrage RGB
 & Tri-Thien
 & Achevé
-& C++ ou Python. Le choix est le C++ pour faciliter l'implémentation du code avec CloudCompare. \\\midrule
-Architecture du code source
-& Ronan, Tri-Thien, Mathieu
-& Achevé
-& Organisation avec un package pour le plugin CloudCompare, et un autre pour nos algorithmes.\\\midrule
-Espaces colorimétriques
+& Modification entre 2 points à 1 point \\\midrule
+Conversion LAB
 & Mathieu
 & Achevé
-& Le format RGB est le plus répandu, mais l'option du CIELab semble être intéressant.\\\midrule
-Algorithmes de segmentation
-& Ronan, Tri-Thien, Mathieu
+& Comparaison de performances avec RGB\\\midrule
+Point picking
+& Tri-Thien
 & Achevé
-& Méthode pour segmenter selon une couleur (et un seuil d'erreur). Autre alternative : classification des points et régions puis raffinement\\\midrule
-Recherche sur les méthodes de fausses couleurs
+& Amélioration de l'interface pour cliquer sur un point, au lieu d'écrire manuellement les valeurs.\\\midrule
+Multi-scans
 & Ronan
 & Achevé
-& Correspondre une valeur en intensité en RGB (ou autre). Création d'une palette de couleurs.\\\bottomrule  \\
+& Sélection de plusieurs scans pour tous les filtrer en même temps.\\\bottomrule  \\
 \end{tabu}
 
 \subsection{Tâches principales à réaliser pour la prochaine itération}
 \begin{itemize}
-  \item Plugin CloudCompare
-  \item Développer la sélection de points selon une couleur définie
-  \item Développer une solution pour extraire des points dans le nuage
-  \item Mettre le code en commun.
+  \item Intégration de fausses couleurs
+  \item Revoir la marge d'erreur du filtrage RGB
+  \item Terminer la nouvelle méthode de segmentation
+  \item Toon mapping
 \end{itemize}
-
-\end{comment}
-
 \begin{thebibliography}{3}
 
 \bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
