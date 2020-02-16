@@ -119,6 +119,48 @@ En effet, CloudCompare possède une structuration complexe pour quiconque n'est 
 De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour. La seule documentation disponible est en ligne et nous n'avons.
 Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans les sources du projet.
 
+\newpage
 \section{Conclusion et perspectives}
+% 2-3 pages
+% Faire le bilan global du projet (sur les itérations décrites, pour le rapport alpha)
+% Donnez les perspectives pour la suite (pour les prochaines itérations, sur le rapport alpha)
+
+Nous avons jusqu'à maintenant réalisé la moitié du projet, au niveau du temps. En effet, nous avons maintenant passé trois itérations sur l'élaboration de notre solution. \newline
+
+Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en grande partie ce que nous avions prévu sur le cahier des charges. La majorité des Users Stories ont été développés et validés par le client. Toutefois, le projet est loin d'être terminé, et il nous reste encore beaucoup d'améliorations/implémentation de fonctionnalités à faire.
+
+La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux autres nous ont permit de poser les bases, et de commencer à donner une solution viable.
+
+Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare. 
+
+La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur l'implémentation, afin d'éviter de changer entre phases de recherche, et phases de d'implémentation, sur une même itération. Ainsi, cela nous permettait de mieux se concentrer sur la phase d'implémentation. 
+
+Toutefois, nous avons quand même pris du retard notamment sur la deuxième et troisième itération. Lors de la deuxième itération, nous pensions que nous pourrions avoir une meilleure base de notre plugin sur CloudCompare, afin de pousser l'implémentation des algorithmes de segmentation. Malheureusement, nous avions rencontré des difficultés par rapport à la création d'un nouveau plugin. Ce temps perdu a donc impacté le développement de la troisième itération, qui consistait à l'amélioration de ce que nous avions développé, et l'implémentation de nouveaux algorithmes.
+
+Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation. 
+
+De plus, nous avons quand même pris en compte le feedback du client, afin d'améliorer notre solution, par rapport à son utilisation. Ici, c'était principalement lié à l'interface des algorithmes de segmentation. Nous avons apporté des modifications notamment sur le point picking, très important pour faciliter l'utilisation de notre plugin (au lieu de rentrer manuellement les valeurs à filtrer), ou encore des changements sur la plage de couleur à prendre, etc. \newline
+
+Maintenant, nous devons réfléchir aux perspectives d'évolution du projet. Il nous reste maintenant trois itérations à planifier, pour finaliser notre solution. \newline
+
+Nous avions encore des tâches non terminées, que nous devons finir. Ces tâches sont le développement d'un nouvel algorithme pour réaliser le filtrage des points, et d'améliorer le filtrage via l'espace de couleur CieLAB, afin de voir si cette solution est viable. Ces deux tâches sont donc à prioriser dans le développement, qui seront donc dans notre quatrième itération.
+
+De plus, nous devons prendre en compte les retours du client. Ici, le principal retour a été par rapport à la marge d'erreur, que l'utilisateur se fixe afin de créer ses plages de couleurs à filtrer. Ce système de marge d'erreur est à revoir. Il est en effet peu parlant pour un utilisateur et peu pertinent suivant les cas d'utilisations. Si les valeurs sont faibles, "la marge" en sera impactée et réduite. Au lieu, d'avoir cette marge, il serait mieux de choisir/sélectionner deux points dans le nuage, l'un serait la borne "basse" et l'autre la borne "haute". On choisirait ainsi, l'espace de couleur qu'on choisit de segmenter.
+
+Ensuite, la possibilité de réaliser un premier process sur le nuage avant la segmentation, permettrait de discrétiser l'histogramme des couleurs, pour obtenir un effet cartoonesque. De ce fait, le problème des contrastes et différentes luminosités seraient déjà grandement palliés en plus de donner une meilleure idée des éléments gardés après la segmentation.
+
+Ces retours sont très intéressants, et nous pensons que ces tâches sont aussi importantes à prendre en compte pour l'amélioration de notre solution. \newline
+
+D'autres tâches sont encore en suspend, que nous avions planifié dans le cahier des charges. La principale tâche est la fausse couleur, que nous avions planifié pour la quatrième itération. Nous voulons le faire assez tôt afin d'avoir le feedback du client, et de l'améliorer sur les futures itérations.
+
+L'autre tâche est de potentiellement traiter le problème du mouchetage, que l'on peut rencontrer lors de fusion de nuage de points. Comme cette tâche n'était pas la priorité du client, nous ne savons encore pas si nous allons faire des recherches sur ce cas. Toutefois, elle reste dans notre backlog et pourra être traité dans nos futures itérations.
+
+\section{Annexes}
+
+\section{Déroulement du projet}
+
+Il est important de faire un retour sur le déroulement du projet, afin de savoir ce que nous avons bien réalisé, les difficultés que nous avons rencontrés, nos méthodes de travail, etc. En effet, cela nous permettra d'améliorer nos démarches pour mener à bien ce proje.
+
+Durant ces premières itérations, nous avons rencontrés certaines difficultés. Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme c'était notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte expérimenter notre capacité de travail et d'évaluer les tâches à réaliser. \newline
 
 \end{document}
