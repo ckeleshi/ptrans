@@ -60,24 +60,58 @@ Dans cette partie nous allons présenter l'ensemble des choix que nous avons fai
 %/!\ 
 % Donner vos choix principaux (service, techno, etc.), en expliquant pourquoi vous les avez fait. 
 %/!\
-Après une phase de recherche et discussion entre les différents partis du projet. Nous nous sommes orientés non plus sur une phase seulement algorithmique mais sur l'implémentaion de nos solutions via un plugin sur un logiciel de manipulation de nuages de points nommés CloudCompare. Ce choix a été fait pour se concentrer davantage sur les algorithmes des solutions que l'implémentation des méthodes de lecture/export de nuages de points.
+Afin de répondre aux besoins, qui sont de pouvoir :
+\begin{itemize}
+    \item Lire un fichier de données contenant un nuage de point.
+    \item Isoler un élément dans le nuage de points, selon sa plage de couleur.
+    \item Réaliser de la fausse couleur sur un nuage de points en intensité de gris.
+    \item Exporter le nuage de points.
+\end{itemize}
+Le service proposé doit permettre aux utilisateurs de réaliser ces tâches. Nous avons d'abord défini en tant qu'utilisateurs de la solution, ceux qui utiliseront "ScanSap" qu'il s'agisse de client ou de membre de l'entreprise TagLabs. Ainsi, nous visons des utilisateurs voulant manipuler des nuages de point en 3D, ces personnes sont équipés de matériels puissants pour cela.
+% Dire qu'on se tourne donc ni vers service web ou mobile (puissance de calcul nécessaire) ?
+% implicite car ScanSap application bureau
+N'existant pas outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare, il permet la manipulation et le traitement des nuages, de plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source.
 
-Le fait de travailler sur cloudCompare à orienté beaucoup de nos choix sur l'environnement de travail et les technologies utilisées. En effet, au vu des nombreuses dépendances, des incations données sur la page git du logiciel, nous avons utilisé Cmake. CMake est système qui permet la vérification des pré-requis nécessaires avant la construction, de déterminer les dépendances afin de planifier la construction adapté à la plateforme.
-% j'avoue que je sais pas si c'est vrai nécessaire de le dire
+Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et réalisation des autres besoins de la segmentation et de la fausse couleur demandés par l'entreprise.
+%, tout en proposant une solution moins complète mais fonctionnelle à l'ensemble des utilisateurs de CloudCompare. ?
 
-Pour ce qu'il en est du choix du langage, compte tenu que nous développons un plugin sur CloudCompare, il a fallut opter pour le langage qui parviendra au mieux à l'implémentation dudit plugin. Le choix se faisait entre le C++ et le Python, (le tableau compartif est disponible dans le rapport de l'itération une), la décision fut le C++, pour cause, l'ensemble du logiciel est en C++, ce qui permettra de simplifier l'interfaçage et la création du plugin. 
-%j'ai l'impression de tourner en rond
-Le langage étant rapide et compatible avec de nombreuses bibliothèques. Nous avons décidé de réaliser entièrement le projet en C++, et ainsi éviter de gérer des dépendances uniquement pour la création d'algorithmes en Python.
+% <Rajouter quelque chose ?>
+
+%>>>>>>>>>>>>>>>>>>>>>>>>Version 1.0<<<<<<<<<<<<<<<<<<<<<<<<
+% Ce qui est dit est sûrement pas ce qui est demandé
+
+%Après une phase de recherche et discussion entre les différents partis du projet. Nous nous sommes orientés non plus sur une phase seulement algorithmique mais sur l'implémentaion de nos solutions via un plugin sur un logiciel de manipulation de nuages de points nommés CloudCompare. Ce choix a été fait pour se concentrer davantage sur les algorithmes des solutions que l'implémentation des méthodes de lecture/export de nuages de points.
+%/!\
+% Partir du / des besoins pour expliquer ce qu'on fait (plugin répond à quel besoin)
+% diagrammes de séquence sur les users case/stories
+
+%Le fait de travailler sur cloudCompare à orienté beaucoup de nos choix sur l'environnement de travail et les technologies utilisées. En effet, au vu des nombreuses dépendances, des incations données sur la page git du logiciel, nous avons utilisé Cmake. CMake est système qui permet la vérification des pré-requis nécessaires avant la construction, de déterminer les dépendances afin de planifier la construction adapté à la plateforme.
+% %j'avoue que je sais pas si c'est vraiment nécessaire de le dire
+
+%Pour ce qu'il en est du choix du langage, compte tenu que nous développons un plugin sur CloudCompare, il a fallut opter pour le langage qui parviendra au mieux à l'implémentation dudit plugin. Le choix se faisait entre le C++ et le Python, (le tableau compartif est disponible dans le rapport de l'itération une), la décision fut le C++, pour cause, l'ensemble du logiciel est en C++, ce qui permettra de simplifier l'interfaçage et la création du plugin. 
+
+% %j'ai l'impression de tourner en rond
+
+%Le langage étant rapide et compatible avec de nombreuses bibliothèques. Nous avons décidé de réaliser entièrement le projet en C++, et ainsi éviter de gérer des dépendances uniquement pour la création d'algorithmes en Python.
 %Pourquoi c++, et CloudCompare 
+%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 \newpage
 \subsection{Description de la solution}
 %/!\ 
 % Décrivez notamment quel est le service offert pour répondre à la problématique (How?), et ce qu’est votre solution concrètement (What?).
 %/!\
+Comme dit précédemment la solution proposée pour répondre à la problématique s'articule autour d'un service de type plugin utilisateur. Le plugin est intégré dans les composants tiers de CloudCompare, il comprends (comprendra) les fonctionnalités de segmentation suivant la plage colorimétrique et la génération de fausse couleur sur un scan en intensité. Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent le fonctionnement et l'expérience utilisateur.
 
-Nous délivrons à titre de services répondant à la problématique. L'élaboration de recherches dans l'optique non seulement de collecter des informations mais aussi de déterminer quelles pistes suivre ou écarter pour la création des algorithmes des fonctionnalités formulées dans les besoins, qui sont la segmentation basée sur la couleur et la génération de fausses couleurs.
-De plus, un apport de valeur en délivrant une expérience utilisateur à travers un plugin encapsulant l'intégralité des algorithmes.
-% BOF PEUT MIEUX FAIRE......
+
+
+\begin{figure}[!hbtp]
+\center
+\includegraphics[width=0.65\textwidth]{sequDiagPlugin.PNG}
+    \caption{\label{} Diagramme de séquence sur l'accès au plugin}
+    
+  \includegraphics[width=0.65\textwidth]{sequDiagrSegmentation.PNG}
+  \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation}
+\end{figure}
 
 \section{Description technologique de la solution}
 Notre solution étant un plugin pour CloudCompare, la principale difficultée technique est la compréhension de la structure de ce logiciel et de son API.
