@@ -118,6 +118,17 @@ Notre solution étant un plugin pour CloudCompare, la principale difficultée te
 En effet, CloudCompare possède une structuration complexe pour quiconque n'est pas habitué à travailler sur des projets C++ d'une telle envergure.
 De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour. La seule documentation disponible est en ligne et nous n'avons.
 Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans les sources du projet.
+Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugin" situé à la racine du dossier des sources de CloudCompare.
+Chaque sous-dossier de ce dossier représente un plugin.\newline
+Le fichier le plus important pour la compilation du projet est le "CMakeLists.txt". En effet, il contient le nom de la classe principale du projet ainsi que tout les fichiers à inclure lors de la compilation.
+Si la structure du projet est correct, et les fichiers correctements configurés, une option sélectionnable apparait dans CMake. 
+Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator tout autre IDE (tel que Visual Stuio, en sélectionnant l'option appropriée).
+Notre classe principale est ainsi nommée "ColorimetricSegmenter". Etant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes. 
+Afin de pouvoir intéragir avec l'environnement de cloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface".\newline
+L'interface graphique de cloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions.
+QtCreator permet de concevoir graphiquement un panneau au travers une interface intuitive en drag\&drop. Le panneau nouvellement créé peut être enregistré au format XML avec l'extension ".ui".
+Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par cloudCompare afin de pouvoir ouvrir la fenètre et manipuler ses champs.\newline
+Les actions utilisateurs sont également géré gràce à Qt au travers de la mécanique des signaux.
 
 \newpage
 \section{Conclusion et perspectives}
