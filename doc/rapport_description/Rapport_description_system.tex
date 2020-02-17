@@ -22,7 +22,7 @@
 \center
 
   \includegraphics[width=0.45\textwidth]{../ressources/img_logos/logo_polytech.png}\\[1cm]
-   
+
   \includegraphics[width=0.45\textwidth]{../ressources/img_logos/logo_taglabs.png}
 
 
@@ -50,7 +50,7 @@ Voulant continuer leur développement dans ce domaine encore nouveau, l'entrepri
 
 Dans cette optique, l'entreprise souhaite pouvoir intégrer plusieurs fonctionnalité à son système. D'une part, une solution permettant une segmentation basé sur la couleur au sein du ou des nuages de points manipulés. Cette segmentation a pour but de mettre en évidence, isolé les éléments du nuage de point répondant à une plage de couleur demandée. D'autre part, une solution mettant en place une fausse couleur sur un scan (nuage de points) en intensité. Le rôle de la fausse couleur est de mettre en lumière des caractéristiques issu des éléments scannés, et de facilité la compréhension général du nuage en y mettant des couleurs. \newline
 
-L'ensemble des fonctionnalités demandées par le client est une demande de recherche algorithmique sur l'implémentation des solutions. 
+L'ensemble des fonctionnalités demandées par le client est une demande de recherche algorithmique sur l'implémentation des solutions.
 
 \newpage
 \section{Solution mise en place : vue globale}
@@ -59,8 +59,8 @@ Dans cette partie, nous allons présenter l'ensemble des choix que nous avons fa
 
 \subsection{Choix principaux}
 
-%/!\ 
-% Donner vos choix principaux (service, techno, etc.), en expliquant pourquoi vous les avez fait. 
+%/!\
+% Donner vos choix principaux (service, techno, etc.), en expliquant pourquoi vous les avez fait.
 %/!\
 Afin de répondre aux besoins, qui sont de pouvoir :
 \begin{itemize}
@@ -81,40 +81,36 @@ Cette décision fut prise pour répondre non seulement à l'ensemble des besoins
 
 % <Rajouter quelque chose ?>
 
-%>>>>>>>>>>>>>>>>>>>>>>>>Version 1.0<<<<<<<<<<<<<<<<<<<<<<<<
-% Ce qui est dit est sûrement pas ce qui est demandé
-
-%Après une phase de recherche et discussion entre les différents partis du projet. Nous nous sommes orientés non plus sur une phase seulement algorithmique mais sur l'implémentaion de nos solutions via un plugin sur un logiciel de manipulation de nuages de points nommés CloudCompare. Ce choix a été fait pour se concentrer davantage sur les algorithmes des solutions que l'implémentation des méthodes de lecture/export de nuages de points.
-%/!\
-% Partir du / des besoins pour expliquer ce qu'on fait (plugin répond à quel besoin)
-% diagrammes de séquence sur les users case/stories
-
-%Le fait de travailler sur cloudCompare à orienté beaucoup de nos choix sur l'environnement de travail et les technologies utilisées. En effet, au vu des nombreuses dépendances, des incations données sur la page git du logiciel, nous avons utilisé Cmake. CMake est système qui permet la vérification des pré-requis nécessaires avant la construction, de déterminer les dépendances afin de planifier la construction adapté à la plateforme.
-% %j'avoue que je sais pas si c'est vraiment nécessaire de le dire
-
-%Pour ce qu'il en est du choix du langage, compte tenu que nous développons un plugin sur CloudCompare, il a fallut opter pour le langage qui parviendra au mieux à l'implémentation dudit plugin. Le choix se faisait entre le C++ et le Python, (le tableau compartif est disponible dans le rapport de l'itération une), la décision fut le C++, pour cause, l'ensemble du logiciel est en C++, ce qui permettra de simplifier l'interfaçage et la création du plugin. 
-
-% %j'ai l'impression de tourner en rond
-
-%Le langage étant rapide et compatible avec de nombreuses bibliothèques. Nous avons décidé de réaliser entièrement le projet en C++, et ainsi éviter de gérer des dépendances uniquement pour la création d'algorithmes en Python.
-%Pourquoi c++, et CloudCompare 
-%<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 \newpage
 \subsection{Description de la solution}
-%/!\ 
+%/!\
 % Décrivez notamment quel est le service offert pour répondre à la problématique (How?), et ce qu’est votre solution concrètement (What?).
 %/!\
 Comme dit précédemment, la solution proposée pour répondre à la problématique s'articule autour d'un service de type plugin utilisateur. Le plugin est intégré dans les composants tiers de CloudCompare, il comprend (comprendra) les fonctionnalités de segmentation suivant la plage colorimétrique et la génération de fausses couleurs sur un scan en intensité. \newline
 
-Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent le fonctionnement et l'expérience utilisateur.
+Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur.
 
+Ainsi, comme présenté dans les diagrammes, la figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin. La marche à suivre est relativement simple puisque notre plugin s'intègre dans le menu défilant qui répertorie l'ensemble des autres plugins accessibles de CloudCompare. De cette manière, l'utilisateur n'a qu'à le sélectionner et pourra l'utiliser si un ou des nuages ont été choisis pour être traités.
 \begin{figure}[!hbtp]
 \center
 \includegraphics[width=0.65\textwidth]{./img/sequDiagPlugin.PNG}
     \caption{\label{} Diagramme de séquence sur l'accès au plugin}
-    
+\end{figure}
+\newline
+
+La figure 2 quant à elle illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique. L'expérience utilisateur a été revue et s'améliore au fil des retours client à chaque itération. Ainsi, ce diagramme prend en compte les feedbacks de la dernière itération en date, mais sont encore susceptibles d'évoluer jusqu'à la recette. Une fois les étapes de la figure 1 réalisés, une fenêtre apparaît et permet à l'utilisateur de choisir deux points dans le nuage via le point picking de CloudCompare. Ces points serviront pour définir les bornes de la plage colorimétrique des élément qu'il souhaite isoler. Une fois fait, il peut valider son choix via un bouton ou annuler l'opération.
+
+\begin{figure}[!hbtp]
+\center
   \includegraphics[width=0.65\textwidth]{./img/sequDiagrSegmentation.PNG}
   \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation}
+\end{figure}
+
+Le tableau ci-dessous présente l'état d'avancement des composants de la solution, en mettant en évidence leur état via un code couleur. On observe que notre avancement est en bonne voie, étant à la moitié du projet, nous avons réalisé la moité des tâches.
+
+\begin{figure}[!hbtp]
+\center \includegraphics[width=0.65\textwidth]{./img/avancement.png}
+  \caption{\label{} Tableau d'avancement global}
 \end{figure}
 
 \newpage
@@ -126,9 +122,9 @@ Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans 
 Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugin" situé à la racine du dossier des sources de CloudCompare.
 Chaque sous-dossier de ce dossier représente un plugin.\newline
 Le fichier le plus important pour la compilation du projet est le "CMakeLists.txt". En effet, il contient le nom de la classe principale du projet ainsi que tous les fichiers à inclure lors de la compilation.
-Si la structure du projet est correcte, et les fichiers correctement configurés, une option sélectionnable apparaît dans CMake. 
+Si la structure du projet est correcte, et les fichiers correctement configurés, une option sélectionnable apparaît dans CMake.
 Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator tout autre IDE (tel que Visual Stuio, en sélectionnant l'option appropriée).
-Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes. 
+Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes.
 Afin de pouvoir interagir avec l'environnement de cloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface".\newline
 L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions.
 QtCreator permet de concevoir graphiquement un panneau au travers d'une interface intuitive en drag\&drop. Le panneau nouvellement créé peut être enregistré au format XML avec l'extension ".ui".
@@ -147,13 +143,13 @@ Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en
 
 La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux autres nous ont permit de poser les bases, et de commencer à donner une solution viable.
 
-Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare. 
+Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare.
 
-La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur l'implémentation, afin d'éviter de changer entre phases de recherche, et phases de d'implémentation, sur une même itération. Ainsi, cela nous permettait de mieux se concentrer sur la phase d'implémentation. 
+La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur l'implémentation, afin d'éviter de changer entre phases de recherche, et phases de d'implémentation, sur une même itération. Ainsi, cela nous permettait de mieux se concentrer sur la phase d'implémentation.
 
 Toutefois, nous avons quand même pris du retard notamment sur la deuxième et troisième itération. Lors de la deuxième itération, nous pensions que nous pourrions avoir une meilleure base de notre plugin sur CloudCompare, afin de pousser l'implémentation des algorithmes de segmentation. Malheureusement, nous avions rencontré des difficultés par rapport à la création d'un nouveau plugin. Ce temps perdu a donc impacté le développement de la troisième itération, qui consistait à l'amélioration de ce que nous avions développé, et l'implémentation de nouveaux algorithmes.
 
-Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation. 
+Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation.
 
 De plus, nous avons quand même pris en compte le feedback du client, afin d'améliorer notre solution, par rapport à son utilisation. Ici, c'était principalement lié à l'interface des algorithmes de segmentation. Nous avons apporté des modifications notamment sur le point picking, très important pour faciliter l'utilisation de notre plugin (au lieu de rentrer manuellement les valeurs à filtrer), ou encore des changements sur la plage de couleur à prendre, etc. \newline
 
