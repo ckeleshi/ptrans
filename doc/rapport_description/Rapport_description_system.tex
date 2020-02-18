@@ -129,7 +129,7 @@ Afin de pouvoir interagir avec l'environnement de cloudCompare, il a fallu faire
 L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions.
 QtCreator permet de concevoir graphiquement un panneau au travers d'une interface intuitive en drag\&drop. Le panneau nouvellement créé peut être enregistré au format XML avec l'extension ".ui".
 Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par CloudCompare afin de pouvoir ouvrir la fenêtre  et manipuler ses champs.\newline
-Les actions utilisateurs sont également géré grâce à Qt au travers de la mécanique des signaux.
+Les actions utilisateurs sont également géré grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
 
 \newpage
 \section{Conclusion et perspectives}
