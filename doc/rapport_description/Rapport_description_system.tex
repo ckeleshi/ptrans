@@ -90,7 +90,7 @@ Comme dit précédemment, la solution proposée pour répondre à la problémati
 
 Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur. \newline
 
-La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin. 
+La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin.
 
 \begin{figure}[H]
 \center
@@ -100,12 +100,12 @@ La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès 
 
 La marche à suivre est relativement simple puisque notre plugin s'intègre dans le menu défilant qui répertorie l'ensemble des autres plugins accessibles de CloudCompare. De cette manière, l'utilisateur n'a qu'à le sélectionner et pourra l'utiliser si un ou des nuages ont été choisis pour être traités. \newline
 
-La figure 2 quant à elle, illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique. 
+La figure 2 quant à elle, illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique.
 
 \begin{figure}[H]
 \center
   \includegraphics[width=0.65\textwidth]{./img/sequDiagrSegmentation.PNG}
-  \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation} 
+  \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation}
 \end{figure}
 
 L'expérience utilisateur a été revue et s'améliore au fil des retours client à chaque itération. Ainsi, ce diagramme prend en compte les feedbacks de la dernière itération en date, mais sont encore susceptibles d'évoluer jusqu'à la recette. Une fois les étapes de la figure 1 réalisés, une fenêtre apparaît et permet à l'utilisateur de choisir deux points dans le nuage via le point picking de CloudCompare. Ces points serviront pour définir les bornes de la plage colorimétrique des élément qu'il souhaite isoler. Une fois fait, il peut valider son choix via un bouton ou annuler l'opération. \newline
@@ -143,10 +143,18 @@ Nous présenterons ici la structure du projet CloudCompare, et de l'implémentat
 \begin{figure}[H]
 \center
   \includegraphics[width=0.9\textwidth]{./img/structure_code.PNG}
-  \caption{\label{} Code source du projet CloudCompare} 
+  \caption{\label{} Code source du projet CloudCompare}
 \end{figure}
 
 Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugins" situé à la racine du dossier des sources de CloudCompare (représenté en vert sur la figure ci-dessus). Chaque sous-dossier de ce dossier représente un plugin. \newline
+
+Pour représenter comment les différents composants sont liés ensemble au sein du projet, nous avons utilisé un diagramme de composants. Le plugin se trouve parmi les autres composants tiers à CloudCompare, mais utilise toutes les librairies du cœur de CloudCompare et interface avec le client en passant par le logiciel.
+
+\begin{figure}[H]
+\center
+  \includegraphics[width=0.9\textwidth]{./img/component_diagr.png}
+  \caption{\label{} Diagramme de composants}
+\end{figure}
 
 La structure du code source de CloudCompare est bien organisée pour éviter d'avoir du code éparpillé partout dans le projet original. Nous avons juste à insérer notre code et développer notre propre plugin dans le dossier plugins.
 
@@ -165,7 +173,7 @@ Nous avons représenté la structure globale du plugin, avec ce schéma ci-desso
 \begin{figure}[H]
 \center
   \includegraphics[width=0.9\textwidth]{./img/architecture_plugin.PNG}
-  \caption{\label{} Structure de notre plugin} 
+  \caption{\label{} Structure de notre plugin}
 \end{figure}
 
 Nous pouvons observer que le plugin se compose de deux principales classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare.
