@@ -88,48 +88,76 @@ Cette décision fut prise pour répondre non seulement à l'ensemble des besoins
 %/!\
 Comme dit précédemment, la solution proposée pour répondre à la problématique s'articule autour d'un service de type plugin utilisateur. Le plugin est intégré dans les composants tiers de CloudCompare, il comprend (comprendra) les fonctionnalités de segmentation suivant la plage colorimétrique et la génération de fausses couleurs sur un scan en intensité. \newline
 
-Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur.
+Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur. \newline
 
-Ainsi, comme présenté dans les diagrammes, la figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin. La marche à suivre est relativement simple puisque notre plugin s'intègre dans le menu défilant qui répertorie l'ensemble des autres plugins accessibles de CloudCompare. De cette manière, l'utilisateur n'a qu'à le sélectionner et pourra l'utiliser si un ou des nuages ont été choisis pour être traités.
-\begin{figure}[!hbtp]
+La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin. 
+
+\begin{figure}[H]
 \center
 \includegraphics[width=0.65\textwidth]{./img/sequDiagPlugin.PNG}
     \caption{\label{} Diagramme de séquence sur l'accès au plugin}
 \end{figure}
-\newline
 
-La figure 2 quant à elle illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique. L'expérience utilisateur a été revue et s'améliore au fil des retours client à chaque itération. Ainsi, ce diagramme prend en compte les feedbacks de la dernière itération en date, mais sont encore susceptibles d'évoluer jusqu'à la recette. Une fois les étapes de la figure 1 réalisés, une fenêtre apparaît et permet à l'utilisateur de choisir deux points dans le nuage via le point picking de CloudCompare. Ces points serviront pour définir les bornes de la plage colorimétrique des élément qu'il souhaite isoler. Une fois fait, il peut valider son choix via un bouton ou annuler l'opération.
+La marche à suivre est relativement simple puisque notre plugin s'intègre dans le menu défilant qui répertorie l'ensemble des autres plugins accessibles de CloudCompare. De cette manière, l'utilisateur n'a qu'à le sélectionner et pourra l'utiliser si un ou des nuages ont été choisis pour être traités. \newline
 
-\begin{figure}[!hbtp]
+La figure 2 quant à elle, illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique. 
+
+\begin{figure}[H]
 \center
   \includegraphics[width=0.65\textwidth]{./img/sequDiagrSegmentation.PNG}
-  \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation}
+  \caption{\label{} Diagramme de séquence sur l'utilisation de la segmentation} 
 \end{figure}
 
-Le tableau ci-dessous présente l'état d'avancement des composants de la solution, en mettant en évidence leur état via un code couleur. On observe que notre avancement est en bonne voie, étant à la moitié du projet, nous avons réalisé la moité des tâches.
+L'expérience utilisateur a été revue et s'améliore au fil des retours client à chaque itération. Ainsi, ce diagramme prend en compte les feedbacks de la dernière itération en date, mais sont encore susceptibles d'évoluer jusqu'à la recette. Une fois les étapes de la figure 1 réalisés, une fenêtre apparaît et permet à l'utilisateur de choisir deux points dans le nuage via le point picking de CloudCompare. Ces points serviront pour définir les bornes de la plage colorimétrique des élément qu'il souhaite isoler. Une fois fait, il peut valider son choix via un bouton ou annuler l'opération. \newline
+
+Le tableau ci-dessous présente l'état d'avancement des composants de la solution, en mettant en évidence leur état via un code couleur :
+\begin{itemize}
+    \item Vert : composant réalisé
+    \item Orange : composant en cours de réalisation
+    \item Rouge : composant pas encore réalisé
+\end{itemize}
 
 \begin{figure}[!hbtp]
-\center \includegraphics[width=0.65\textwidth]{./img/avancement.png}
+\center \includegraphics[width=0.5\textwidth]{./img/avancement.png}
   \caption{\label{} Tableau d'avancement global}
 \end{figure}
 
+Nous pouvons observer que notre avancement est en bonne voie. Etant à la moitié du projet, nous avons réalisé la moité des tâches. Il faut aussi noter que les composants sont amenés à évoluer, avec le feedback du client à nos fins d'itérations. Par exemple, la tâche du point picking, ou encore le toon mapping sont des composants qui ont été soulevé suite à nos réunions et discussions avec le client et notre tuteur académique.
+
 \newpage
 \section{Description technologique de la solution}
-Notre solution étant un plugin pour CloudCompare, la principale difficulté technique est la compréhension de la structure de ce logiciel et de son API.
+Notre solution étant un plugin pour CloudCompare, la principale difficulté technique est la compréhension de la structure de ce logiciel et de son API. \newline
+
 En effet, CloudCompare possède une structuration complexe pour toute personne qui n'est pas habituée à travailler sur des projets C++ d'une telle envergure.
+
 De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour. La seule documentation disponible est en ligne et nous n'avons.
 Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans les sources du projet.
+
+\subsection{Structure du code source}
+
 Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugin" situé à la racine du dossier des sources de CloudCompare.
-Chaque sous-dossier de ce dossier représente un plugin.\newline
+Chaque sous-dossier de ce dossier représente un plugin.
+
+\subsubsection{Projet Cmake}
+
 Le fichier le plus important pour la compilation du projet est le "CMakeLists.txt". En effet, il contient le nom de la classe principale du projet ainsi que tous les fichiers à inclure lors de la compilation.
 Si la structure du projet est correcte, et les fichiers correctement configurés, une option sélectionnable apparaît dans CMake.
-Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator tout autre IDE (tel que Visual Stuio, en sélectionnant l'option appropriée).
+Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator tout autre IDE (tel que Visual Studio, en sélectionnant l'option appropriée).
+
+\subsubsection{Intégration du nouveau plugin dans le projet CloudCompare}
+
 Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes.
-Afin de pouvoir interagir avec l'environnement de cloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface".\newline
-L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions.
+Afin de pouvoir interagir avec l'environnement de CloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface".
+
+\subsubsection{Interface graphique de CloudCompare}
+
+L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions. \newline
+
 QtCreator permet de concevoir graphiquement un panneau au travers d'une interface intuitive en drag\&drop. Le panneau nouvellement créé peut être enregistré au format XML avec l'extension ".ui".
-Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par CloudCompare afin de pouvoir ouvrir la fenêtre  et manipuler ses champs.\newline
-Les actions utilisateurs sont également géré grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
+
+Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par CloudCompare afin de pouvoir ouvrir la fenêtre  et manipuler ses champs.
+
+Les actions utilisateurs sont également gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
 
 \newpage
 \section{Conclusion et perspectives}
