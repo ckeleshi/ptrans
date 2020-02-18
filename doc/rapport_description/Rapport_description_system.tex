@@ -159,6 +159,14 @@ Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquem
 
 Les actions utilisateurs sont également gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
 
+Notre plugin peut ainsi savoir si l'utilisateur a sélectionné un nuage de points ou non, ou encore s'il clique sur un point.
+
+Il est également tout à fait possible de créer des signaux et slots personnalisés.
+
+Chaque action de notre plugin doit être référencée en la déclarant en tant qu'attribut de notre classe, et également dans l'implémentation de la fonction "getActions" de la classe.
+
+Un bouton sera alors généré dans l'interface pour chacune de ces actions. La fonction "getActions" permet ici d'établir des conditions préalables sur l'état des boutons, en déterminant par exemple sous quelles conditions ils sont activés ou utilisables.
+
 \newpage
 \section{Conclusion et perspectives}
 % 2-3 pages
