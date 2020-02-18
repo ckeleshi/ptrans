@@ -126,6 +126,9 @@ Nous pouvons observer que notre avancement est en bonne voie. Etant à la moiti�
 
 \newpage
 \section{Description technologique de la solution}
+
+Dans cette partie, nous présenterons les différents composants de l'architecture qui composent notre projet. Nous présenterons également la structure du code, et des différents éléments qui intéragissent sur le projet.
+
 Notre solution étant un plugin pour CloudCompare, la principale difficulté technique est la compréhension de la structure de ce logiciel et de son API. \newline
 
 En effet, CloudCompare possède une structuration complexe pour toute personne qui n'est pas habituée à travailler sur des projets C++ d'une telle envergure.
@@ -133,10 +136,19 @@ En effet, CloudCompare possède une structuration complexe pour toute personne q
 De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour. La seule documentation disponible est en ligne et nous n'avons.
 Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans les sources du projet.
 
-\subsection{Structure du code source}
+\subsection{Structure du code source CloudCompare}
 
-Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugin" situé à la racine du dossier des sources de CloudCompare.
-Chaque sous-dossier de ce dossier représente un plugin.
+Nous présenterons ici la structure du projet CloudCompare, et de l'implémentation de notre plugin.
+
+\begin{figure}[H]
+\center
+  \includegraphics[width=0.9\textwidth]{./img/structure_code.PNG}
+  \caption{\label{} Code source du projet CloudCompare} 
+\end{figure}
+
+Le code source du projet se trouve aux côtés de celui des autres plugins, dans le dossier "plugins" situé à la racine du dossier des sources de CloudCompare (représenté en vert sur la figure ci-dessus). Chaque sous-dossier de ce dossier représente un plugin. \newline
+
+La structure du code source de CloudCompare est bien organisée pour éviter d'avoir du code éparpillé partout dans le projet original. Nous avons juste à insérer notre code et développer notre propre plugin dans le dossier plugins.
 
 \subsubsection{Projet Cmake}
 
@@ -146,26 +158,47 @@ Il est alors possible de construire le projet pour qu'il soit éditable à l'aid
 
 \subsubsection{Intégration du nouveau plugin dans le projet CloudCompare}
 
-Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes.
-Afin de pouvoir interagir avec l'environnement de CloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface".
+Pour chaque plugin, il faut respecter une certaine structure. Dans le projet CloudCompare, il existe une classe template, qui nous a servi pour la création de notre propre plugin. Il est important de bien le construire, afin de pouvoir interagir avec les éléments du logiciel (graphiquement, et sur les données). \newline
 
-\subsubsection{Interface graphique de CloudCompare}
+Nous avons représenté la structure globale du plugin, avec ce schéma ci-dessous.
+
+\begin{figure}[H]
+\center
+  \includegraphics[width=0.9\textwidth]{./img/architecture_plugin.PNG}
+  \caption{\label{} Structure de notre plugin} 
+\end{figure}
+
+Nous pouvons observer que le plugin se compose de deux principales classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare.
+
+\subsubsection{Classe de traitement : ColorimetricSegmenter}
+
+Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné que notre projet est en C++, la classe est d'abord représentée sous la forme d'un fichier de type "header", contenant simplement les signatures des méthodes. \newline
+
+Afin de pouvoir interagir avec l'environnement de CloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface". Cette dernière est déjà présente dans le projet de base de CloudCompare, et permet de faciliter l'implémentation d'un nouveau plugin. En effet, elle nous permet d'avoir un objet de type "ccMainAppInterface", qui regroupe tous les éléments de la fenêtre, et tous les éléments nécessaires pour interagir sur l'interface. \newline
+
+Cette classe "ColorimetricSegmenter" contient donc tous nos types de filtrage sur le nuage de points. Il contient donc le code permettant d'effecter les actions que l'on veut dans le nuage de points au moment où on valide la fenêtre de paramétrage d'un filtrage. \newline
+
+Afin de faire le lien avec l'interface graphique sur CloudCompare (car dans ce fichier, nous avons uniquement la partie "traitement"), il faut aussi penser à initialiser l'attribut de la classe qui correspond à l'objet de l'interface, dans notre cas, c'est l'attribut de type "RgbDialog".
+
+\subsubsection{Classe d'interface : RgbDialog}
 
 L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions. \newline
 
 QtCreator permet de concevoir graphiquement un panneau au travers d'une interface intuitive en drag\&drop. Le panneau nouvellement créé peut être enregistré au format XML avec l'extension ".ui".
 
-Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par CloudCompare afin de pouvoir ouvrir la fenêtre  et manipuler ses champs.
+Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquement créés par CloudCompare afin de pouvoir ouvrir la fenêtre et manipuler ses champs. \newline
+
+Concrètement, nous avons donc un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements.
+
+Dans notre cas, nous avons par exemple ajouté des méthodes afin d'ajouter un signal sur un bouton, pour activer un point picking, c'est-à-dire pour activer le mode de sélection de points dans le nuage.
+
+\subsubsection{Gestion des actions sur l'interface}
 
 Les actions utilisateurs sont également gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
 
-Notre plugin peut ainsi savoir si l'utilisateur a sélectionné un nuage de points ou non, ou encore s'il clique sur un point.
+Notre plugin peut ainsi savoir si l'utilisateur a sélectionné un nuage de points ou non, ou encore s'il clique sur un point. Il est également tout à fait possible de créer des signaux et slots personnalisés.
 
-Il est également tout à fait possible de créer des signaux et slots personnalisés.
-
-Chaque action de notre plugin doit être référencée en la déclarant en tant qu'attribut de notre classe, et également dans l'implémentation de la fonction "getActions" de la classe.
-
-Un bouton sera alors généré dans l'interface pour chacune de ces actions. La fonction "getActions" permet ici d'établir des conditions préalables sur l'état des boutons, en déterminant par exemple sous quelles conditions ils sont activés ou utilisables.
+Chaque action de notre plugin doit être référencée en la déclarant en tant qu'attribut de notre classe, et également dans l'implémentation de la fonction "getActions" de la classe. Un bouton sera alors généré dans l'interface pour chacune de ces actions. La fonction "getActions" permet ici d'établir des conditions préalables sur l'état des boutons, en déterminant par exemple sous quelles conditions ils sont activés ou utilisables.
 
 \newpage
 \section{Conclusion et perspectives}
