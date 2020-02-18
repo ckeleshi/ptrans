@@ -46,9 +46,9 @@ Version 1.0 - Alpha
 
 Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entreprise s’inscrit dans le domaine de la modélisation 3D d’ouvrages. Ils proposent la modélisation et l’exploitation de nuages de points. Toutefois, ils travaillent surtout en interne sur un logiciel « ScanSap », le but de ce logiciel est d’exploiter les nuages de points 3D avec efficacité et simplicité inégalées. \newline
 
-L'entreprise travaille avec principalement avec des entreprises qui nécessitent des relevés 3D d'un environnement en particulier. Ces dernières sont notamment dans le domaine du BTP "Bâtiment et Travaux Publics", ou encore l'industrie. En effet, lorsqu'une entreprise a besoin de rénover, ou d'apporter du changement en général sur un lieu, il faut pour cela planifier les travaux. Cette planification peut prendre du temps, et nécessite d'établir des plans. \newline
+L'entreprise travaille principalement avec des entreprises qui nécessitent des relevés 3D d'un environnement en particulier. Ces dernières sont notamment dans le domaine du BTP "Bâtiment et Travaux Publics", ou encore l'industrie. En effet, lorsqu'une entreprise a besoin de rénover, ou d'apporter du changement en général sur un lieu, il faut pour cela planifier les travaux. Cette planification peut prendre du temps, et nécessite d'établir des plans. \newline
 
-Il existe plusieurs types de plans : physique avec des plans sur papiers, ou numérique. L'évolution technologique fait que de plus en plus d'entreprises peuvent avoir besoin de plans numériques. En effet, ces derniers permettent de pouvoir y apporter des modifications sans devoir réimprimer tous les plans qui étaient déjà imprimés, faciliter les démarches administratives, avoir une meilleure vision sur le résultat final, grâce à la modélisation 3D. \newline
+Il existe plusieurs types de plans : physique avec des plans sur papiers, ou numérique. L'évolution technologique fait que de plus en plus d'entreprises peuvent avoir besoin de plans numériques. En effet, ces derniers permettent d'y apporter des modifications sans devoir réimprimer tous les plans qui étaient déjà imprimés, faciliter les démarches administratives, avoir une meilleure vision sur le résultat final, grâce à la modélisation 3D. \newline
 
 De plus, dans les plans numériques, la plupart des entreprises proposent de se servir d'un nuage de points en 3D, afin de réaliser une reconstruction CAO (Conception assistée par ordinateur), c'est-à-dire de convertir le nuage de points, en modélisations géométriques et ainsi avoir des objets "virtuels" que l'on pourra traiter. Le problème de ce processus est que le coût de temps est très important, et ralenti fortement le délai de rénovation d'un lieu. \newline
 
@@ -56,7 +56,7 @@ Taglabs propose donc d'éviter ce processus sur un nuage de points complet. En e
 
 Voulant continuer leur développement dans ce domaine encore nouveau, l'entreprise cherche maintenant à améliorer leurs outils, afin de compléter l'exploitation des nuages de points. L'ensemble de ces fonctionnalités permettent à leurs clients de pouvoir analyser un environnement en numérique, à un instant précis (qui sera sous la forme d'un scan de nuages de points). Par exemple, une entreprise peut avoir le besoin d'avoir un scan d'une de leur usine, afin d'analyser le positionnement de leurs machines, les potentielles fuites au niveau des tuyaux, etc. \newline
 
-Dans cette optique, l'entreprise souhaite pouvoir intégrer plusieurs fonctionnalité à son système. D'une part, une solution permettant une segmentation basée sur la couleur au sein du ou des nuages de points manipulés. Cette segmentation a pour but de mettre en évidence, isoler les éléments du nuage de point répondant à une plage de couleur demandée. D'autre part, une solution mettant en place une fausse couleur sur un scan (nuage de points) en intensité. Le rôle de la fausse couleur est de mettre en lumière des caractéristiques issu des éléments scannés, et de faciliter la compréhension générale du nuage en y mettant des couleurs. \newline
+Dans cette optique, l'entreprise souhaite pouvoir intégrer plusieurs fonctionnalités à son système. D'une part, une solution permettant une segmentation basée sur la couleur au sein du ou des nuages de points manipulés. Cette segmentation a pour but de mettre en évidence, isoler les éléments du nuage de point répondant à une plage de couleur demandée. D'autre part, une solution mettant en place une fausse couleur sur un scan (nuage de points) en intensité. Le rôle de la fausse couleur est de mettre en lumière des caractéristiques issu des éléments scannés, et de faciliter la compréhension générale du nuage en y mettant des couleurs. \newline
 
 L'ensemble des fonctionnalités demandées par le client est une demande de recherche algorithmique sur l'implémentation des solutions.
 
@@ -82,9 +82,9 @@ Le service proposé doit permettre aux utilisateurs de réaliser ces tâches. No
 % Dire qu'on se tourne donc ni vers service web ou mobile (puissance de calcul nécessaire) ?
 % implicite car ScanSap application bureau
 
-N'existant pas d'outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare, il permet la manipulation et le traitement des nuages, de plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source. \newline
+N'existant pas d'outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare. Il permet la manipulation et le traitement des nuages. De plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source. \newline
 
-Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et réalisation des autres besoins de la segmentation et de la fausse couleur demandés par l'entreprise.
+Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et la réalisation des autres besoins de la segmentation et de la fausse couleur demandés par l'entreprise.
 %, tout en proposant une solution moins complète mais fonctionnelle à l'ensemble des utilisateurs de CloudCompare. ?
 
 % <Rajouter quelque chose ?>
@@ -130,7 +130,7 @@ Le tableau ci-dessous présente l'état d'avancement des composants de la soluti
   \caption{\label{} Tableau d'avancement global}
 \end{figure}
 
-Nous pouvons observer que notre avancement est en bonne voie. Etant à la moitié du projet, nous avons réalisé la moité des tâches. Il faut aussi noter que les composants sont amenés à évoluer, avec le feedback du client à nos fins d'itérations. Par exemple, la tâche du point picking, ou encore le toon mapping sont des composants qui ont été soulevé suite à nos réunions et discussions avec le client et notre tuteur académique.
+Nous pouvons observer que notre avancement est en bonne voie. Étant à la moitié du projet, nous avons réalisé la moité des tâches. Il faut aussi noter que les composants sont amenés à évoluer, avec le feedback du client à nos fins d'itérations. Par exemple, la tâche du point picking, ou encore le toon mapping sont des composants qui ont été soulevé suite à nos réunions et discussions avec le client et notre tuteur académique.
 
 \newpage
 \section{Description technologique de la solution}
@@ -141,7 +141,7 @@ Notre solution étant un plugin pour CloudCompare, la principale difficulté tec
 
 En effet, CloudCompare possède une structuration complexe pour toute personne qui n'est pas habituée à travailler sur des projets C++ d'une telle envergure.
 
-De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour. La seule documentation disponible est en ligne et nous n'avons.
+De plus, la documentation possède de nombreuses lacunes, ne présentant pas toutes les classes et n'étant pas à jour.
 Il est donc conseillé de regarder le fonctionnement de l'API en naviguant dans les sources du projet.
 
 \subsection{Structure du code source CloudCompare}
@@ -164,7 +164,7 @@ Pour représenter comment les différents composants sont liés ensemble au sein
   \caption{\label{} Diagramme de composants du projet CloudCompare}
 \end{figure}
 
-La structure du code source de CloudCompare est bien organisée pour éviter d'avoir du code éparpillé partout dans le projet original. Nous avons juste à insérer notre code et développer notre propre plugin dans le dossier plugins.
+La structure du code source de CloudCompare est organisée pour éviter d'avoir du code éparpillé partout dans le projet original. Nous avons juste à insérer notre code et développer notre propre plugin dans le dossier plugins.
 
 \subsubsection{Projet Cmake}
 
@@ -248,9 +248,9 @@ Ensuite, la possibilité de réaliser un premier process sur le nuage avant la s
 
 Ces retours sont très intéressants, et nous pensons que ces tâches sont aussi importantes à prendre en compte pour l'amélioration de notre solution. \newline
 
-D'autres tâches sont encore en suspend, que nous avions planifié dans le cahier des charges. La principale tâche est la fausse couleur, que nous avions planifié pour la quatrième itération. Nous voulons le faire assez tôt afin d'avoir le feedback du client, et de l'améliorer sur les futures itérations.
+D'autres tâches sont encore en suspens, que nous avions planifié dans le cahier des charges. La principale tâche est la fausse couleur, que nous avions planifié pour la quatrième itération. Nous voulons le faire assez tôt afin d'avoir le feedback du client, et de l'améliorer sur les futures itérations.
 
-L'autre tâche est de potentiellement traiter le problème du mouchetage, que l'on peut rencontrer lors de fusion de nuage de points. Comme cette tâche n'était pas la priorité du client, nous ne savons encore pas si nous allons faire des recherches sur ce cas. Toutefois, elle reste dans notre backlog et pourra être traité dans nos futures itérations.
+L'autre tâche est de potentiellement traiter le problème du mouchetage, que l'on peut rencontrer lors de fusion de nuage de points. Comme cette tâche n'était pas la priorité du client, nous ne savons pas encore si nous allons faire des recherches sur ce cas. Toutefois, elle reste dans notre backlog et pourra être traité dans nos futures itérations.
 
 \section{Annexes}
 
