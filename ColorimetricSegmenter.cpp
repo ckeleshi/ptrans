@@ -252,5 +252,11 @@ void ColorimetricSegmenter::filterRgb()
 			
 
 		}
-	}
+	} 
+}
+
+void knn(std::vector<ccPointCloud*> clouds, CCVector3& point, int k, CCLib::ReferenceCloud points) {
+    for (ccPointCloud* cloud : clouds) {
+        ccOctree::Shared octree = cloud->computeOctree()->findPointNeighbourhood(point, points)
+    }
 }
