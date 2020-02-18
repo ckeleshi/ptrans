@@ -190,15 +190,15 @@ Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquem
 
 Concrètement, nous avons donc un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements.
 
-Dans notre cas, nous avons par exemple ajouté des méthodes afin d'ajouter un signal sur un bouton, pour activer un point picking, c'est-à-dire pour activer le mode de sélection de points dans le nuage.
-
 \subsubsection{Gestion des actions sur l'interface}
 
-Les actions utilisateurs sont également gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
+Les actions utilisateurs sont gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal.
 
 Notre plugin peut ainsi savoir si l'utilisateur a sélectionné un nuage de points ou non, ou encore s'il clique sur un point. Il est également tout à fait possible de créer des signaux et slots personnalisés.
 
 Chaque action de notre plugin doit être référencée en la déclarant en tant qu'attribut de notre classe, et également dans l'implémentation de la fonction "getActions" de la classe. Un bouton sera alors généré dans l'interface pour chacune de ces actions. La fonction "getActions" permet ici d'établir des conditions préalables sur l'état des boutons, en déterminant par exemple sous quelles conditions ils sont activés ou utilisables.
+
+Dans notre cas, nous avons par exemple ajouté des signaux sur référençant le clic d'un bouton, pour activer un point picking, c'est-à-dire pour activer le mode de sélection de points dans le nuage.
 
 \newpage
 \section{Conclusion et perspectives}
