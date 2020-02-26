@@ -83,9 +83,6 @@ signals:
 private:
 	std::vector<ccPointCloud*> getSelectedPointClouds();
 
-	//! Filter a cloud with a scalar field (add one if there is none)
-	void filterScalarField();
-
 	//! Filter a cloud with RGB color
 	void filterRgb();
 	
@@ -94,7 +91,6 @@ private:
 		Each action will correspond to an icon in the dedicated
 		toolbar and an entry in the plugin menu.
 	**/
-	QAction* m_action_filterScalar;
 	QAction* m_action_filterRgb;
 
 };

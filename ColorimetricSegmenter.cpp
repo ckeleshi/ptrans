@@ -32,6 +32,7 @@
 //	 "authors", "maintainers", and "references" show up in the plugin dialog as well
 
 #include <QtGui>
+#include <algorithm>
 
 #include "ColorimetricSegmenter.h"
 #include "RgbDialog.h"
@@ -46,7 +47,6 @@
 ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	: QObject( parent )
 	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )
-	, m_action_filterScalar(nullptr )
 	, m_action_filterRgb( nullptr )
 {
 }
@@ -77,10 +77,6 @@ void ColorimetricSegmenter::handleErrorMessage(QString message)
 // depending on the currently selected entities ('selectedEntities').
 void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selectedEntities )
 {
-	if (m_action_filterScalar == nullptr )
-	{
-		return;
-	}
 	if (m_action_filterRgb == nullptr)
 	{
 		return;
@@ -98,7 +94,6 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	//	}
 	
 	// For example - only enable our action if something is selected.
-	m_action_filterScalar->setEnabled( !selectedEntities.empty() );
 	m_action_filterRgb->setEnabled(!selectedEntities.empty());
 }
 
@@ -107,22 +102,6 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 QList<QAction *> ColorimetricSegmenter::getActions()
 {
 	// default action (if it has not been already created, this is the moment to do it)
-	if ( !m_action_filterScalar )
-	{
-		// Here we use the default plugin name, description, and icon,
-		// but each action should have its own.
-		m_action_filterScalar = new QAction( "Filter with scalar field", this );
-		m_action_filterScalar->setToolTip( "Filter the points on the selected cloud by scalar value" );
-		m_action_filterScalar->setIcon( getIcon() );
-		
-		// Connect appropriate signal
-		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalarField );
-
-		connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-	}
-
 	if (!m_action_filterRgb)
 	{
 		// Here we use the default plugin name, description, and icon,
@@ -139,7 +118,7 @@ QList<QAction *> ColorimetricSegmenter::getActions()
 		connect(m_action_filterRgb, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 	}
 
-	return { m_action_filterScalar, m_action_filterRgb };
+    return { m_action_filterRgb };
 }
 
 
@@ -163,30 +142,6 @@ std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 
 	return clouds;
 }
-
-void ColorimetricSegmenter::filterScalarField()
-{
-	if (m_app == nullptr)
-	{
-		// m_app should have already been initialized by CC when plugin is loaded
-		Q_ASSERT(false);
-		return;
-	}
-	int minVal;
-	int maxVal;
-
-	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
-	for (ccPointCloud* cloud : clouds) {
-		ccPointCloud* filteredCloud = cloud->filterPointsByScalarValue(minVal, maxVal, false);
-		cloud->getParent()->addChild(filteredCloud);
-		cloud->setRGBColorWithCurrentScalarField();
-		m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-
-		emit newEntity(filteredCloud);
-		emit entityHasChanged(cloud);
-	}
-}
-
 
 void ColorimetricSegmenter::filterRgb()
 {	
@@ -255,8 +210,61 @@ void ColorimetricSegmenter::filterRgb()
 	} 
 }
 
-void knn(std::vector<ccPointCloud*> clouds, CCVector3& point, int k, CCLib::ReferenceCloud points) {
-    for (ccPointCloud* cloud : clouds) {
-        ccOctree::Shared octree = cloud->computeOctree()->findPointNeighbourhood(point, points)
+void knn(ccPointCloud* cloud, const CCVector3* point, unsigned k, CCLib::ReferenceCloud* neighbours, unsigned thresholdDistance) {
+    double maxSquareDist;
+    neighbours = new CCLib::ReferenceCloud(cloud);
+    unsigned count = cloud->computeOctree()->findPointNeighbourhood(point, neighbours, k, 1, maxSquareDist, thresholdDistance);
+}
+
+double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
+    return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
+}
+
+
+std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, const unsigned k, const double TPP, const double TD) {
+    std::vector<unsigned> unlabeledPoints;
+    for (unsigned j = 0; j < pointCloud->size(); ++j)
+    {
+        unlabeledPoints.push_back(j);
     }
+    std::vector<CCLib::ReferenceCloud*> regions;
+    std::vector<unsigned> points;
+    // while there is any point in {P} that hasn’t been labeled
+    while(unlabeledPoints.size() > 0)
+    {
+        // push an unlabeled point into stack Points
+        points.push_back(unlabeledPoints.back());
+        // initialize a new region Rc and add current point to R
+        CCLib::ReferenceCloud* rc = new CCLib::ReferenceCloud(pointCloud);
+        rc->addPointIndex(unlabeledPoints.back());
+        // while stack Points is not empty
+        while(points.size() > 0)
+        {
+            // pop Points’ top element Tpoint
+            unsigned tPointIndex = points.back();
+            points.pop_back();
+
+            // for each point p in {KNNTNN(Tpoint)}
+            CCLib::ReferenceCloud* knnResult;
+            knn(pointCloud, pointCloud->getPoint(tPointIndex), k, knnResult, TD);
+            for(int i=0; i < knnResult->size(); i++)
+            {
+                unsigned p = knnResult->getPointGlobalIndex(i);
+                // if p is labelled or Dis(p,Tpoint)>TD
+                if(std::find(unlabeledPoints.begin(), unlabeledPoints.end(), p) != unlabeledPoints.end())
+                {
+                    continue;
+                }
+                // if CD(Tpoint,p)<TPP
+                if(colorimetricalDifference(pointCloud->getPointColor(p), pointCloud->getPointColor(tPointIndex)) < TPP)
+                {
+                    points.push_back(p);
+                    rc->addPointIndex(p);
+                }
+            }
+
+        }
+        regions.push_back(rc);
+    }
+    return regions;
 }
