@@ -244,6 +244,10 @@ double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
     return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
 }
 
+double colorimetricalDifference(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c1, CCLib::ReferenceCloud* c2) {
+
+}
+
 
 std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD)
 {
@@ -275,7 +279,7 @@ std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, cons
             for(int i=0; i < knnResult->size(); i++)
             {
                 unsigned p = knnResult->getPointGlobalIndex(i);
-                // if p is labelled or Dis(p,Tpoint)>TD
+                // if p is labelled
                 if(std::find(unlabeledPoints.begin(), unlabeledPoints.end(), p) != unlabeledPoints.end())
                 {
                     continue;
@@ -294,36 +298,57 @@ std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, cons
     return regions;
 }
 
+std::vector<CCLib::ReferenceCloud*>* findRegion(std::vector<std::vector<CCLib::ReferenceCloud*>*>* container, CCLib::ReferenceCloud* region)
+{
+    if(container->size() == 0)
+    {
+        return nullptr;
+    }
+    for(std::vector<CCLib::ReferenceCloud*>* l : *container)
+    {
+        if(std::find(l->begin(), l->end(), region) != l->end())
+        {
+           return l;
+        }
+    }
+    return nullptr;
+}
 std::vector<CCLib::ReferenceCloud*> regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD)
 {
-    std::vector<std::vector<CCLib::ReferenceCloud*>*> homogeneous;
+    std::vector<std::vector<CCLib::ReferenceCloud*>*>* homogeneous = new std::vector<std::vector<CCLib::ReferenceCloud*>*>();
 
     // for each region Ri in {R}
     for(CCLib::ReferenceCloud* ri : *regions)
     {
         // if Ri is not in {H}
-        for(std::vector<CCLib::ReferenceCloud*>* l : homogeneous)
+       if(findRegion(homogeneous, ri) == nullptr)
         {
-            if(std::find(l->begin(), l->end(), ri) == l->end())
-            {
-                // create a new list to record Ri
-                std::vector<CCLib::ReferenceCloud*>* newRegionGroup = new std::vector<CCLib::ReferenceCloud*>();
-                newRegionGroup->push_back(ri);
-                homogeneous.push_back(newRegionGroup);
-            }
+           // create a new list to record Ri
+           std::vector<CCLib::ReferenceCloud*>* newRegionGroup = new std::vector<CCLib::ReferenceCloud*>();
+           newRegionGroup->push_back(ri);
+           homogeneous->push_back(newRegionGroup);
         }
+
+        // for each region Rj in {KNNTNN2,TD2(Ri)}
         std::vector<CCLib::ReferenceCloud*>* knnResult;
         knnRegions(basePointCloud, regions, ri, TNN, knnResult, TD);
-        // for each region Rj in {KNNTNN2,TD2(Ri)}
         for(CCLib::ReferenceCloud* rj : *knnResult)
         {
             // if CD(Ri,Rj)<TRR
+            if(colorimetricalDifference(basePointCloud, ri, rj) < TNN)
+            {
                 // if Rj is in {H}
-                    //continue
-                // else
+                std::vector<CCLib::ReferenceCloud*>* regionContainer = findRegion(homogeneous, rj);
+                if(regionContainer != nullptr)
+                {
+                    continue;
+                }
+                else
+                {
                     // add Rj to the list which contains Ri
-                // end if-else
-            // end if
+                    regionContainer->push_back(rj);
+                }
+            }
         }
     }
     // merge all the regions in the same list in {H} and get {R’}
