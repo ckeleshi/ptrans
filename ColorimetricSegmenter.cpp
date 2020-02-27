@@ -39,6 +39,7 @@
 
 #include "ccPointCloud.h"
 #include "ccScalarField.h"
+#include "DistanceComputationTools.h"
 
 
 // Default constructor:
@@ -216,12 +217,36 @@ void knn(ccPointCloud* cloud, const CCVector3* point, unsigned k, CCLib::Referen
     unsigned count = cloud->computeOctree()->findPointNeighbourhood(point, neighbours, k, 1, maxSquareDist, thresholdDistance);
 }
 
+void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const CCLib::ReferenceCloud* region, unsigned k, std::vector<CCLib::ReferenceCloud*>* neighbours, unsigned thresholdDistance) {
+    std::vector<int> distances;
+    ccPointCloud* computedRegion = basePointCloud->partialClone(region);
+    // compute distances
+    CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams params = CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams();
+    params.kNNForLocalModel = k;
+    params.maxSearchDist = thresholdDistance;
+    neighbours = new std::vector<CCLib::ReferenceCloud*>();
+    for(CCLib::ReferenceCloud* r : *regions)
+    {
+        CCLib::DistanceComputationTools::computeCloud2CloudDistance(computedRegion, basePointCloud->partialClone(r), params);
+        neighbours->push_back(r);
+    }
+    // sort the vectors
+    std::sort(
+        neighbours->begin(), neighbours->end(),
+        [&](std::size_t a, std::size_t b) { return distances[a] < distances[b]; });
+    while(neighbours->size() > k)
+    {
+        neighbours->pop_back();
+    }
+}
+
 double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
     return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
 }
 
 
-std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, const unsigned k, const double TPP, const double TD) {
+std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD)
+{
     std::vector<unsigned> unlabeledPoints;
     for (unsigned j = 0; j < pointCloud->size(); ++j)
     {
@@ -246,7 +271,7 @@ std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, cons
 
             // for each point p in {KNNTNN(Tpoint)}
             CCLib::ReferenceCloud* knnResult;
-            knn(pointCloud, pointCloud->getPoint(tPointIndex), k, knnResult, TD);
+            knn(pointCloud, pointCloud->getPoint(tPointIndex), TNN, knnResult, TD);
             for(int i=0; i < knnResult->size(); i++)
             {
                 unsigned p = knnResult->getPointGlobalIndex(i);
@@ -267,4 +292,45 @@ std::vector<CCLib::ReferenceCloud*> regionGrowing(ccPointCloud* pointCloud, cons
         regions.push_back(rc);
     }
     return regions;
+}
+
+std::vector<CCLib::ReferenceCloud*> regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD)
+{
+    std::vector<std::vector<CCLib::ReferenceCloud*>*> homogeneous;
+
+    // for each region Ri in {R}
+    for(CCLib::ReferenceCloud* ri : *regions)
+    {
+        // if Ri is not in {H}
+        for(std::vector<CCLib::ReferenceCloud*>* l : homogeneous)
+        {
+            if(std::find(l->begin(), l->end(), ri) == l->end())
+            {
+                // create a new list to record Ri
+                std::vector<CCLib::ReferenceCloud*>* newRegionGroup = new std::vector<CCLib::ReferenceCloud*>();
+                newRegionGroup->push_back(ri);
+                homogeneous.push_back(newRegionGroup);
+            }
+        }
+        std::vector<CCLib::ReferenceCloud*>* knnResult;
+        knnRegions(basePointCloud, regions, ri, TNN, knnResult, TD);
+        // for each region Rj in {KNNTNN2,TD2(Ri)}
+        for(CCLib::ReferenceCloud* rj : *knnResult)
+        {
+            // if CD(Ri,Rj)<TRR
+                // if Rj is in {H}
+                    //continue
+                // else
+                    // add Rj to the list which contains Ri
+                // end if-else
+            // end if
+        }
+    }
+    // merge all the regions in the same list in {H} and get {R’}
+    // for each region Ri in {R’}
+        // if sizeof(Ri)<Min
+            // merge Ri to its nearest neighbors
+        // end if
+    // end for
+    //Return the merged and refined {R’}
 }
