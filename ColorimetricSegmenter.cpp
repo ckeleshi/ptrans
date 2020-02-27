@@ -244,8 +244,45 @@ double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
     return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
 }
 
+/**
+ * @brief colorimetricalDifference compute mean coloremtrical difference between two reference clouds.
+ * @param basePointCloud
+ * @param c1
+ * @param c2
+ * @return
+ */
 double colorimetricalDifference(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c1, CCLib::ReferenceCloud* c2) {
+    unsigned red1 = 0;
+    unsigned green1 = 0;
+    unsigned blue1 = 0;
+    unsigned red2 = 0;
+    unsigned green2 = 0;
+    unsigned blue2 = 0;
+    for (unsigned j = 0; j < c1->size(); ++j)
+    {
+        const ccColor::Rgb& rgb = basePointCloud->getPointColor(c1->getPointGlobalIndex(j));
+        red1 += rgb.r;
+        green1 += rgb.g;
+        blue1 += rgb.b;
+    }
+    ccColor::Rgb* rgb1 = new ccColor::Rgb();
+    rgb1->r = red1 / c1->size();
+    rgb1->g = green1 / c1->size();
+    rgb1->b = blue1 / c1->size();
 
+    for (unsigned j = 0; j < c2->size(); ++j)
+    {
+        const ccColor::Rgb& rgb = basePointCloud->getPointColor(c2->getPointGlobalIndex(j));
+        red2 += rgb.r;
+        green2 += rgb.g;
+        blue2 += rgb.b;
+    }
+    ccColor::Rgb* rgb2 = new ccColor::Rgb();
+    rgb2->r = red2 / c2->size();
+    rgb2->g = green2 / c2->size();
+    rgb2->b = blue2 / c2->size();
+
+    return colorimetricalDifference(*rgb1, *rgb2);
 }
 
 
