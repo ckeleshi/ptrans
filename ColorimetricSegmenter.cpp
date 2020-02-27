@@ -313,7 +313,8 @@ std::vector<CCLib::ReferenceCloud*>* findRegion(std::vector<std::vector<CCLib::R
     }
     return nullptr;
 }
-std::vector<CCLib::ReferenceCloud*> regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD)
+
+std::vector<ccPointCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, unsigned Min)
 {
     std::vector<std::vector<CCLib::ReferenceCloud*>*>* homogeneous = new std::vector<std::vector<CCLib::ReferenceCloud*>*>();
 
@@ -351,11 +352,34 @@ std::vector<CCLib::ReferenceCloud*> regionMergingAndRefinement(ccPointCloud* bas
             }
         }
     }
+
     // merge all the regions in the same list in {H} and get {R’}
+    std::vector<CCLib::ReferenceCloud*>* mergedRegionsRef = new std::vector<CCLib::ReferenceCloud*>();
+    for(std::vector<CCLib::ReferenceCloud*>* l : *homogeneous)
+    {
+        CCLib::ReferenceCloud* merged = l->at(0);
+        for(int i = 1; i<l->size(); i++)
+        {
+           merged->add(*l->at(i));
+        }
+        mergedRegionsRef->push_back(merged);
+    }
+    std::vector<CCLib::ReferenceCloud*>* knnResult;
     // for each region Ri in {R’}
+    /*for (CCLib::ReferenceCloud* r : *mergedRegionsRef)
+    {
         // if sizeof(Ri)<Min
+        if(r->size() < Min)
+        {
             // merge Ri to its nearest neighbors
-        // end if
-    // end for
+            knnRegions(basePointCloud, mergedRegionsRef, r, 1, knnResult, 0);
+            mergedRegionsRef.
+        }
+    }*/
     //Return the merged and refined {R’}
+    std::vector<ccPointCloud*>* mergedRegions = new std::vector<ccPointCloud*>();
+    for (CCLib::ReferenceCloud* r : *mergedRegionsRef) {
+        mergedRegions->push_back(basePointCloud->partialClone(r));
+    }
+    return mergedRegions;
 }
