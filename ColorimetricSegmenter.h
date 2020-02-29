@@ -25,9 +25,11 @@
 #include <ccPickingListener.h>
 #include <ccPickingHub.h>
 #include <ccGLWindow.h>
+#include "ccPointCloud.h"
+#include "ccScalarField.h"
 
 #include "RgbDialog.h"
-
+#include "HSVDialog.h"
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
@@ -95,6 +97,10 @@ private:
 	//! Filter a cloud with RGB color
 	void filterRgb();
 
+	void filterHSV();
+
+	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
+
 	//picked point callbacks
 	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
 	//virtual void onItemPicked(const ccPickingListener::PickedItem& pi); //inherited from ccPickingListener
@@ -106,11 +112,13 @@ private:
 	**/
 	QAction* m_action_filterScalar;
 	QAction* m_action_filterRgb;
+	QAction* m_action_filterHSV;
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub = nullptr;
 
 	RgbDialog* rgbDlg;
+	HSVDialog* hsvDlg;
 
 	//link to application windows
 	//ccGLWindow* m_window;

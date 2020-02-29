@@ -15,10 +15,10 @@
 //#                                                                        #
 //##########################################################################
 
-#ifndef RgbDialog_H
-#define RgbDialog_H
+#ifndef HSVDialog_H
+#define HSVDialog_H
 
-#include <ui_RgbDialog.h>
+#include <ui_HSVDialog.h>
 #include "ccPickingListener.h"
 
 //Qt
@@ -31,18 +31,26 @@ class ccPlane;
 class ccHObject;
 class ccPickingHub;
 
-class RgbDialog : public QDialog, public ccPickingListener, public Ui::RgbDialog
+typedef struct {
+	double h;
+	double s;
+	double v;
+} hsv;
+
+class HSVDialog : public QDialog, public ccPickingListener, public Ui::HSVDialog
 {
 	Q_OBJECT
 public:
-	explicit RgbDialog(ccPickingHub* pickingHub, QWidget* parent = 0);
+	explicit HSVDialog(ccPickingHub* pickingHub, QWidget* parent = 0);
+
 
 	//! Inherited from ccPickingListener
 	virtual void onItemPicked(const PickedItem& pi);
 
+	hsv rgb2hsv(ccColor::Rgb rgb);
+
 public slots:
 	void pickPoint_first(bool);
-	void pickPoint_second(bool);
 
 protected: //members
 
@@ -54,4 +62,4 @@ protected: //members
 
 };
 
-#endif // RgbDialog_H
+#endif // HSVDialog_H

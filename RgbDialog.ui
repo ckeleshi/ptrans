@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
+    <width>484</width>
     <height>171</height>
    </rect>
   </property>
@@ -27,19 +27,19 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>331</width>
+        <width>211</width>
         <height>107</height>
        </rect>
       </property>
       <property name="title">
-       <string>Point Selected </string>
+       <string>Choose the darkest point</string>
       </property>
       <property name="flat">
        <bool>true</bool>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="area_red">
+        <widget class="QDoubleSpinBox" name="red_first">
          <property name="prefix">
           <string notr="true">RED       : </string>
          </property>
@@ -55,7 +55,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QToolButton" name="pointPickingButton">
+        <widget class="QToolButton" name="pointPickingButton_first">
          <property name="toolTip">
           <string>Pick the plane center (click again to cancel)</string>
          </property>
@@ -69,7 +69,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="area_green">
+        <widget class="QDoubleSpinBox" name="green_first">
          <property name="prefix">
           <string notr="true">GREEN   : </string>
          </property>
@@ -85,7 +85,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="area_blue">
+        <widget class="QDoubleSpinBox" name="blue_first">
          <property name="prefix">
           <string notr="true">BLUE      : </string>
          </property>
@@ -107,7 +107,7 @@
        <rect>
         <x>0</x>
         <y>110</y>
-        <width>332</width>
+        <width>441</width>
         <height>31</height>
        </rect>
       </property>
@@ -115,7 +115,7 @@
        <item>
         <widget class="QLabel" name="margin_label">
          <property name="text">
-          <string>Margin of error (%) :</string>
+          <string>Deviation from RGB limits  (%) :</string>
          </property>
         </widget>
        </item>
@@ -133,6 +133,86 @@
          </property>
          <property name="standardButtons">
           <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="centerGroupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>0</y>
+        <width>201</width>
+        <height>107</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Choose the clearest point</string>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="1">
+        <widget class="QDoubleSpinBox" name="red_second">
+         <property name="prefix">
+          <string notr="true">RED       : </string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>255.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="pointPickingButton_second">
+         <property name="toolTip">
+          <string>Pick the plane center (click again to cancel)</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../qCC/icones.qrc">
+           <normaloff>:/CC/images/ccPointPicking.png</normaloff>:/CC/images/ccPointPicking.png</iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QDoubleSpinBox" name="green_second">
+         <property name="prefix">
+          <string notr="true">GREEN   : </string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>255.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="blue_second">
+         <property name="prefix">
+          <string notr="true">BLUE      : </string>
+         </property>
+         <property name="decimals">
+          <number>0</number>
+         </property>
+         <property name="minimum">
+          <double>0.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>255.000000000000000</double>
          </property>
         </widget>
        </item>
