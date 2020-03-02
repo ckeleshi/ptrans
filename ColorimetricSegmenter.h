@@ -19,6 +19,7 @@
 //##########################################################################
 
 #include "ccStdPluginInterface.h"
+#include "ccPointCloud.h"
 #include <QObject>
 #include <QtGui>
 
@@ -86,13 +87,27 @@ private:
 	//! Filter a cloud with RGB color
 	void filterRgb();
 	
+    //! Segment a cloud with RGB color
+    void filterRgbWithSegmentation();
+
+    std::vector<CCLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
+
+    std::vector<CCLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
+
+
 	//! Default action
 	/** You can add as many actions as you want in a plugin.
 		Each action will correspond to an icon in the dedicated
 		toolbar and an entry in the plugin menu.
 	**/
 	QAction* m_action_filterRgb;
+    QAction* m_action_filterRgbWithSegmentation;
 
+    const unsigned TNN = 1;
+    const double TPP = 2.0;
+    const double TD = 2.0;
+    const double TRR = 2.0;
+    const unsigned Min = 2;
 };
 
 #endif
