@@ -189,6 +189,10 @@ Cette classe "ColorimetricSegmenter" contient donc tous nos types de filtrage su
 
 Afin de faire le lien avec l'interface graphique sur CloudCompare (car dans ce fichier, nous avons uniquement la partie "traitement"), il faut aussi penser à initialiser l'attribut de la classe qui correspond à l'objet de l'interface, dans notre cas, c'est l'attribut de type "RgbDialog".
 
+Cette classe contient un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires.
+
+Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B01} Whuan. 
+
 \subsubsection{Classe d'interface : RgbDialog}
 
 L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions. \newline
@@ -310,5 +314,8 @@ Il faut aussi noter que pour le développement d'un nouvel algorithme de sélect
 \subsection{Rapport de recette}
 
 Cette section sera présente pour le rapport final de la description du système (version beta).
+\begin{thebibliography}{3}
 
+  \bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+\end{thebibliography}
 \end{document}
