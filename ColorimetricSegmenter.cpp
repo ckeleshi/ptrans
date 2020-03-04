@@ -348,24 +348,24 @@ void ColorimetricSegmenter::filterHSV()
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
 				hsv hsv_current = hsvDlg->rgb2hsv(rgb);
 				
-				if ( 0 < hsv_first.s && hsv_first.s <= 25 && 0 < hsv_current.s && hsv_current.s <= 25) // hue is useless here, so we will check value
+				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25) // hue is useless here, so we will check value
 				{
-					if (0 < hsv_first.v && hsv_first.v <= 25 && 0 < hsv_current.v && hsv_current.v <= 25) { // black
+					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) { // black
 						addPoint(filteredCloud, j);
 					}
-					else if (hsv_first.v > 25 && hsv_first.v <= 75 && hsv_current.v > 25 && hsv_current.v <= 75) { // grey
+					else if (hsv_first.v > 25 && hsv_first.v <= 60 && hsv_current.v > 25 && hsv_current.v <= 60) { // grey
 						addPoint(filteredCloud, j);
 					}
-					else if (hsv_first.v > 75 && hsv_first.v <= 100 && hsv_current.v > 75 && hsv_current.v <= 100) { // white
+					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) { // white
 						addPoint(filteredCloud, j);
 					}
 				}
 				else if (hsv_first.s > 25 && hsv_first.s <= 100 && hsv_current.s > 25 && hsv_current.s <= 100) { // we need to check value, then hue
-					if (0 < hsv_first.v && hsv_first.v <= 25 && 0 < hsv_current.v && hsv_current.v <= 25) { // black
+					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) { // black
 						addPoint(filteredCloud, j);
 					}
-					else if (hsv_first.v > 50 && hsv_first.v <= 100 && hsv_current.v > 50 && hsv_current.v <= 100) { // particular color
-						if ((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360) && (hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360)) // red
+					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100) { // particular color
+						if (((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360)) && ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) // red
 						{
 							addPoint(filteredCloud, j);
 						}
