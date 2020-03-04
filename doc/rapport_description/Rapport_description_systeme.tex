@@ -48,9 +48,17 @@ Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entre
 
 L’entreprise travaille principalement avec les acteurs du BTP et de l’industrie sur des opérations de rénovation et de modernisation des ouvrages. Ces opérations nécessitent de s’appuyer sur des plans qui vont servir aux divers corps d’état pour préparer les travaux.\newline
 
-Par le passé, les plans étaient physiques (plans papier), et sont désormais numériques (plans 2D et maquettes 3D). Ces plans sont malheureusement souvent obsolètes, ce qui est lié aux nombreux petits travaux réalisés au cours de la vie des bâtiments, et qui ne font pas l’objet de mise à jour documentaire. Ceci conduit les entreprises à faire des erreurs dans leurs études techniques, puis des reprises sur site chronophages et coûteuses.\newline
+Par le passé, les plans étaient physiques (plans papier), et sont désormais numériques (plans 2D et maquettes 3D). Ces plans sont malheureusement souvent obsolètes, ce qui est lié aux nombreux petits travaux réalisés au cours de la vie des bâtiments, et qui ne font pas l’objet de mise à jour documentaire. Ceci conduit les entreprises à faire des erreurs dans leurs études techniques, puis des reprises sur site chronophages et coûteuses. \newline
 
 Depuis quelques années, il est possible de faire scanner les bâtiments en 3D et ainsi obtenir un relevé précis sous forme de nuages de points. Le problème rencontré par les entreprises réside dans la difficulté d’exploitation de ces relevés.\newline
+
+\begin{figure}[H]
+\center
+\includegraphics[width=1\textwidth]{./img/exemple_ndp.PNG}
+    \caption{\label{} Exemple de nuage de points en 3D}
+\end{figure}
+
+Nous pouvons voir ci-dessus, un exemple de nuage de points en 3D, que l'entreprise utilise en tant que données d'entrée. C'est un nuage de points très volumineux, de plus de 22 millions de points. C'est ce type de données que l'entreprise cherche à exploiter au mieux, afin de répondre aux besoins de leurs clients.\newline
 
 TagLabs travaille sur 2 volets :
 
@@ -226,7 +234,19 @@ Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins l
 
 \subsubsection{Filtrage via les valeurs RGB}
 
-%TODO
+Notre première solution développée pour obtenir un filtrage, est d'utiliser l'espace colorimétrique le plus commun : le RGB. Dans un nuage de points en couleur, chacun de ces points possède des valeurs de rouge, vert et bleu, de 0 à 255 en intensité.
+
+\begin{figure}[H]
+\center
+\includegraphics[width=1\textwidth]{./img/exemple_rgb.PNG}
+    \caption{\label{} Exemple des valeurs RGB d'un point rougeâtre}
+\end{figure}
+
+Nous pouvons voir dans cet exemple, les valeurs RGB d'un point qui a été sélectionné via le point picker intégré au logiciel CloudCompare. Les valeurs en intensité sont respectivement 207-110-86. \newline
+
+Notre première idée a donc été d'exploiter ces trois valeurs, et d'avoir un premier filtrage du nuage. Pour ce faire, nous avons réalisé un algorithme consistant à sélectionner uniquement les points qui ont des valeurs RGB proches d'un point sélectionné par l'utilisateur. \newline
+
+Pour cela, nous avons développé dans un premier temps, l'interface utilisateur.
 
 \subsubsection{Filtrage via l'espace colorimétrique Hue-Saturation-Value (HSV)}
 
