@@ -189,10 +189,6 @@ Cette classe "ColorimetricSegmenter" contient donc tous nos types de filtrage su
 
 Afin de faire le lien avec l'interface graphique sur CloudCompare (car dans ce fichier, nous avons uniquement la partie "traitement"), il faut aussi penser à initialiser l'attribut de la classe qui correspond à l'objet de l'interface, dans notre cas, c'est l'attribut de type "RgbDialog".
 
-Cette classe contient un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires.
-
-Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B01} Whuan. 
-
 \subsubsection{Classe d'interface : RgbDialog}
 
 L'interface graphique de CloudCompare se base sur la bibliothèque Qt. Cette bibliothèque offre plusieurs moyens afin de créer de nouveaux panneaux d'interface, de les intégrer à l'environnement existant, et de les lier à des actions. \newline
@@ -203,7 +199,7 @@ Lors de la génération du projet, des fichiers ".h" et ".cpp" sont automatiquem
 
 Concrètement, nous avons donc un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements.
 
-\subsubsection{Gestion des actions sur l'interface}
+\subsubsection{Gestion des actions sur l'interface : Qt}
 
 Les actions utilisateurs sont gérées grâce à Qt au travers de la mécanique des signaux et des slots. Chaque événement, tel que l'ajout d'un nuage de points, est représenté par un slot et un signal. \newline
 
@@ -212,6 +208,29 @@ Notre plugin peut ainsi savoir si l'utilisateur a sélectionné un nuage de poin
 Chaque action de notre plugin doit être référencée en la déclarant en tant qu'attribut de notre classe, et également dans l'implémentation de la fonction "getActions" de la classe. Un bouton sera alors généré dans l'interface pour chacune de ces actions. La fonction "getActions" permet ici d'établir des conditions préalables sur l'état des boutons, en déterminant par exemple sous quelles conditions ils sont activés ou utilisables. \newline
 
 Dans notre cas, nous avons par exemple ajouté des signaux sur référençant le clic d'un bouton, pour activer un point picking, c'est-à-dire pour activer le mode de sélection de points dans le nuage.
+
+\subsection{Description des algorithmes}
+
+Nous allons présenter ici les différents algorithmes qui nous avons pu développer. Le traitement du nuage de points est composé de deux grandes parties. D'une part, nous avons la segmentation des points dans le nuage. D'autre part, nous devons réaliser nos différents types de filtrage, afin de sélectionner des points qui nous intéressent.
+
+\subsubsection{Algorithme de segmentation}
+
+Notre plugin contient un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
+
+Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B01} Whuan. 
+
+\subsubsection{Conversion RGB à l'espace colorimétrique CIELAB}
+
+%TODO
+
+
+\subsubsection{Filtrage via les valeurs RGB}
+
+%TODO
+
+\subsubsection{Filtrage via l'espace colorimétrique Hue-Saturation-Value (HSV)}
+
+%TODO
 
 \newpage
 \section{Conclusion et perspectives}
@@ -248,6 +267,8 @@ L'autre tâche est de potentiellement traiter le problème du mouchetage, que l'
 
 \newpage
 \section{Annexes}
+
+Les annexes contiendront tout ce qui ne concerne pas directement la description du système. Nous allons décrire le déroulement du projet transversal, et réalisant une rétrospection sur nos itérations. De plus, nous fournirons le rapport de recette.
 
 \subsection{Déroulement du projet}
 
