@@ -270,7 +270,21 @@ Malgré une solution qui semble fonctionner, nous pouvons quand même ressentir 
 
 \subsubsection{Filtrage via l'espace colorimétrique Hue-Saturation-Value (HSV)}
 
-%TODO
+Afin d'avoir plus de précision sur la sélection de plages de couleurs, nous avons donc décidé d'utiliser l'espace colorimétrique HSV (Teinte, Saturation, Valeur en français).
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/HSV.PNG}
+\caption{\label{} Description de l'espace colorimétrique HSV}
+\end{figure}
+
+ La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
+
+Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp.
+
+%TODO : expliquer l'algo OU montrer un lien ?
+
+%TODO : expliquer les plages (fin d'itération 4)
 
 \newpage
 \section{Conclusion et perspectives}
