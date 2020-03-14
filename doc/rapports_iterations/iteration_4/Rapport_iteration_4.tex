@@ -64,6 +64,32 @@ Nous développerons ici chaque objectif que nous nous sommes fixé pour cette it
 
 \subsection{Intégration de fausses couleurs}
 
+Lors de l'élaboration du cahier des charges avec le client, une des tâches qui nous a été confié était l'élaboration de fausses couleurs dans un nuage de points en intensité de gris. \newline
+
+Après la première itération, nous avons fait le choix de réaliser notre projet avec un plugin sur le logiciel CloudCompare. Nous n'avions pas pris en compte le fait que le logiciel avait déjà un système de fausses couleurs intégré. \newline
+
+Cette tâche n'est donc plus d'actualité par rapport à ces choix d'implémentation. Nous avons donc décidé de remplacer cette tâche par une nouvelle, qui consiste à l'élaboration d'un nouvua type de filtrage, en utilisant l'espace colorimétrique HSV (Hue - Saturation - Value).
+
+\subsection{Filtrage HSV}
+
+Nous avons pu faire face aux limites du filtrage RGB, où il est difficile d'établir des bornes de couleurs en utilisant uniquement les trois composantes de Rouge, Vert et Bleu. \newline
+
+L'espace colorimétrique HSV nous offre un autre moyen de définir les couleurs .  La teinte (Hue) va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
+
+Afin d'obtenir ces valeurs, il nous fallait convertir les valeurs RGB, en HSV. L'algorithme de conversion est disponible sur de nombreux sites internet. Un exemple de l'explication est disponible \href{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}{\textbf{ici}} (également disponible en fin de rapport, dans la partie référence). \newline
+
+Une fois ceci fait, il nous était alors possible de faire notre interface pour l'utilisateur, afin d'utiliser ce nouveau type de filtrage.
+
+\begin{figure}[!hbtp]
+ \caption{\label{} Diagramme de Gantt détaillé - Sprint 4}
+ \begin{center}
+ \includegraphics[width=0.75\textwidth]{./img/ui_hsv.PNG}
+  \end{center}
+\end{figure}
+
+Nous pouvons donc utiliser le point picking pour sélectionner un point dont nous voulons garder dans le filtrage, puis les champs RGB et HSV se remplissent automatiquement. \newline
+
+
 \subsection{Revoir la marge d'erreur du filtrage RGB}
 
 \subsection{Terminer la nouvelle méthode de segmentation}
@@ -106,6 +132,7 @@ Cette section va présenter nos ressentis sur notre itération. Cela peut corres
 
 \begin{thebibliography}{3}
 
-
+\bibitem{B01} Conversion RGB - HSV: \newline
+\url{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}
 \end{thebibliography}
 \end{document}
