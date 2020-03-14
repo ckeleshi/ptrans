@@ -131,7 +131,7 @@ QList<QAction *> ColorimetricSegmenter::getActions()
         // Here we use the default plugin name, description, and icon,
         // but each action should have its own.
         m_action_filterRgbWithSegmentation = new QAction( "Filter RGB", this);
-        m_action_filterRgbWithSegmentation->setToolTip( "Filter the points on the selected cloud by RGB color" );
+        m_action_filterRgbWithSegmentation->setToolTip( "Filter the points on the selected cloud by RGB color using segmentation" );
         m_action_filterRgbWithSegmentation->setIcon(getIcon());
 
         // Connect appropriate signal
@@ -241,26 +241,41 @@ void knn(ccPointCloud* cloud, const CCVector3* point, unsigned k, CCLib::Referen
 }
 
 void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const CCLib::ReferenceCloud* region, unsigned k, std::vector<CCLib::ReferenceCloud*>* neighbours, unsigned thresholdDistance) {
-    std::vector<int> distances;
     ccPointCloud* computedRegion = basePointCloud->partialClone(region);
     // compute distances
     CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams params = CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams();
     params.kNNForLocalModel = k;
     params.maxSearchDist = thresholdDistance;
-    neighbours = new std::vector<CCLib::ReferenceCloud*>();
+    std::vector<CCLib::ReferenceCloud*> *tempNeighbours = new std::vector<CCLib::ReferenceCloud*>();
+    std::vector<int> *distances = new std::vector<int>();
     for(CCLib::ReferenceCloud* r : *regions)
     {
-        CCLib::DistanceComputationTools::computeCloud2CloudDistance(computedRegion, basePointCloud->partialClone(r), params);
-        neighbours->push_back(r);
+        distances->push_back(CCLib::DistanceComputationTools::computeCloud2CloudDistance(computedRegion, basePointCloud->partialClone(r), params));
+        tempNeighbours->push_back(r);
     }
     // sort the vectors
+    std::vector<int>* index = new std::vector<int>(tempNeighbours->size());
+    std::generate(index->begin(), index->end(),
+              [n=0]
+              ()
+              mutable
+              {
+                  return n++;
+              });
+
     std::sort(
-        neighbours->begin(), neighbours->end(),
-        [&](std::size_t a, std::size_t b) { return distances[a] < distances[b]; });
-    while(neighbours->size() > k)
+        index->begin(), index->end(),
+        [&](int a, int b) { return distances[a] < distances[b]; });
+
+    neighbours = new std::vector<CCLib::ReferenceCloud*>();
+    for(int i : *index)
     {
-        neighbours->pop_back();
+        if(neighbours->size() < k)
+        {
+            neighbours->push_back(tempNeighbours->at(i));
+        }
     }
+
 }
 
 double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
