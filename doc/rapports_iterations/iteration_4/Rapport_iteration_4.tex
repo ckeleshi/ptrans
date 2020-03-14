@@ -94,6 +94,9 @@ Nous pouvons donc utiliser le point picking pour sélectionner un point dont nou
 
 \subsection{Terminer la nouvelle méthode de segmentation}
 
+Notre plugin doit contenir un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
+Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B01} Whuan. 
+L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des erreurs de gestion de la mémoire sont encore présentes, ce qui empêche le plugin de démarrer correctement. La prochaine itération donnera lieu à une correction de cette erreur et à une phase de test de l'algorithme.
 \subsection{Toon mapping}
 
 \section{Risques éliminés durant l'itération}
