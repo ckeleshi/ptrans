@@ -5,6 +5,7 @@
 
 \usepackage[hidelinks]{hyperref}
 \usepackage{tabularx}
+\usepackage{float}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \pagestyle{plain}
@@ -64,24 +65,31 @@ Nous développerons ici chaque objectif que nous nous sommes fixé pour cette it
 
 \subsection{Intégration de fausses couleurs}
 
-Lors de l'élaboration du cahier des charges avec le client, une des tâches qui nous a été confié était l'élaboration de fausses couleurs dans un nuage de points en intensité de gris. \newline
+Lors de l'élaboration du cahier des charges avec le client, une des tâches qui nous a été confiée était l'élaboration de fausses couleurs dans un nuage de points en intensité de gris. \newline
 
 Après la première itération, nous avons fait le choix de réaliser notre projet avec un plugin sur le logiciel CloudCompare. Nous n'avions pas pris en compte le fait que le logiciel avait déjà un système de fausses couleurs intégré. \newline
 
-Cette tâche n'est donc plus d'actualité par rapport à ces choix d'implémentation. Nous avons donc décidé de remplacer cette tâche par une nouvelle, qui consiste à l'élaboration d'un nouvua type de filtrage, en utilisant l'espace colorimétrique HSV (Hue - Saturation - Value).
+Cette tâche n'est donc plus d'actualité par rapport à ces choix d'implémentation. Nous avons donc décidé de remplacer cette tâche par une nouvelle, qui consiste à l'élaboration d'un nouveau type de filtrage, en utilisant l'espace colorimétrique HSV (Hue - Saturation - Value).
 
 \subsection{Filtrage HSV}
 
 Nous avons pu faire face aux limites du filtrage RGB, où il est difficile d'établir des bornes de couleurs en utilisant uniquement les trois composantes de Rouge, Vert et Bleu. \newline
 
-L'espace colorimétrique HSV nous offre un autre moyen de définir les couleurs .  La teinte (Hue) va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
+\begin{figure}[H]
+ \caption{\label{} Principe HSV}
+ \begin{center}
+ \includegraphics[width=0.75\textwidth]{./img/HSV.PNG}
+  \end{center}
+\end{figure}
+
+L'espace colorimétrique HSV nous offre un autre moyen de définir les couleurs.  La teinte (Hue) va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
 Afin d'obtenir ces valeurs, il nous fallait convertir les valeurs RGB, en HSV. L'algorithme de conversion est disponible sur de nombreux sites internet. Un exemple de l'explication est disponible \cite{B01} ici. \newline
 
 Une fois ceci fait, il nous était alors possible de faire notre interface pour l'utilisateur, afin d'utiliser ce nouveau type de filtrage.
 
-\begin{figure}[!hbtp]
- \caption{\label{} Diagramme de Gantt détaillé - Sprint 4}
+\begin{figure}[H]
+ \caption{\label{} Interface filtrage HSV}
  \begin{center}
  \includegraphics[width=0.75\textwidth]{./img/ui_hsv.PNG}
   \end{center}
@@ -89,13 +97,92 @@ Une fois ceci fait, il nous était alors possible de faire notre interface pour 
 
 Nous pouvons donc utiliser le point picking pour sélectionner un point dont nous voulons garder dans le filtrage, puis les champs RGB et HSV se remplissent automatiquement. \newline
 
+Au niveau de l'algorithme, nous avons essayé de définir des plages manuellement, en jouant avec nos nouvelles valeurs. Il est plus simple par rapport au RGB, puisque c'est surtout la teinte qui va nous définir la couleur. Il nous reste donc à définir les points qui sont très sombres (et les considérer comme en noir), et inversement très clairs (en blancs). \newline
+
+Pour la définition de nos plages de couleurs, nous nous sommes basé sur le cercle de la teinte des couleurs en 360 degrés, et nous avons définis des seuils pour la saturation et valeur. Nous avons utilisé le site \href{http://colorizer.org}{colorizer.org} \newline
+
+\begin{figure}[H]
+ \caption{\label{} Première composante analysée : Saturation - seuil gris}
+ \begin{center}
+ \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/hsv_color_1.PNG}}
+  \end{center}
+\end{figure}
+
+Nous avons défini que lorsque la saturation était de 25\% ou en dessous, le point était considéré comme gris, donc la teinte n'influait pas sur la couleur du point. Il est possible de voir la prévisualisation dans la barre "Hue". \newline
+
+La dernière composante Value, est celle qui impacte le plus la couleur du point, entre le noir et le blanc. Avec les prévisualisations, nous avons donc définis que la couleur noir était entre 0 et 25\%, le gris de 26\% à 60\%, et le blanc de 61\% à 100\%. 
+
+\begin{figure}[H]
+ \caption{\label{} Première composante analysée : Saturation - test de la valeur}
+ \begin{center}
+ \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/hsv_color_2.PNG}}
+  \end{center}
+\end{figure}
+
+Nous pouvons remarquer le fait qu'en modifiant la teinte, ce n'est pas forcément du gris parfait (on peut remarquer la différence de teinte). Néanmoins, il nous fallait quand même définir des valeurs permettant de faire la différence entre les principales gammes de couleurs, sans être trop strict (sinon, la filtrage ne serait pas assez efficace car trop peu de points seraient affichés). \newline
+
+\begin{figure}[H]
+ \caption{\label{} Deuxième composante analysée : Valeur - seuil noir}
+ \begin{center}
+ \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/hsv_color_3.PNG}}
+  \end{center}
+\end{figure}
+
+Ensuite, lorsque la saturation est au-dessus de 25\%, nous considérons qu'il sera possible de regarder la composante de la teinte, après avoir regardé la valeur. Au niveau de cette dernière composante, si la valeur est entre 0 et 25\%, nous considérons que c'est un point de couleur noir, sinon c'est un point où nous pouvons regarder la teinte.
+
+\begin{figure}[H]
+ \caption{\label{} Troisième composante analysée : Teinte - prévisualisation}
+ \begin{center}
+ \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/hsv_color_4.PNG}}
+  \end{center}
+\end{figure}
+
+Comme nous pouvons le voir, en mettant la saturation à 100\% et la valeur à 100\% (afin d'avoir des couleurs très vives et rapidement voir la différence entre les couleurs), nous pouvons maintenant nous concentrer sur la définition des plages de couleurs. Pour cela, nous nous sommes basés sur la roue représentant les couleurs en 360 degrés.
+
+\begin{figure}[H]
+ \caption{\label{} Roue des couleurs}
+ \begin{center}
+ \includegraphics[width=0.7\textwidth]{./img/roue.jpg}
+  \end{center}
+\end{figure}
+
+Grâce à cette roue, nous avons pu donc définir nos plages pour séparer les principales couleurs. Les plages sont les suivantes :
+
+\begin{itemize}
+  \item 0 <= x <= 30 et 330 <= x <= 360 : Rouge
+  \item 30 < x <= 90 : Jaune
+  \item 90 < x <= 150 : Vert
+  \item 150 < x <= 210 : Cyan
+  \item 210 < x <= 270 : Bleu
+  \item 270 < x <= 330 : Magenta \newline
+\end{itemize}
+
+Il nous suffit ensuite de comparer les valeurs dans les champs de l'interface, et de les comparer avec chacun des points du nuage. \newline
+
+Des tests de rapidité n'ont pas encore été effectués, mais le temps est largement acceptable même pour des nuages de points très conséquents.
+
+\begin{figure}[H]
+ \caption{\label{} Exemple application filtrage HSV - avant}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/hsv_before.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{} Exemple application filtrage HSV - après}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/hsv_after.PNG}
+  \end{center}
+\end{figure}
+
+Temps d'exécution pour ce nuage (plus de 2 millions de points) : 800 milisecondes.
 
 \subsection{Revoir la marge d'erreur du filtrage RGB}
 
 \subsection{Terminer la nouvelle méthode de segmentation}
 
 Notre plugin doit contenir un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
-Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B02} Whuan. 
+Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B03} Whuan. 
 L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des erreurs de gestion de la mémoire sont encore présentes, ce qui empêche le plugin de démarrer correctement. La prochaine itération donnera lieu à une correction de cette erreur et à une phase de test de l'algorithme.
 \subsection{Toon mapping}
 
@@ -135,9 +222,12 @@ Cette section va présenter nos ressentis sur notre itération. Cela peut corres
 
 \begin{thebibliography}{3}
 
-\bibitem{B01} Conversion RGB - HSV: \newline
+\bibitem{B01} Conversion RGB - HSV : \newline
 \url{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}
 
-\bibitem{B02} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+\bibitem{B02} Site pour les couleurs : \newline
+\url{http://http://colorizer.org}
+
+\bibitem{B03} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
 \end{thebibliography}
 \end{document}
