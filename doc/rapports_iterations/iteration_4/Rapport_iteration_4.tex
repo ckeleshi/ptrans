@@ -179,6 +179,17 @@ Temps d'exécution pour ce nuage (plus de 2 millions de points) : 800 milisecond
 
 \subsection{Revoir la marge d'erreur du filtrage RGB}
 
+Suite aux retours du client, nous avons revu le filtrage RGB. En effet, nous avons ajouté un deuxième point à sélectionner, afin de définir les bornes des points à filtrer.
+
+\begin{figure}[H]
+ \caption{\label{} Interface filtre RGB}
+ \begin{center}
+ \includegraphics[width=0.9\textwidth]{./img/ui_filter_rgb.PNG}
+  \end{center}
+\end{figure}
+
+Dans le point à sélectionner dans la partie gauche, il faut prendre le point le plus sombre, qui servira de borne inférieure. Les valeurs devront donc être inférieures aux valeurs de la partie droite. Il est également possible d'ajouter une marge pour agrandir les bornes, afin de réduire l'erreur de l'utilisateur lorsqu'il choisira ses points, et d'obtenir de meilleurs résultats.
+
 \subsection{Terminer la nouvelle méthode de segmentation}
 
 Un algorithme de segmentation était prévu pour être achevé à l'itération précédente. Cependant, des problèmes techniques ne nous ont pas permit d'en arriver à bout. Nous avons donc poursuivit son implémentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
@@ -189,15 +200,15 @@ L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des e
 
 \subsection{Toon mapping}
 
-Lors du sprint review de l'itération précédente, le client offrit la suggestion d'apporter une plus value dans notre solution.
-L'implémentation d'un process de "Toon mapping", ce processus a pour but de restreindre le nombre de variations de couleurs au sein du nuage de points. 
-Ainsi, le nuage apparaitrait de manière "cartoonesque", cela permettrait de mieux visualiser les éléments par leur couleur et pallier les variations d'intensité d'un même élément.
-Ce besoin formulé dans l'itération 3, n'avait pas été prévu ni étudié en amont. Il a donc fallu réaliser des recherches sur ce domaines.
+Lors du sprint review de l'itération précédente, le client offrit la suggestion d'apporter une plus-value dans notre solution.
+L'implémentation d'un process de "Toon mapping", ce processus a pour but de restreindre le nombre de variations de couleurs au sein du nuage de points. \newline
 
-Il y a très peu de docummentation sur le toon mapping appliqué sur les nuages de points en 3D. 
-Il a donc fallu faire des recherches sur des méthodes analogues dans le domaines de l'image. 
-Dans l'imagerie couleur ou en nuance de gris, il existe différentes méthodes de quantification qui correspondent au principe du "toon mapping".
-\newline
+Ainsi, le nuage apparaîtrait de manière "cartoonesque", cela permettrait de mieux visualiser les éléments par leur couleur et pallier les variations d'intensité d'un même élément.
+Ce besoin formulé dans l'itération 3, n'avait pas été prévu ni étudié en amont. Il a donc fallu réaliser des recherches sur ce domaine. \newline
+
+Il y a très peu de documentation sur le toon mapping appliqué sur les nuages de points en 3D. Il a donc fallu faire des recherches sur des méthodes analogues dans le domaine de l'image. 
+Dans l'imagerie couleur ou en nuance de gris, il existe différentes méthodes de quantification qui correspondent au principe du "toon mapping". \newline
+
 \begin{itemize}
     \item Octree : partition en arbre avec des branches regroupées ou abandonnées.
     \item Median-Cute : partition en "boîtes".
@@ -205,11 +216,11 @@ Dans l'imagerie couleur ou en nuance de gris, il existe différentes méthodes d
     \item Segmentation de l'histogramme.
 \end{itemize}
 
-Octree n'a pas été retenu car il demande beaucoup de mémoire et ça complexité augmente considérablement en fonction de la taille de l'image (d'autant plus que les "petits" scan compte plus d'un millions de points). Celui des k-moyenne nécessite énormément d'itérations et sa complexité fait partie des NP problème.
+Octree n'a pas été retenu, car il demande beaucoup de mémoire et ça complexité augmente considérablement en fonction de la taille de l'image (d'autant plus que les "petits" scans comptent plus d'un millions de points). Celui des k-moyenne nécessite énormément d'itérations et sa complexité fait partie des NP problème.
 
 Ainsi, pour une première implémentation, nous avons décidé de réaliser un algorithme "simple" celui de segmentation de l'histogramme. Le fonctionnement de cet algorithme est le suivant :
 \begin{itemize}
-    \item On scinde l'histogramme en autant de groupe qu'on souhaite par composante
+    \item On scinde l'histogramme en autant de groupes qu'on souhaite par composante
     
     (dans le cas du RGB, si on veut 3 sous-groupes par composante, on obtient 27 sous-espaces au sein de l'espace)
     \item On affecte chaque point du nuage à son cluster
@@ -217,7 +228,8 @@ Ainsi, pour une première implémentation, nous avons décidé de réaliser un a
     \item Et on affecte cette couleur à tous les points du cluster
 \end{itemize}
 
-Actuellement, l'implémentation est terminé mais la solution est en phase de débuggage pour quelle soit totalement opérationnelle.
+Actuellement, l'implémentation est terminé, mais la solution est en phase de débuggage pour quelle soit totalement opérationnelle.
+
 \section{Risques éliminés durant l'itération}
 Cette itération nous a permis de comprendre encore un peu plus en profondeur le fonctionnement de l'API de CloudCompare.
 Cela nous permettra d'éviter de nombreuses erreurs durant le développement.
@@ -240,10 +252,15 @@ Notre objectif était de mettre en place les améliorations désirées par le cl
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
 Nous nous sommes moins fixés sur les objectifs que nous avions prévus initialement, mais plutôt sur les demandes client lors des différentes réunions.
-\section{Objectifs de la prochaine itération}
-Pour la prochaine itération, nous comptons résoudre les divers problèmes techniques qui empêchent le fonctionnement de l'algorithme de segmentation.
 La vision du projet sur le long terme semble difficile compte tenu de la situation à la rédaction de ce présent rapport. En effet, la fermeture de Polytech annonce une impossibilité de réaliser des réunions.
 Il faudra donc s'axer sur des moyens de communication numériques.
+\section{Objectifs de la prochaine itération}
+
+\begin{itemize}
+    \item Restreindre l'utilisateur lors de la saisie du filtrage RGB (borne inférieure et supérieure)
+    \item Amélioration des plages du filtrage HSV + test de performance
+    \item Résoudre les divers problèmes techniques qui empêchent le fonctionnement de l'algorithme de segmentation
+\end{itemize}
 
 
 %\begin{figure}[!hbtp]
