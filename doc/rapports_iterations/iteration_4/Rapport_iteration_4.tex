@@ -97,8 +97,38 @@ Nous pouvons donc utiliser le point picking pour sélectionner un point dont nou
 Un algorithme de segmentation était prévu pour être achevé à l'itération précédente. Cependant, des problèmes techniques ne nous ont pas permit d'en arriver à bout. Nous avons donc poursuivit son implémentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
 Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B02} Whuan. 
 L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des erreurs de gestion de la mémoire sont encore présentes, ce qui empêche le plugin de démarrer correctement. La prochaine itération donnera lieu à une correction de cette erreur et à une phase de test de l'algorithme.
+
 \subsection{Toon mapping}
 
+Lors du sprint review de l'itération précédente, le client offrit la suggestion d'apporter une plus value dans notre solution.
+L'implémentation d'un process de "Toon mapping", ce processus a pour but de restreindre le nombre de variations de couleurs au sein du nuage de points. 
+Ainsi, le nuage apparaitrait de manière "cartoonesque", cela permettrait de mieux visualiser les éléments par leur couleur et pallier les variations d'intensité d'un même élément.
+Ce besoin formulé dans l'itération 3, n'avait pas été prévu ni étudié en amont. Il a donc fallu réaliser des recherches sur ce domaines.
+
+Il y a très peu de docummentation sur le toon mapping appliqué sur les nuages de points en 3D. 
+Il a donc fallu faire des recherches sur des méthodes analogues dans le domaines de l'image. 
+Dans l'imagerie couleur ou en nuance de gris, il existe différentes méthodes de quantification qui correspondent au principe du "toon mapping".
+\newline
+\begin{itemize}
+    \item Octree : partition en arbre avec des branches regroupées ou abandonnées.
+    \item Median-Cute : partition en "boîtes".
+    \item K-moyennes local : se basant sur k-mean.
+    \item Segmentation de l'histogramme.
+\end{itemize}
+
+Octree n'a pas été retenu car il demande beaucoup de mémoire et ça complexité augmente considérablement en fonction de la taille de l'image (d'autant plus que les "petits" scan compte plus d'un millions de points). Celui des k-moyenne nécessite énormément d'itérations et sa complexité fait partie des NP problème.
+
+Ainsi, pour une première implémentation, nous avons décidé de réaliser un algorithme "simple" celui de segmentation de l'histogramme. Le fonctionnement de cet algorithme est le suivant :
+\begin{itemize}
+    \item On scinde l'histogramme en autant de groupe qu'on souhaite par composante
+    
+    (dans le cas du RGB, si on veut 3 sous-groupes par composante, on obtient 27 sous-espaces au sein de l'espace)
+    \item On affecte chaque point du nuage à son cluster
+    \item Pour chaque cluster, on calcule sa couleur moyenne
+    \item Et on affecte cette couleur à tous les points du cluster
+\end{itemize}
+
+Actuellement, l'implémentation est terminé mais la solution est en phase de débuggage pour quelle soit totalement opérationnelle.
 \section{Risques éliminés durant l'itération}
 
 
