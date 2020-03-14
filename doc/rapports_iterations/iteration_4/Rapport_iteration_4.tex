@@ -76,7 +76,7 @@ Nous avons pu faire face aux limites du filtrage RGB, où il est difficile d'ét
 
 L'espace colorimétrique HSV nous offre un autre moyen de définir les couleurs .  La teinte (Hue) va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
-Afin d'obtenir ces valeurs, il nous fallait convertir les valeurs RGB, en HSV. L'algorithme de conversion est disponible sur de nombreux sites internet. Un exemple de l'explication est disponible \href{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}{\textbf{ici}} (également disponible en fin de rapport, dans la partie référence). \newline
+Afin d'obtenir ces valeurs, il nous fallait convertir les valeurs RGB, en HSV. L'algorithme de conversion est disponible sur de nombreux sites internet. Un exemple de l'explication est disponible \cite{B01} ici. \newline
 
 Une fois ceci fait, il nous était alors possible de faire notre interface pour l'utilisateur, afin d'utiliser ce nouveau type de filtrage.
 
@@ -95,7 +95,7 @@ Nous pouvons donc utiliser le point picking pour sélectionner un point dont nou
 \subsection{Terminer la nouvelle méthode de segmentation}
 
 Notre plugin doit contenir un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
-Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B01} Whuan. 
+Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B02} Whuan. 
 L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des erreurs de gestion de la mémoire sont encore présentes, ce qui empêche le plugin de démarrer correctement. La prochaine itération donnera lieu à une correction de cette erreur et à une phase de test de l'algorithme.
 \subsection{Toon mapping}
 
@@ -137,5 +137,7 @@ Cette section va présenter nos ressentis sur notre itération. Cela peut corres
 
 \bibitem{B01} Conversion RGB - HSV: \newline
 \url{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}
+
+\bibitem{B02} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
 \end{thebibliography}
 \end{document}
