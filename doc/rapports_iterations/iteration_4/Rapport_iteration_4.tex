@@ -94,7 +94,7 @@ Nous pouvons donc utiliser le point picking pour sélectionner un point dont nou
 
 \subsection{Terminer la nouvelle méthode de segmentation}
 
-Notre plugin doit contenir un algorithme de filtrage des points amélioré grâce à une segmentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
+Un algorithme de segmentation était prévu pour être achevé à l'itération précédente. Cependant, des problèmes techniques ne nous ont pas permit d'en arriver à bout. Nous avons donc poursuivit son implémentation. Cet algorithme est séparé en deux étapes. Une première consistant à parcourir le nuage de point afin de créer des régions de couleurs similaires, et une seconde étape dite de "raffinement" afin de réunir les régions similaires. \newline
 Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins les plus proches (en terme colorimétrique) afin de former une région. L'algorithme complet est décrit dans une publication de l'université de \cite{B02} Whuan. 
 L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des erreurs de gestion de la mémoire sont encore présentes, ce qui empêche le plugin de démarrer correctement. La prochaine itération donnera lieu à une correction de cette erreur et à une phase de test de l'algorithme.
 \subsection{Toon mapping}
@@ -108,15 +108,17 @@ L'algorithme est à l'heure actuelle pratiquement implémenté. Cependant, des e
 
 \section{Commentaires sur l'itération}
 
-Cette section va présenter nos ressentis sur notre itération. Cela peut correspondre à comment nous avons pu gérer la charge de travail que nous avions prévu en début d'itération, des potentiels imprévus, points positifs/négatifs, et autres.
+Cette section va présenter nos ressentis sur notre itération. Cela peut correspondre à la façon dont nous avons pu gérer la charge de travail que nous avions prévu en début d'itération, des potentiels imprévus, points positifs/négatifs, et autres.
 
 \subsection{Commentaires sur l'itération de façon générale}
 
-
+L'itération a grandement été marquée par la rédaction du rapport de description, précisant le travail effectué sur le projet. Son objectif est de détailler le plus clairement possible la solution technique que nous avons apporté, afin que celle-ci puisse être améliorée et maintenue dans le cadre d'un futur projet transversal.
+La rédaction de ce rapport a pris beaucoup de temps, laissant moins de créneaux horaire au développement des fonctionnalités prévues dans l'itération.
+Notre objectif était de mettre en place les améliorations désirées par le client, ce que nous avons fait.
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
-
+Nous nous sommes moins fixés sur les objectifs que nous avions prévus initialement, mais plutôt sur les demandes client lors des différentes réunions.
 \section{Objectifs de la prochaine itération}
 
 
