@@ -15,29 +15,11 @@
 //#                                                                        #
 //##########################################################################
 
-// First:
-//	Replace all occurrences of 'ExamplePlugin' by your own plugin class name in this file.
-//	This includes the resource path to info.json in the constructor.
-
-// Second:
-//	Open ExamplePlugin.qrc, change the "prefix" and the icon filename for your plugin.
-//	Change the name of the file to <yourPluginName>.qrc
-
-// Third:
-//	Open the info.json file and fill in the information about the plugin.
-//	 "type" should be one of: "Standard", "GL", or "I/O" (required)
-//	 "name" is the name of the plugin (required)
-//	 "icon" is the Qt resource path to the plugin's icon (from the .qrc file)
-//	 "description" is used as a tootip if the plugin has actions and is displayed in the plugin dialog
-//	 "authors", "maintainers", and "references" show up in the plugin dialog as well
-
 #include <iostream>
 
 #include <QtGui>
 
 #include "ColorimetricSegmenter.h"
-
-
 
 // Default constructor:
 //	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file) 
@@ -50,7 +32,6 @@ ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	, m_action_filterHSV( nullptr )
 {
 }
-
 
 void ColorimetricSegmenter::handleNewEntity(ccHObject* entity)
 {
@@ -89,49 +70,39 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 		return;
 	}
 	
-	// If you need to check for a specific type of object, you can use the methods
-	// in ccHObjectCaster.h or loop and check the objects' classIDs like this:
-	//
-	//	for ( ccHObject *object : selectedEntities )
-	//	{
-	//		if ( object->getClassID() == CC_TYPES::VIEWPORT_2D_OBJECT )
-	//		{
-	//			// ... do something with the viewports
-	//		}
-	//	}
-	
-	// For example - only enable our action if something is selected.
-	m_action_filterScalar->setEnabled( !selectedEntities.empty() );
+	// Only enable our action if something is selected.
+	m_action_filterScalar->setEnabled(!selectedEntities.empty());
 	m_action_filterRgb->setEnabled(!selectedEntities.empty());
 	m_action_filterHSV->setEnabled(!selectedEntities.empty());
 }
 
 // This method returns all the 'actions' your plugin can perform.
 // getActions() will be called only once, when plugin is loaded.
-QList<QAction *> ColorimetricSegmenter::getActions()
+QList<QAction*> ColorimetricSegmenter::getActions()
 {
 
-	// default action (if it has not been already created, this is the moment to do it)
-	if ( !m_action_filterScalar )
+	// Scalar filter
+	if (!m_action_filterScalar)
 	{
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
-		m_action_filterScalar = new QAction( "Filter with scalar field", this );
-		m_action_filterScalar->setToolTip( "Filter the points on the selected cloud by scalar value" );
-		m_action_filterScalar->setIcon( getIcon() );
-		
+		m_action_filterScalar = new QAction("Filter with scalar field", this);
+		m_action_filterScalar->setToolTip("Filter the points on the selected cloud by scalar value");
+		m_action_filterScalar->setIcon(getIcon());
+
 		// Connect appropriate signal
-		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalarField );
+		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalarField);
 
 		connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
 		connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
 		connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 	}
 
+	// RGB Filter
 	if (!m_action_filterRgb)
 	{
-		m_action_filterRgb = new QAction( "Filter RGB", this);
-		m_action_filterRgb->setToolTip( "Filter the points on the selected cloud by RGB color" );
+		m_action_filterRgb = new QAction("Filter RGB", this);
+		m_action_filterRgb->setToolTip("Filter the points on the selected cloud by RGB color");
 		m_action_filterRgb->setIcon(getIcon());
 
 		// Connect appropriate signal
@@ -143,6 +114,7 @@ QList<QAction *> ColorimetricSegmenter::getActions()
 
 	}
 
+	// HSV Filter
 	if (!m_action_filterHSV)
 	{
 		m_action_filterHSV = new QAction("Filter HSV", this);
@@ -161,7 +133,8 @@ QList<QAction *> ColorimetricSegmenter::getActions()
 	return { m_action_filterScalar, m_action_filterRgb, m_action_filterHSV };
 }
 
-
+// Get all point clouds that are selected in CC
+// return a vector with ccPointCloud objects
 std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 {
 	if (m_app == nullptr)
@@ -183,6 +156,7 @@ std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 	return clouds;
 }
 
+// Algorithm for the scalar filter
 void ColorimetricSegmenter::filterScalarField()
 {
 	if (m_app == nullptr)
@@ -206,7 +180,8 @@ void ColorimetricSegmenter::filterScalarField()
 	}
 }
 
-
+// Algorithm for the RGB filter
+// It uses a color range with RGB values, and keeps the points with a color within that range.
 void ColorimetricSegmenter::filterRgb()
 {	
 	if ( m_app == nullptr )
@@ -238,8 +213,10 @@ void ColorimetricSegmenter::filterRgb()
 	// Start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
+	// Get margin value (percent)
 	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
 
+	// Get all values to make the color range with RGB values
 	int redInf = rgbDlg->red_first->value() - (marginError * rgbDlg->red_first->value());
 	int redSup = rgbDlg->red_second->value() + marginError * rgbDlg->red_second->value();
 	int greenInf = rgbDlg->green_first->value() - marginError * rgbDlg->green_first->value();
@@ -294,11 +271,13 @@ void ColorimetricSegmenter::filterRgb()
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
 	QString s = QString::number(duration);
+
 	//Print time of execution
-	//std::cout << duration.count() << std::endl;
-	ccLog::Print("Time to execute : " + s);
+	ccLog::Print("Time to execute : " + s + " milliseconds.");
 }
 
+// Algorithm for the HSV filter
+// It uses the Hue-Saturation-Value (HSV) color space to filter the point cloud
 void ColorimetricSegmenter::filterHSV()
 {
 	if (m_app == nullptr)
@@ -330,6 +309,7 @@ void ColorimetricSegmenter::filterHSV()
 	// Start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
+	// Get HSV values
 	hsv hsv_first;
 	hsv_first.h = hsvDlg->hue_first->value();
 	hsv_first.s = hsvDlg->sat_first->value();
@@ -338,61 +318,43 @@ void ColorimetricSegmenter::filterHSV()
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
 	for (ccPointCloud* cloud : clouds) {
-		if (cloud->hasColors())
-		{
+		if (cloud->hasColors()) {
 			// Use only references for speed reasons
 			CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
 
+			// We manually add color ranges with HSV values
 			for (unsigned j = 0; j < cloud->size(); ++j)
 			{
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
 				hsv hsv_current = hsvDlg->rgb2hsv(rgb);
 				
-				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25) // hue is useless here, so we will check value
+				// Hue is useless here because the saturation is not high enough
+				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25)
 				{
-					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) { // black
-						addPoint(filteredCloud, j);
-					}
-					else if (hsv_first.v > 25 && hsv_first.v <= 60 && hsv_current.v > 25 && hsv_current.v <= 60) { // grey
-						addPoint(filteredCloud, j);
-					}
-					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) { // white
-						addPoint(filteredCloud, j);
-					}
+					// We only check value
+					if      (hsv_first.v >= 0 && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25)   addPoint(filteredCloud, j); // black
+					else if (hsv_first.v > 25 && hsv_first.v <= 60 && hsv_current.v > 25 && hsv_current.v <= 60)   addPoint(filteredCloud, j); // grey
+					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) addPoint(filteredCloud, j); // white
 				}
-				else if (hsv_first.s > 25 && hsv_first.s <= 100 && hsv_current.s > 25 && hsv_current.s <= 100) { // we need to check value, then hue
-					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) { // black
-						addPoint(filteredCloud, j);
-					}
-					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100) { // particular color
-						if (((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360)) && ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) // red
-						{
-							addPoint(filteredCloud, j);
-						}
-						else if (hsv_first.h > 30 && hsv_first.h <= 90 && hsv_current.h > 30 && hsv_current.h <= 90) // yellow
-						{
-							addPoint(filteredCloud, j);
-						}
-						else if (hsv_first.h > 90 && hsv_first.h <= 150 && hsv_current.h > 90 && hsv_current.h <= 150) // green
-						{
-							addPoint(filteredCloud, j);
-						}
-						else if (hsv_first.h > 150 && hsv_first.h <= 210 && hsv_current.h > 150 && hsv_current.h <= 210) // cyan
-						{
-							addPoint(filteredCloud, j);
-						}
-						else if (hsv_first.h > 210 && hsv_first.h <= 270 && hsv_current.h > 210 && hsv_current.h <= 270) // blue
-						{
-							addPoint(filteredCloud, j);
-						}
-						else if (hsv_first.h > 270 && hsv_first.h <= 330 && hsv_current.h > 270 && hsv_current.h <= 330) // magenta
-						{
-							addPoint(filteredCloud, j);
-						}
+				else if (hsv_first.s > 25 && hsv_first.s <= 100 && hsv_current.s > 25 && hsv_current.s <= 100) {
+					// We need to check value first
+					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) addPoint(filteredCloud, j); // black
+					// Then, we can check value
+					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100) 
+					{
+						if     (((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360)) &&
+							    ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloud, j); // red
+						else if (hsv_first.h > 30 && hsv_first.h <= 90 && hsv_current.h > 30 && hsv_current.h <= 90)             addPoint(filteredCloud, j); // yellow
+						else if (hsv_first.h > 90 && hsv_first.h <= 150 && hsv_current.h > 90 && hsv_current.h <= 150)           addPoint(filteredCloud, j); // green
+						else if (hsv_first.h > 150 && hsv_first.h <= 210 && hsv_current.h > 150 && hsv_current.h <= 210)         addPoint(filteredCloud, j); // cyan
+						else if (hsv_first.h > 210 && hsv_first.h <= 270 && hsv_current.h > 210 && hsv_current.h <= 270)         addPoint(filteredCloud, j); // blue
+						else if (hsv_first.h > 270 && hsv_first.h <= 330 && hsv_current.h > 270 && hsv_current.h <= 330)         addPoint(filteredCloud, j); // magenta
 					}
 				}
 
 			}
+
+			// Copy new cloud
 			ccPointCloud* newCloud = cloud->partialClone(filteredCloud);
 			newCloud->setName(QString::fromStdString("h:" + std::to_string((int)hsv_first.h) + "/s:" + std::to_string((int)hsv_first.s) + "/v:" + std::to_string((int)hsv_first.v)));
 
@@ -413,9 +375,9 @@ void ColorimetricSegmenter::filterHSV()
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
 	QString s = QString::number(duration);
+
 	//Print time of execution
-	//std::cout << duration.count() << std::endl;
-	ccLog::Print("Time to execute : " + s);
+	ccLog::Print("Time to execute : " + s + " milliseconds");
 }
 
 void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j)
