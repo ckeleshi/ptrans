@@ -31,6 +31,9 @@ class ccPlane;
 class ccHObject;
 class ccPickingHub;
 
+/*
+	Get the values of the RGB interface, and interactions
+*/
 class RgbDialog : public QDialog, public ccPickingListener, public Ui::RgbDialog
 {
 	Q_OBJECT

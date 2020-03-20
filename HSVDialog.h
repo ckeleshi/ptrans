@@ -31,12 +31,18 @@ class ccPlane;
 class ccHObject;
 class ccPickingHub;
 
+/*
+	Struct for HSV
+*/
 typedef struct {
 	double h;
 	double s;
 	double v;
 } hsv;
 
+/*
+	Get the values of the HSV interface, and interactions
+*/
 class HSVDialog : public QDialog, public ccPickingListener, public Ui::HSVDialog
 {
 	Q_OBJECT
@@ -50,7 +56,7 @@ public:
 	hsv rgb2hsv(ccColor::Rgb rgb);
 
 public slots:
-	void pickPoint_first(bool);
+	void pickPoint(bool);
 
 protected: //members
 

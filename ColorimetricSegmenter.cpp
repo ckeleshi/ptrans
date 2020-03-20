@@ -21,9 +21,14 @@
 
 #include "ColorimetricSegmenter.h"
 
-// Default constructor:
-//	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file) 
-//  - constructor should mainly be used to initialize actions and other members
+/* 
+	Default constructor:
+	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file) 
+	- constructor should mainly be used to initialize actions and other members
+*/
+/*
+	Class that will apply all the algorithm of our plugin
+*/
 ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	: QObject( parent )
 	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )

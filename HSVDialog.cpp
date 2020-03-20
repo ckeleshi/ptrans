@@ -38,6 +38,9 @@
 #include <ccGLWidget.h>
 #include <ccGLWindow.h>
 
+/*
+	Constructor
+*/
 HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
 	, Ui::HSVDialog()
@@ -51,12 +54,12 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 
 
 	//restore semi-persistent parameters
-	red_first->setValue(0);
-	green_first->setValue(0);
-	blue_first->setValue(0);
+	red->setValue(0);
+	green->setValue(0);
+	blue->setValue(0);
 
 	//Link between Ui and actions
-	connect(pointPickingButton_first, &QCheckBox::toggled, this, &HSVDialog::pickPoint_first);
+	connect(pointPickingButton_first, &QCheckBox::toggled, this, &HSVDialog::pickPoint);
 		
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
@@ -66,7 +69,10 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	);
 }
 
-void HSVDialog::pickPoint_first(bool state)
+/*
+	Method for the picking point functionnality
+*/
+void HSVDialog::pickPoint(bool state)
 {
 	if (!m_pickingHub)
 	{
@@ -89,6 +95,9 @@ void HSVDialog::pickPoint_first(bool state)
 		pointPickingButton_first->blockSignals(false);
 }
 
+/*
+	Method applied after a point is picked by picking point functionnality
+*/
 void HSVDialog::onItemPicked(const PickedItem& pi)
 {
 	assert(pi.entity);
@@ -96,15 +105,14 @@ void HSVDialog::onItemPicked(const PickedItem& pi)
 
 	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
 	{
-		
 		//Get RGB values of the picked point
 		ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
 		const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
 		if (pointPickingButton_first->isChecked()) {
-			ccLog::Print("Point picked from first point picker");
-			red_first->setValue(rgb.r);
-			green_first->setValue(rgb.g);
-			blue_first->setValue(rgb.b);
+			ccLog::Print("Point picked");
+			red->setValue(rgb.r);
+			green->setValue(rgb.g);
+			blue->setValue(rgb.b);
 
 			hsv hsv_first = rgb2hsv(rgb);
 			hue_first->setValue(hsv_first.h);
@@ -117,6 +125,10 @@ void HSVDialog::onItemPicked(const PickedItem& pi)
 	
 }
 
+/*
+	Method to convert from rgb values to hsv values
+	return : hsv struct
+*/
 hsv HSVDialog::rgb2hsv(ccColor::Rgb rgb) {
 	hsv res;
 	float r = rgb.r / 255.0f;
