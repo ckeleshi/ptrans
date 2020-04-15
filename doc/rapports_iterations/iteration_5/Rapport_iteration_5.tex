@@ -114,9 +114,31 @@ Une question reste en suspend, qui est de savoir si nous réalisons le traitemen
 
 \subsection{Algorithme de segmentation}
 
-\subsection{Résoudre problèmes et débuggage du toon mapping}
+\subsection{Toon Mapping}
 
-\subsection{Comparer les performances avec un autre algorithme de toon mapping}
+À la fin de l'itération précédente, une première version de l'algorithme basé sur la segmentation de l'histogramme était implémentée, hélas, elle restait non opérationnelle. Une fois le processus lancé, le logiciel CloudCompare cessé de fonctionner. Ainsi, dans cette itération, il fallait déterminer la cause de problème et y remédier.
+
+Après plusieurs refontes de la structure de l'algorithme et d'une phase de débuggage laborieuse, la fonctionnalité fonctionne. Le problème venait du non support de CloudCompare de méthodes d'itérateurs des map de la libraire standard.
+
+Son utilisation est comme suit, l'utilisateur sélectionne le ou les nuages sur lesquels il veut appliquer le toon mapping. Une fenêtre de dialogue apparaît lorsqu'il clique sur "Histogramme clustering"
+
+\begin{figure}[H]
+ \caption{\label{} Fenêtre de dialogue Toon mapping}
+ \begin{center}
+ \includegraphics[width=0.5\textwidth]{./img/ToonMappingDialog.PNG}
+  \end{center}
+\end{figure}
+
+L'utilisateur indique l'indice de quantification souhaité et lance l'algorithme. Une fois le processus fini, le sous-scan résultant est affiché. Les images suivantes illustrent les résultats obtenus avec différents indices saisis.
+\begin{figure}[H]
+ \caption{\label{} Exemples du Toon Mapping}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/ExpToonMapping.PNG}
+  \end{center}
+\end{figure}
+Pour un Q donné, on aura une palette de $Q^2$ couleurs dans le nuage résultat.\newline
+
+En plus de rendre opérationnel cet algorithme, un autre algorithme de toon mapping devait être implémenté afin de pouvoir comparer les performances desdits algorithmes. Malheureusement, du retard a été pris, son implémentation est bien avancée mais n'est pas terminée. Cet Algorithme basé sur la classification k-means, qui permettra d'avoir k groupes de couleur une fois le
 
 \section{Risques éliminés durant l'itération}
 
