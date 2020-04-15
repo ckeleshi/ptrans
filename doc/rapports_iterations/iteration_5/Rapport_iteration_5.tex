@@ -68,6 +68,34 @@ Nous avions aussi une tâche qui s'est ajoutée pendant l'itération, qui était
 
 Nous développerons ici chaque objectif que nous nous sommes fixé pour cette itération.
 
+
+\subsection{Exportation du plugin}
+
+Dans le but d'avoir des retours de notre client, nous avons voulu exporter notre plugin pour qu'il soit utilisable avec le logiciel CloudCompare, sur une machine quelconque. \newline
+
+Pour ce faire, le principe est de récupérer le fichier ColorimetricSegmenter.dll que nous obtenons lorsque nous compilons le projet, et de l'intégrer dans le dossier "plugins" dans le repertoire d'installation de CloudCompare. \newline
+
+Nous avons rencontrés des difficultés lors de cette tâche. En effet, nous avons vu qu'il y avait des problèmes de versions des dépendances, qui ne faisaient pas fonctionner notre plugin sur toutes les machines. \newline
+
+En effet, lorsque nous compilions notre projet, nous utilisions Visual Studio 2019. En utillisant cette version, la version du windows SDK était aussi modifié, et c'était la source du problème de compatibilité entre nos machines, qui avaient une version de windows plus récente que les machines de notre client, ou encore M. Daniel Girardeau-Montaut, le créateur de CloudCompare.
+
+\begin{figure}[H]
+ \caption{\label{} Notre version du SDK Windows, avec Visual Studio 2019}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/vs2019.PNG}
+  \end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+ \caption{\label{} Version du SDK Windows correcte, avec Visual Studio 2017}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/vs2017.PNG}
+  \end{center}
+\end{figure}
+
+Grâce à cette solution, le client a pu tester notre plugin de son côté, et a pu nous faire des retours concrets sur l'utilisation de notre plugin.
+
 \subsection{Restreindre l'utilisateur lors de la saisie du filtrage RGB}
 
 Lorsque nous avons décidé cette tâche, nous voulions améliorer le filtrage RGB côté utilisateur, afin de mieux choisir les bornes minimum et maximum. \newline
@@ -82,13 +110,13 @@ Une question reste en suspend, qui est de savoir si nous réalisons le traitemen
 
 \subsection{Amélioration des plages du filtrage HSV}
 
+
+
 \subsection{Algorithme de segmentation}
 
 \subsection{Résoudre problèmes et débuggage du toon mapping}
 
 \subsection{Comparer les performances avec un autre algorithme de toon mapping}
-
-\subsection{Exportation du plugin}
 
 \section{Risques éliminés durant l'itération}
 
@@ -100,6 +128,14 @@ Une question reste en suspend, qui est de savoir si nous réalisons le traitemen
 Cette section va présenter nos ressentis sur notre itération. Cela peut correspondre à la façon dont nous avons pu gérer la charge de travail que nous avions prévu en début d'itération, des potentiels imprévus, points positifs/négatifs, et autres.
 
 \subsection{Commentaires sur l'itération de façon générale}
+
+Tout d'abord, nous avons dû replanifier notre itération, notamment à cause du coronavirus, qui a provoqué l'annulation du projet ICreate. Nous avions prévu que cette itération allait être compliqué à cause de ce projet. Avec son annulation, il nous fallait revoir notre planning, pour réaliser nos tâches sur cette itération, et la prochaine. \newline
+
+De plus, un membre du projet a été victime de ce virus, et était dans l'incapacité de travailler. Il va maintenant mieux, et va pouvoir reprendre ses tâches. \newline
+
+Concernant les différentes tâches, nous avons eu beaucoup de mal à cerner le problème de compatibilité de notre plugin avec les machines de notre client. En effet, comme notre plugin fonctionnait sur nos machines, le seul moyen pour trouver le problème était de le faire tester directement avec notre client. \newline
+
+Comme notre moyen de discussion était via email, le délai entre questions et réponses, puis les tests avec les retours, était assez long. Heureusement, nous avons pu trouver une solution grâce au créateur du plugin M. Daniel Girardeau-Montaut, et nous le remercions grandement pour le temps qu'il a pu nous accorder afin de résoudre notre problème.
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
