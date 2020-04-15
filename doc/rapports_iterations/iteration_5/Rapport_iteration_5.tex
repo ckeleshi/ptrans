@@ -110,7 +110,45 @@ Une question reste en suspend, qui est de savoir si nous réalisons le traitemen
 
 \subsection{Amélioration des plages du filtrage HSV}
 
+Grâce aux retours utilisateurs, nous avons pu améliorer nootre filtrage HSV, mais aussi le filtrage RGB, au niveau de l'interface. En effet, nous avons pu remarquer qu'il y avait un problème notamment au niveau de la redimension de la fenêtre de l'interface. Il fallait ajouter certains layouts/spacers, pour que nos différents éléments s'adapent en fonction de la taille de la fenêtre. 
 
+Par exemple, nos fenêtres avaient des problèmes sur un écran 4k, car elles étaient trop petites.
+
+\begin{figure}[H]
+ \caption{\label{} Fenêtre RGB sur écran 4k}
+ \begin{center}
+ \includegraphics[width=0.6\textwidth]{./img/rgb_pb.PNG}
+  \end{center}
+\end{figure}
+
+Nous avons donc dû repasser sur nos fenêtres, et les refaire proprement afin de mettre des layouts aux bons endroits, et des spacers entre les éléments pour qu'ils s'adapent bien selon la taille totale de la fenêtre.
+
+\begin{figure}[H]
+ \caption{\label{} Nouvelle fenêtre, taille petite}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/rgb_new1.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{} Nouvelle fenêtre, grande taille}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/rgb_new2.PNG}
+  \end{center}
+\end{figure}
+
+De plus, nous avons revu l'algorithme pour effectuer la conversion des valeurs RGB en HSV. En effet, nous effectuions la conversion au moment de la sélection d'un point, donc après le point picking. Ce fonctionnement pouvait poser problème notamment lorsque l'utilisateur voulait rentrer à la main ses valeurs de RGB. Il fallait donc revoir l'action qui allait lancer le processus de conversion. \newline
+
+Pour faire cela, nous avons décidé de lancer la conversion lorsqu'un des trois champs RGB était modifié. Comme ça, l'utilisateur pourra mettre à la main ses valeurs, pour actualiser les valeurs HSV, ou passer par le point picking, qui va actualiser les valeurs RGB, et donc automatiquement actualiser les valeurs HSV. \newline
+
+Dans un soucis d'optimisation, au lieu d'actualiser trois fois les valeurs au moment du point picking (car les 3 champs RGB sont actualisés en même temps), nous réalisons qu'une seule actualisation.
+
+\begin{figure}[H]
+ \caption{\label{} Fenêtre HSV, actualisation manuelle}
+ \begin{center}
+ \includegraphics[width=0.7\textwidth]{./img/hsv.PNG}
+  \end{center}
+\end{figure}
 
 \subsection{Algorithme de segmentation}
 
