@@ -128,27 +128,31 @@ void RgbDialog::onItemPicked(const PickedItem& pi)
 
 	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
 	{
+		if (static_cast<ccGenericPointCloud*>(pi.entity)->hasColors()) {
+				//Get RGB values of the picked point
+				ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
+				const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
+				if (pointPickingButton_first->isChecked()) {
+					ccLog::Print("Point picked from first point picker");
 
-		//Get RGB values of the picked point
-		ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
-		const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
-		if (pointPickingButton_first->isChecked()) {
-			ccLog::Print("Point picked from first point picker");
-			red_first->setValue(rgb.r);
-			green_first->setValue(rgb.g);
-			blue_first->setValue(rgb.b);
+					red_first->setValue(rgb.r);
+					green_first->setValue(rgb.g);
+					blue_first->setValue(rgb.b);
 
-			pointPickingButton_first->setChecked(false);
+					pointPickingButton_first->setChecked(false);
+				}
+				else {
+					ccLog::Print("Point picked from second point picker");
+					red_second->setValue(rgb.r);
+					green_second->setValue(rgb.g);
+					blue_second->setValue(rgb.b);
+
+					pointPickingButton_second->setChecked(false);
+				}
 		}
 		else {
-			ccLog::Print("Point picked from second point picker");
-			red_second->setValue(rgb.r);
-			green_second->setValue(rgb.g);
-			blue_second->setValue(rgb.b);
-
-			pointPickingButton_second->setChecked(false);
+			ccLog::Print("The point cloud is not with RGB values.");
 		}
 
 	}
-
 }

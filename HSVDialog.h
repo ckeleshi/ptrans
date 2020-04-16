@@ -57,6 +57,7 @@ public:
 
 public slots:
 	void pickPoint(bool);
+	void updateValues();
 
 protected: //members
 

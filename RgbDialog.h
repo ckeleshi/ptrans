@@ -54,6 +54,8 @@ protected: //members
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub;
+private:
+	static const int NULL_VALUE = 0;
 
 };
 

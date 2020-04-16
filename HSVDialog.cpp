@@ -52,7 +52,6 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	setModal(false);
 	setupUi(this);
 
-
 	//restore semi-persistent parameters
 	red->setValue(0);
 	green->setValue(0);
@@ -60,6 +59,9 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 
 	//Link between Ui and actions
 	connect(pointPickingButton_first, &QCheckBox::toggled, this, &HSVDialog::pickPoint);
+	connect(red, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
+	connect(green, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
+	connect(blue, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
 		
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
@@ -110,19 +112,35 @@ void HSVDialog::onItemPicked(const PickedItem& pi)
 		const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
 		if (pointPickingButton_first->isChecked()) {
 			ccLog::Print("Point picked");
+
+			//blocking signals to avoid updating 2 times hsv values for nothing
+			red->blockSignals(true);
+			green->blockSignals(true);
+
 			red->setValue(rgb.r);
 			green->setValue(rgb.g);
 			blue->setValue(rgb.b);
 
-			hsv hsv_first = rgb2hsv(rgb);
-			hue_first->setValue(hsv_first.h);
-			sat_first->setValue(hsv_first.s);
-			val_first->setValue(hsv_first.v);
+			red->blockSignals(false);
+			green->blockSignals(false);
 
 			pointPickingButton_first->setChecked(false);
 		}
 	}
 	
+}
+
+/*
+	Method applied after entering a value in RGB text fields
+*/
+void HSVDialog::updateValues()
+{
+	ccColor::Rgb rgb(red->value(), green->value(), blue->value());
+
+	hsv hsv_values = rgb2hsv(rgb);
+	hue_first->setValue(hsv_values.h);
+	sat_first->setValue(hsv_values.s);
+	val_first->setValue(hsv_values.v);
 }
 
 /*

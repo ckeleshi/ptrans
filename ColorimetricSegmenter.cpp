@@ -32,7 +32,6 @@
 ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	: QObject( parent )
 	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )
-	, m_action_filterScalar(nullptr )
 	, m_action_filterRgb( nullptr )
 	, m_action_filterHSV( nullptr )
 {
@@ -62,10 +61,6 @@ void ColorimetricSegmenter::handleErrorMessage(QString message)
 // depending on the currently selected entities ('selectedEntities').
 void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selectedEntities )
 {
-	if (m_action_filterScalar == nullptr )
-	{
-		return;
-	}
 	if (m_action_filterRgb == nullptr)
 	{
 		return;
@@ -76,7 +71,6 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	}
 	
 	// Only enable our action if something is selected.
-	m_action_filterScalar->setEnabled(!selectedEntities.empty());
 	m_action_filterRgb->setEnabled(!selectedEntities.empty());
 	m_action_filterHSV->setEnabled(!selectedEntities.empty());
 }
@@ -85,23 +79,6 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 // getActions() will be called only once, when plugin is loaded.
 QList<QAction*> ColorimetricSegmenter::getActions()
 {
-
-	// Scalar filter
-	if (!m_action_filterScalar)
-	{
-		// Here we use the default plugin name, description, and icon,
-		// but each action should have its own.
-		m_action_filterScalar = new QAction("Filter with scalar field", this);
-		m_action_filterScalar->setToolTip("Filter the points on the selected cloud by scalar value");
-		m_action_filterScalar->setIcon(getIcon());
-
-		// Connect appropriate signal
-		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalarField);
-
-		connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-	}
 
 	// RGB Filter
 	if (!m_action_filterRgb)
@@ -135,7 +112,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 	}
 
-	return { m_action_filterScalar, m_action_filterRgb, m_action_filterHSV };
+	return { m_action_filterRgb, m_action_filterHSV };
 }
 
 // Get all point clouds that are selected in CC
@@ -161,29 +138,6 @@ std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 	return clouds;
 }
 
-// Algorithm for the scalar filter
-void ColorimetricSegmenter::filterScalarField()
-{
-	if (m_app == nullptr)
-	{
-		// m_app should have already been initialized by CC when plugin is loaded
-		Q_ASSERT(false);
-		return;
-	}
-	int minVal;
-	int maxVal;
-
-	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
-	for (ccPointCloud* cloud : clouds) {
-		ccPointCloud* filteredCloud = cloud->filterPointsByScalarValue(minVal, maxVal, false);
-		cloud->getParent()->addChild(filteredCloud);
-		cloud->setRGBColorWithCurrentScalarField();
-		m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-
-		emit newEntity(filteredCloud);
-		emit entityHasChanged(cloud);
-	}
-}
 
 // Algorithm for the RGB filter
 // It uses a color range with RGB values, and keeps the points with a color within that range.
