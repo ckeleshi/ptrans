@@ -188,8 +188,20 @@ En plus de rendre opérationnel cet algorithme, un autre algorithme de toon mapp
 
 \section{Risques éliminés durant l'itération}
 
+Pour cette itération, nous avons corrigé de nombreux bugs plus ou moins critiques, ce qui nous a permis d'avoir un plugin beaucoup plus stable. Il nous reste encore certains bugs à corriger, que nous avons eu grâce au feedback.
 
 \section{Feedback}
+
+Durant cette itération, le feedback nous a été très important afin de savoir que nous devions améliorer et/ou corriger. Suite à notre réunion de fin d'itération, nous avons pu mettre au clair ce qui était encore en cours, et montrer notre avancée sur le projet. Globalement, celle-ci est satisfaisant, avec quelques améliorations potentielles :
+
+\begin{itemize}
+    \item Ajouter une fonctionnalité pour choisir les points externes ou internes du filtre
+    \item Améliorer l'interface sur la redimension de la fenêtre (OK)
+    \item Ajouter des indications sur les interfaces, notamment les bornes pour le HSV
+    \item Choisir une icône pour le plugin
+\end{itemize}
+
+Ces remarques seront pris en compte pour la prochaine itération.
 
 \section{Commentaires sur l'itération}
 
@@ -207,14 +219,21 @@ Comme notre moyen de discussion était via email, le délai entre questions et r
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
+Nous avons continué avec les mêmes méthodes de travail pour cette itération. Chacun a ses tâches à faire qui sont indépendantes des autres, il est donc assez facile de se répartir et que chacun avance à son rythme.
 
 \section{Objectifs de la prochaine itération}
 
+Pour la dernière itération, il faut finaliser les tâches qui étaient en cours, et prendre en compte le feedback pour appliquer les correctifs nécessaires :
 
-\section{Résumé}
-\subsection{Tâches principales réalisées dans l'itération}
-
-\subsection{Tâches principales à réaliser pour la prochaine itération}
+\begin{itemize}
+    \item Désactiver les filtrages si le nuage ne correspond pas (RGB => désactiver si nuage en gris)
+    \item Redéfinir les bornes pour filtrage RGB
+    \item Implémenter le filtrage via valeusr scalaires
+    \item Réaliser les tâches du feedback (points externes/internes, indications, icône)
+    \item Finir algo k-means/autre algorithme
+    \item Terminer algorithme sélection de points
+    \item Faire le lien entre toon mapping et filtrage
+\end{itemize}
 
 \begin{thebibliography}{3}
 
