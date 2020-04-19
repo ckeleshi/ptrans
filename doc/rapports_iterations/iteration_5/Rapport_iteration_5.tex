@@ -50,7 +50,7 @@ Tri-Thien Truong
 \section{Rappel des objectifs de l'itération}
 Suite à l'itération où nous avions amélioré notre solution, nous avons voulu élargir nos types de filtrages, en utilisant d'autres espaces colorimétriques. De plus, nous avions encore des tâches en cours, que nous devions avancer/finaliser.
 
-Durant l'itération précédente, nous avons pu implémenter un nouveau filtre, en utilisant l'espace colorimétrique HSV. Il nous fallait maintenant avoir des retours clients pour que l'on puisse corriger les différents bugs. De plus, des tâches majeurs étaient encore en cours.
+Durant l'itération précédente, nous avons pu implémenter un nouveau filtre, en utilisant l'espace colorimétrique HSV. Il nous fallait maintenant avoir des retours clients pour que l'on puisse corriger les différents bugs. De plus, des tâches majeures étaient encore en cours.
 
 Les tâches que nous nous sommes fixées sont les suivantes :
 
@@ -73,11 +73,11 @@ Nous développerons ici chaque objectif que nous nous sommes fixé pour cette it
 
 Dans le but d'avoir des retours de notre client, nous avons voulu exporter notre plugin pour qu'il soit utilisable avec le logiciel CloudCompare, sur une machine quelconque. \newline
 
-Pour ce faire, le principe est de récupérer le fichier ColorimetricSegmenter.dll que nous obtenons lorsque nous compilons le projet, et de l'intégrer dans le dossier "plugins" dans le repertoire d'installation de CloudCompare. \newline
+Pour ce faire, le principe est de récupérer le fichier ColorimetricSegmenter.dll que nous obtenons lorsque nous compilons le projet, et de l'intégrer dans le dossier "plugins" dans le répertoire d'installation de CloudCompare. \newline
 
 Nous avons rencontrés des difficultés lors de cette tâche. En effet, nous avons vu qu'il y avait des problèmes de versions des dépendances, qui ne faisaient pas fonctionner notre plugin sur toutes les machines. \newline
 
-En effet, lorsque nous compilions notre projet, nous utilisions Visual Studio 2019. En utillisant cette version, la version du windows SDK était aussi modifié, et c'était la source du problème de compatibilité entre nos machines, qui avaient une version de windows plus récente que les machines de notre client, ou encore M. Daniel Girardeau-Montaut, le créateur de CloudCompare.
+En effet, lorsque nous compilions notre projet, nous utilisions Visual Studio 2019. En utillisant cette version, la version du windows SDK était aussi modifiée, et c'était la source du problème de compatibilité entre nos machines, qui avaient une version de windows plus récente que les machines de notre client, ou encore M. Daniel Girardeau-Montaut, le créateur de CloudCompare.
 
 \begin{figure}[H]
  \caption{\label{} Notre version du SDK Windows, avec Visual Studio 2019}
@@ -100,17 +100,25 @@ Grâce à cette solution, le client a pu tester notre plugin de son côté, et a
 
 Lorsque nous avons décidé cette tâche, nous voulions améliorer le filtrage RGB côté utilisateur, afin de mieux choisir les bornes minimum et maximum. \newline
 
-En effet, l'utilisation de l'espace colorimétrique RGB limite les bornes que l'on peut utiliser, afin de sélectionner les points que l'on veut. Pour que ce filtrage fonctionne correctement, nous sommes obligé de sélectionner deux points qui ont la même gamme de couleur. Il faut ensuite choisir le point le plus "sombre", c'est-à-dire avec les valeurs RGB les plus faibles, puis le point le plus clair. \newline
+En effet, l'utilisation de l'espace colorimétrique RGB limite les bornes que l'on peut utiliser, afin de sélectionner les points que l'on veut. Pour que ce filtrage fonctionne correctement, nous sommes obligés de sélectionner deux points qui ont la même gamme de couleurs. Il faut ensuite choisir le point le plus "sombre", c'est-à-dire avec les valeurs RGB les plus faibles, puis le point le plus clair. \newline
 
 Plusieurs problèmes peuvent se poser. Par exemple, si l'utilisateur décide de prendre des points dans des gammes de couleurs différentes, ce qui donne un résultat non satisfaisant. Il peut aussi avoir un problème lorsque l'utilisateur inverse la sélection des points, ce qui inverse les bornes. Il n'y aurait donc aucun point de sélectionné. \newline
 
-Une solution peut consister à inverser les valeurs, si l'utilisateur se trompe. Pour cela, il faut être sûr que l'utilisateur a bien choisi deux points de la même gamme de couleur, puis vérifier que les trois composantes du deuxième point sont inférieurs au premier point, afin de les inverser. \newline
+Une solution peut consister à inverser les valeurs, si l'utilisateur se trompe. Pour cela, il faut être sûr que l'utilisateur a bien choisi deux points de la même gamme de couleur, puis vérifier que les trois composantes du deuxième point sont inférieures au premier point, afin de les inverser. \newline
 
-Une question reste en suspend, qui est de savoir si nous réalisons le traitement directement sur l'interface (l'utilisateur verra donc directement le changement des bornes), ou si le traitement se fera au niveau en pré-traitement du parcours de points, et l'utilisateur aura juste à choisir ses deux points.
+Une question reste en suspend, qui est de savoir si nous réalisons le traitement directement sur l'interface (l'utilisateur verra donc directement le changement des bornes), ou si le traitement se fera au niveau en prétraitement du parcours de points, et l'utilisateur aura juste à choisir ses deux points.
+
+Après réunion, le choix qui a été fait est de faire un traitement caché à l'utilisateur, afin de créer les bornes. Pour faire cela, il faudra donc savoir lequel des deux points sélectionnés, est le plus foncé et le plus clair. \newline
+
+En restant sur l'espace colorimétrique RGB, il semble assez difficile de le savoir. C'est pour cela que nous pensons passer par le HSV (conversion déjà réalisée) pour utiliser la composante "Value", qui nous donnera le point le plus sombre (Value proche de 0), et le point le plus clair (proche de 100). \newline
+
+Dans le cas où la Value est la même, nous pourrions alors passer par la saturation, où le point le plus clair sera le point où sa saturation est la plus faible. \newline
+
+Enfin, dans le cas où les 2 composantes ont les mêmes valeurs, c'est que la teinte est différente. Ici, nous pourrions prendre les valeurs minimums entre les 2 composantes en RGB les plus faibles (c'est-à-dire, ne pas prendre en compte la composante dominante, mais les deux autres), afin de faire la borne inférieure, puis inversement pour la borne supérieure. Ici, on considérera donc que l'utilisateur choisira des points qui ont la même teinte de couleur, ou des teintes très similaires.
 
 \subsection{Amélioration des plages du filtrage HSV}
 
-Grâce aux retours utilisateurs, nous avons pu améliorer nootre filtrage HSV, mais aussi le filtrage RGB, au niveau de l'interface. En effet, nous avons pu remarquer qu'il y avait un problème notamment au niveau de la redimension de la fenêtre de l'interface. Il fallait ajouter certains layouts/spacers, pour que nos différents éléments s'adapent en fonction de la taille de la fenêtre. 
+Grâce aux retours utilisateurs, nous avons pu améliorer notre filtrage HSV, mais aussi le filtrage RGB, au niveau de l'interface. En effet, nous avons pu remarquer qu'il y avait un problème notamment au niveau de la redimension de la fenêtre de l'interface. Il fallait ajouter certains layouts/spacers, pour que nos différents éléments s'adaptent en fonction de la taille de la fenêtre. 
 
 Par exemple, nos fenêtres avaient des problèmes sur un écran 4k, car elles étaient trop petites.
 
@@ -121,7 +129,7 @@ Par exemple, nos fenêtres avaient des problèmes sur un écran 4k, car elles é
   \end{center}
 \end{figure}
 
-Nous avons donc dû repasser sur nos fenêtres, et les refaire proprement afin de mettre des layouts aux bons endroits, et des spacers entre les éléments pour qu'ils s'adapent bien selon la taille totale de la fenêtre.
+Nous avons donc dû repasser sur nos fenêtres, et les refaire proprement afin de mettre des layouts aux bons endroits, et des spacers entre les éléments pour qu'ils s'adaptent bien selon la taille totale de la fenêtre.
 
 \begin{figure}[H]
  \caption{\label{} Nouvelle fenêtre, taille petite}
@@ -141,7 +149,7 @@ De plus, nous avons revu l'algorithme pour effectuer la conversion des valeurs R
 
 Pour faire cela, nous avons décidé de lancer la conversion lorsqu'un des trois champs RGB était modifié. Comme ça, l'utilisateur pourra mettre à la main ses valeurs, pour actualiser les valeurs HSV, ou passer par le point picking, qui va actualiser les valeurs RGB, et donc automatiquement actualiser les valeurs HSV. \newline
 
-Dans un soucis d'optimisation, au lieu d'actualiser trois fois les valeurs au moment du point picking (car les 3 champs RGB sont actualisés en même temps), nous réalisons qu'une seule actualisation.
+Dans un souci d'optimisation, au lieu d'actualiser trois fois les valeurs au moment du point picking (car les 3 champs RGB sont actualisés en même temps), nous réalisons qu'une seule actualisation.
 
 \begin{figure}[H]
  \caption{\label{} Fenêtre HSV, actualisation manuelle}
