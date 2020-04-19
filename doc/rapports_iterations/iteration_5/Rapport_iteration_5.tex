@@ -58,8 +58,8 @@ Les tâches que nous nous sommes fixées sont les suivantes :
     \item Restreindre l'utilisateur lors de la saisie du filtrage RGB (borne inférieure et supérieure)
     \item Amélioration des plages du filtrage HSV + test de performance
     \item Résoudre les divers problèmes techniques qui empêchent le fonctionnement de l'algorithme de segmentation
-    \item Résoudre problèmes et débuggage du toon mapping
-    \item Comparer les performances avec un autre algorithme de toon mapping
+    \item Résoudre problèmes et débuggage du tone mapping
+    \item Comparer les performances avec un autre algorithme de tone mapping
 \end{itemize}
 
 Nous avions aussi une tâche qui s'est ajoutée pendant l'itération, qui était d'exporter le plugin pour pouvoir l'utiliser sur toutes les machines, en utilisant CloudCompare. Nous avions aussi eu des retours utilisateurs, afin d'améliorer notre plugin.
@@ -160,16 +160,16 @@ Dans un souci d'optimisation, au lieu d'actualiser trois fois les valeurs au mom
 
 \subsection{Algorithme de segmentation}
 
-\subsection{Toon Mapping}
+\subsection{Tone Mapping}
 
 À la fin de l'itération précédente, une première version de l'algorithme basé sur la segmentation de l'histogramme était implémentée, hélas, elle restait non opérationnelle. Une fois le processus lancé, le logiciel CloudCompare cessé de fonctionner. Ainsi, dans cette itération, il fallait déterminer la cause de problème et y remédier.
 
 Après plusieurs refontes de la structure de l'algorithme et d'une phase de débuggage laborieuse, la fonctionnalité fonctionne. Le problème venait du non support de CloudCompare de méthodes d'itérateurs des map de la libraire standard.
 
-Son utilisation est comme suit, l'utilisateur sélectionne le ou les nuages sur lesquels il veut appliquer le toon mapping. Une fenêtre de dialogue apparaît lorsqu'il clique sur "Histogramme clustering"
+Son utilisation est comme suit, l'utilisateur sélectionne le ou les nuages sur lesquels il veut appliquer le tone mapping. Une fenêtre de dialogue apparaît lorsqu'il clique sur "Histogramme clustering"
 
 \begin{figure}[H]
- \caption{\label{} Fenêtre de dialogue Toon mapping}
+ \caption{\label{} Fenêtre de dialogue Tone mapping}
  \begin{center}
  \includegraphics[width=0.5\textwidth]{./img/ToonMappingDialog.PNG}
   \end{center}
@@ -177,14 +177,14 @@ Son utilisation est comme suit, l'utilisateur sélectionne le ou les nuages sur 
 
 L'utilisateur indique l'indice de quantification souhaité et lance l'algorithme. Une fois le processus fini, le sous-scan résultant est affiché. Les images suivantes illustrent les résultats obtenus avec différents indices saisis.
 \begin{figure}[H]
- \caption{\label{} Exemples du Toon Mapping}
+ \caption{\label{} Exemples du Tone Mapping}
  \begin{center}
  \includegraphics[width=1\textwidth]{./img/ExpToonMapping.PNG}
   \end{center}
 \end{figure}
 Pour un Q donné, on aura une palette de $Q^2$ couleurs dans le nuage résultat.\newline
 
-En plus de rendre opérationnel cet algorithme, un autre algorithme de toon mapping devait être implémenté afin de pouvoir comparer les performances desdits algorithmes. Malheureusement, du retard a été pris, son implémentation est bien avancée mais n'est pas terminée. Cet Algorithme basé sur la classification k-means, qui permettra d'avoir k groupes de couleur une fois le
+En plus de rendre opérationnel cet algorithme, un autre algorithme de tone mapping devait être implémenté afin de pouvoir comparer les performances desdits algorithmes. Malheureusement, du retard a été pris, son implémentation est bien avancée mais n'est pas terminée. Cet Algorithme basé sur la classification k-means, qui permettra d'avoir k groupes de couleur une fois le
 
 \section{Risques éliminés durant l'itération}
 
@@ -232,7 +232,7 @@ Pour la dernière itération, il faut finaliser les tâches qui étaient en cour
     \item Réaliser les tâches du feedback (points externes/internes, indications, icône)
     \item Finir algo k-means/autre algorithme
     \item Terminer algorithme sélection de points
-    \item Faire le lien entre toon mapping et filtrage
+    \item Faire le lien entre tone mapping et filtrage
 \end{itemize}
 
 \begin{thebibliography}{3}
