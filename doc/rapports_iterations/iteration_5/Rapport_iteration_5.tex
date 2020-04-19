@@ -106,7 +106,7 @@ Plusieurs problèmes peuvent se poser. Par exemple, si l'utilisateur décide de 
 
 Une solution peut consister à inverser les valeurs, si l'utilisateur se trompe. Pour cela, il faut être sûr que l'utilisateur a bien choisi deux points de la même gamme de couleur, puis vérifier que les trois composantes du deuxième point sont inférieures au premier point, afin de les inverser. \newline
 
-Une question reste en suspend, qui est de savoir si nous réalisons le traitement directement sur l'interface (l'utilisateur verra donc directement le changement des bornes), ou si le traitement se fera au niveau en prétraitement du parcours de points, et l'utilisateur aura juste à choisir ses deux points.
+Une question reste en suspend, qui est de savoir si nous réalisons le traitement directement sur l'interface (l'utilisateur verra donc directement le changement des bornes), ou si le traitement se fera au niveau en prétraitement du parcours de points, et l'utilisateur aura juste à choisir ses deux points. \newline
 
 Après réunion, le choix qui a été fait est de faire un traitement caché à l'utilisateur, afin de créer les bornes. Pour faire cela, il faudra donc savoir lequel des deux points sélectionnés, est le plus foncé et le plus clair. \newline
 
@@ -162,8 +162,11 @@ Dans un souci d'optimisation, au lieu d'actualiser trois fois les valeurs au mom
 
 
 L'algorithme de segmentation n'est toujours pas fonctionnel. Ce retard est dû à la difficulté de débogage de CloudCompare. L'exécution de l'algorithme provoque un arrêt de l'application. Les erreurs retournées sont très peu explicites et ne permettent pas de savoir la cause du problème (erreur de segmentation par exemple). \newline
+
 De multiples actions dans l'algorithme nécessitent la manipulation de structures de données complexes, ce qui donne également lieu à bon nombre d'erreurs. Par exemple, en parcourant le nuage de points afin de regrouper les points sous forme de régions de plus proches voisins. Afin de réaliser cela, nous utilisons la structure "Octree". Elle dispose de plusieurs méthodes permettant la recherche rapide de voisins. Cependant, l'implémentation de cette structure reste parfois opaque et nécessite un certain temps de prise en main. \newline
+
 L'algorithme nécessite de créer plusieurs fois des sous-nuages de points afin de constituer des régions. Pour des raisons de rapidité, nous ne recopions pas à chaque fois le nuage de point, mais nous utilisons plutôt la structure "ReferenceCloud" qui contient les références des points présents dans le nuage de point d'origine. L'inconvénient de cette structure réside dans l'utilisation simultanée de deux types d'index : les index globaux (ceux du nuage de point d'origine) et les index locaux (du nuage par référence). Cela donne lieu à de multiples confusions dans l'algorithme.\newline
+
 Le débogage du plugin se poursuivra lors de la prochaine itération.
 
 \subsection{Tone Mapping}
@@ -177,7 +180,7 @@ Son utilisation est comme suit, l'utilisateur sélectionne le ou les nuages sur 
 \begin{figure}[H]
  \caption{\label{} Fenêtre de dialogue Tone mapping}
  \begin{center}
- \includegraphics[width=0.5\textwidth]{./img/ToonMappingDialog.PNG}
+ \includegraphics[width=0.4\textwidth]{./img/ToonMappingDialog.PNG}
   \end{center}
 \end{figure}
 
@@ -185,7 +188,7 @@ L'utilisateur indique l'indice de quantification souhaité et lance l'algorithme
 \begin{figure}[H]
  \caption{\label{} Exemples du Tone Mapping}
  \begin{center}
- \includegraphics[width=1\textwidth]{./img/ExpToonMapping.PNG}
+ \includegraphics[width=0.8\textwidth]{./img/ExpToonMapping.PNG}
   \end{center}
 \end{figure}
 Pour un Q donné, on aura une palette de $Q^2$ couleurs dans le nuage résultat.\newline
@@ -240,8 +243,4 @@ Pour la dernière itération, il faut finaliser les tâches qui étaient en cour
     \item Terminer algorithme sélection de points
     \item Faire le lien entre tone mapping et filtrage
 \end{itemize}
-
-\begin{thebibliography}{3}
-
-\end{thebibliography}
 \end{document}
