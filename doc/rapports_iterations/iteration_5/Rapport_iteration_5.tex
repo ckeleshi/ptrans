@@ -160,6 +160,12 @@ Dans un souci d'optimisation, au lieu d'actualiser trois fois les valeurs au mom
 
 \subsection{Algorithme de segmentation}
 
+
+L'algorithme de segmentation n'est toujours pas fonctionnel. Ce retard est dû à la difficulté de débogage de CloudCompare. L'exécution de l'algorithme provoque un arrêt de l'application. Les erreurs retournées sont très peu explicites et ne permettent pas de savoir la cause du problème (erreur de segmentation par exemple). \newline
+De multiples actions dans l'algorithme nécessitent la manipulation de structures de données complexes, ce qui donne également lieu à bon nombre d'erreurs. Par exemple, en parcourant le nuage de points afin de regrouper les points sous forme de régions de plus proches voisins. Afin de réaliser cela, nous utilisons la structure "Octree". Elle dispose de plusieurs méthodes permettant la recherche rapide de voisins. Cependant, l'implémentation de cette structure reste parfois opaque et nécessite un certain temps de prise en main. \newline
+L'algorithme nécessite de créer plusieurs fois des sous-nuages de points afin de constituer des régions. Pour des raisons de rapidité, nous ne recopions pas à chaque fois le nuage de point, mais nous utilisons plutôt la structure "ReferenceCloud" qui contient les références des points présents dans le nuage de point d'origine. L'inconvénient de cette structure réside dans l'utilisation simultanée de deux types d'index : les index globaux (ceux du nuage de point d'origine) et les index locaux (du nuage par référence). Cela donne lieu à de multiples confusions dans l'algorithme.\newline
+Le débogage du plugin se poursuivra lors de la prochaine itération.
+
 \subsection{Tone Mapping}
 
 À la fin de l'itération précédente, une première version de l'algorithme basé sur la segmentation de l'histogramme était implémentée, hélas, elle restait non opérationnelle. Une fois le processus lancé, le logiciel CloudCompare cessé de fonctionner. Ainsi, dans cette itération, il fallait déterminer la cause de problème et y remédier.
