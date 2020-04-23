@@ -324,6 +324,7 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
     std::vector<CCLib::ReferenceCloud*>* regions = new std::vector<CCLib::ReferenceCloud*>();
     std::vector<unsigned>* points = new std::vector<unsigned>();
     CCLib::DgmOctree* octree = new CCLib::DgmOctree(pointCloud);// used to search nearest neighbors
+    octree->build();
     // while there is any point in {P} that hasn’t been labeled
     while(unlabeledPoints.size() > 0)
     {
@@ -344,21 +345,22 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
             CCLib::DgmOctree::NearestNeighboursSearchStruct nNSS =  CCLib::DgmOctree::NearestNeighboursSearchStruct();
             nNSS.level = 1;
             nNSS.queryPoint = *(pointCloud->getPoint(tPointIndex));
-            Tuple3i* cellPos = new Tuple3i();
-            octree->getCellPos(octree->getCellCode(tPointIndex), 1, *cellPos, false); //SEG FAULT
-            /*nNSS.cellPos = cellPos;
+            Tuple3i cellPos = Tuple3i();
+            //ccLog::Print("%llu", octree->getCellCode(tPointIndex));
+            octree->getCellPos(octree->getCellCode(tPointIndex), 1, cellPos, false);
+            nNSS.cellPos = cellPos;
             CCVector3 cellCenter;
             octree->computeCellCenter(octree->getCellCode(tPointIndex), 1, cellCenter);
             nNSS.cellCenter = cellCenter;
             nNSS.maxSearchSquareDistd = TD;
-            nNSS.minNumberOfNeighbors = TNN;*/
+            nNSS.minNumberOfNeighbors = TNN;
 
-            //octree->findNearestNeighborsStartingFromCell(nNSS);
-            //CCLib::DgmOctree::NeighboursSet knnResult = nNSS.pointsInNeighbourhood;
-            /*
-            for(int i=0; i < knnResult->size(); i++)
+            octree->findNearestNeighborsStartingFromCell(nNSS);
+            CCLib::DgmOctree::NeighboursSet knnResult = nNSS.pointsInNeighbourhood;
+
+            for(int i=0; i < knnResult.size(); i++)
             {
-                unsigned p = knnResult->getPointGlobalIndex(i);
+                unsigned p = knnResult.at(i).pointIndex;
                 // if p is labelled
                 if(std::find(unlabeledPoints.begin(), unlabeledPoints.end(), p) != unlabeledPoints.end())
                 {
@@ -370,13 +372,12 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
                     points->push_back(p);
                     rc->addPointIndex(p);
                 }
-            }*/
+            }
 
         }
         regions->push_back(rc);
     }
-    //return regions;
-    return nullptr;
+    return regions;
 }
 
 std::vector<CCLib::ReferenceCloud*>* findRegion(std::vector<std::vector<CCLib::ReferenceCloud*>*>* container, CCLib::ReferenceCloud* region)
@@ -497,7 +498,7 @@ void ColorimetricSegmenter::filterRgbWithSegmentation()
             CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
 
             std::vector<CCLib::ReferenceCloud*>* regions = regionGrowing(cloud, TNN, TPP, TD);
-            /*regions = regionMergingAndRefinement(cloud, regions, TNN, TRR, TD, Min);
+            regions = regionMergingAndRefinement(cloud, regions, TNN, TRR, TD, Min);
             //m_app->dispToConsole(QString("[ColorimetricSegmenter] regions %1").arg(regions->size()), ccMainAppInterface::STD_CONSOLE_MESSAGE);
 
             // retrieve the nearest region (in color range)
@@ -520,7 +521,7 @@ void ColorimetricSegmenter::filterRgbWithSegmentation()
                     m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered with segmentation ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
                 }
 
-            }*/
+            }
 
 
         }
