@@ -209,7 +209,11 @@ QtCreator permet de concevoir graphiquement un panneau au travers d'une interfac
   \caption{\label{} Exemple QtCreator : RgbDialog}
 \end{figure}
 
-Concrètement, nous avons par exemple, un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements.
+Concrètement, nous avons par exemple, un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements. \newline
+
+Au niveau de l'interface en elle même, il s'agit essentiellement de boutons et de champs de texte. Nous avons essayé de faire des interfaces très simple à comprendre et assez épurée.  \newline
+
+Nous avions rencontré des problèmes pour certains types d'écrans (notamment les écrans 4K), où certains composants avaient du mal à s'afficher. C'est pour cela que grâce aux Spacers (représentés en bleu sur l'image ci-dessus), les composants s'adapent en fonction de la taille de la fenêtre. Chaque utilisateur pourra donc redimensionner la fenêtre selon ses goûts.
 
 \subsubsection{Gestion des actions sur l'interface : Qt}
 
