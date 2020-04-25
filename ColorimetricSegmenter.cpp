@@ -71,8 +71,30 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	}
 	
 	// Only enable our action if something is selected.
-	m_action_filterRgb->setEnabled(!selectedEntities.empty());
-	m_action_filterHSV->setEnabled(!selectedEntities.empty());
+	bool activateColorFilters = false;
+	bool activateScalarFilter = false;
+	for (ccHObject *entity : selectedEntities)
+	{
+		if (entity->isKindOf(CC_TYPES::POINT_CLOUD))
+		{
+			if (entity->hasColors()) {
+				activateColorFilters = true;
+			}
+			else if (entity->hasDisplayedScalarField()) {
+				activateScalarFilter = true;
+			}
+		}
+	}
+
+	m_action_filterRgb->setEnabled(false);
+	m_action_filterHSV->setEnabled(false);
+
+	//Activate only if only one of them is activated
+	if ((activateColorFilters != activateScalarFilter) && !selectedEntities.empty()) {
+		m_action_filterRgb->setEnabled(activateColorFilters);
+		m_action_filterHSV->setEnabled(activateColorFilters);
+	}
+
 }
 
 // This method returns all the 'actions' your plugin can perform.
