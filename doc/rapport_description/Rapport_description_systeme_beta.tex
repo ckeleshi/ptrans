@@ -436,7 +436,7 @@ Nous pouvons aussi observer que sur la tâche des recherches sur les espaces col
 
 De plus, nous avions des tâches qui n'étaient pas prévues dans nos prévisions, mais qui étaient présentes en réalité. Nous pouvons citer la préparation du Sprint review, ou encore le sprint planning. C'est pour cela que ces tâches n'apparaissent pas dans les tâches prévues, mais uniquement dans les tâches réalisées.
 
-\begin{figure}[!hbtp]
+\begin{figure}[H]
 \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_2.PNG}}
     \caption{\label{} Comparaison Gantt de l'itération 2}
 \end{figure}
@@ -445,7 +445,7 @@ Pour la deuxième itération, les prévisions du nombre d'heures par tâches ont
 
 Une fois ceci fait, il fallait ensuite créer notre propre interface et nos propres algorithmes de traitement sur le nuage de points. Une fois encore, il fallait que l'on se forme sur comment un plugin CloudCompare fonctionne, sa structure et comment ajouter notre propre code.
 
-\begin{figure}[!hbtp]
+\begin{figure}[H]
 \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_3.PNG}}
     \caption{\label{} Comparaison Gantt de l'itération 3}
 \end{figure}
@@ -455,6 +455,26 @@ Cette troisième itération était dédiée à l'amélioration de notre solution
 De plus, nous avons rencontré des difficultés pour obtenir des résultats satisfaisants, notamment pour la conversion LAB, et des difficultés à comprendre le fonctionnement d'un plugin sur le logiciel CloudCompare, notamment le principe des signaux et des slots en C++ (pour l'implémentation d'un point picking). \newline
 
 Il faut aussi noter que pour le développement d'un nouvel algorithme de sélection de points dans le nuage, la durée indiquée ici ne veut pas dire que la tâche est terminée. En effet, la tâche est plus compliquée que prévu, et malgré le temps donné à cette tâche, il faut encore y attribuer du temps pour la finaliser.
+
+\begin{figure}[H]
+\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_4.PNG}}
+    \caption{\label{} Comparaison Gantt de l'itération 4}
+\end{figure}
+
+La quatrième itération était concentrée principalement l'avancement du développement des tâches. Nous pouvons noter que certaiens tâches sont encore en cours, notamment la nouvelle méthode de segmentation, et le tone mapping. En effet, ces tâches sont longues et assez complexes à développer. La majeur partie du code est implémenté, mais il reste surtout une phase de déboggage à effectuer, pour que l'exécution soit fonctionnelle. \newline
+
+Nous avions aussi remarqué pendant l'itération, que l'intégration de fausses couleurs n'était plus vraiment d'actualité. En effet, celle-ci était déjà présente sur le logiciel CloudCompare. Nous n'avions donc pas de plus-value à apporter sur cette fonctionnalité. \newline
+
+Par la suite, nous avions trouvé un autre type de filtrage, que nous n'avions jusqu'à ce moment pas développé, qui est le fait d'utiliser un autre espace colorimétrique. Après avoir vu les limites du RGB, nous avons essayé de passer par le HSV afin d'avoir des meilleurs bornes de couleurs. Nous avons donc ajouté cette tâche pour cette itération.
+
+\begin{figure}[H]
+\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_5.PNG}}
+    \caption{\label{} Comparaison Gantt de l'itération 5}
+\end{figure}
+
+Pour la cinquième itération, nous avons pu faire une démonstration du filtrage HSV pour le client. Il fallait donc prendre en compte les retours et y apporter des améliorations. De plus, nous avions toujours des améliorations à apporter pour le filtrage RGB. La tâche concernant la production de la première version du plugin, n'était pas prévue au départ. Celle-ci a été plutôt compliquée avec les différents problèmes liés aux versions des logiciels, et des délais de communication. Il fallait aussi apporter des correctifs pour certains bugs apparus entre les différentes machines. \newline
+
+Nous avions eu un peu plus de difficulté à respecter les temps prévus, car nous avions dû replanifier nos tâches avec l'annulation du projet icreate.
 
 \subsection{Rapport de recette}
 
