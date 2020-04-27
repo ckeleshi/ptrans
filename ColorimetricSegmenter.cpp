@@ -364,7 +364,6 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
             nNSS.level = 1;
             nNSS.queryPoint = *(pointCloud->getPoint(tPointIndex));
             Tuple3i cellPos = Tuple3i();
-            //ccLog::Print("%llu", octree->getCellCode(tPointIndex));
             octree->getCellPos(octree->getCellCode(tPointIndex), 1, cellPos, false);
             nNSS.cellPos = cellPos;
             CCVector3 cellCenter;
