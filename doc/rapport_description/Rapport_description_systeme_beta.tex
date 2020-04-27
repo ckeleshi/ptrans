@@ -13,7 +13,7 @@
 \usepackage{float}
 \renewcommand\theadfont{\bfseries}
 
-\linespread{1.3}
+\linespread{1.2}
 
 \begin{document}
 
@@ -366,23 +366,27 @@ Les limites de cette méthode sont que les plages de couleurs sont fixes dans le
 \newpage
 \section{Conclusion et perspectives}
 
-Nous avons jusqu'à maintenant réalisé la moitié du projet, au niveau du temps. En effet, nous avons maintenant passé trois itérations sur l'élaboration de notre solution. \newline
+Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en grande partie ce que nous avions prévu sur le cahier des charges. La majorité des Users Stories ont été développés et validés par le client. Arrivant à la fin du projet, nous avons pu améliorer ce que nous avions développé dans la version alpha, et terminer les tâches en cours.\newline
 
-Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en grande partie ce que nous avions prévu sur le cahier des charges. La majorité des Users Stories ont été développés et validés par le client. Toutefois, le projet est loin d'être terminé, et il nous reste encore beaucoup d'améliorations/implémentation de fonctionnalités à faire.
+La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux itérations suivantes nous ont permis de poser les bases, et de commencer à donner une solution viable. Pendant la quatrième itération, nous avons consolidé ce que nous avions développé, puis nous avions préparé une première version du projet pour le client pendant la cinquième, qui a pu nous faire des retours côté utilisateur. Enfin la dernière itération a été dédié à des correctifs, et la fin des tâches en suspend. \newline
 
-La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux autres nous ont permit de poser les bases, et de commencer à donner une solution viable.
+Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare. \newline
 
-Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare.
+La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur l'implémentation, afin d'éviter de changer entre phases de recherche, et phases d'implémentation, sur une même itération. Ainsi, cela nous permettait de mieux se concentrer sur la phase d'implémentation. \newline
 
-La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur l'implémentation, afin d'éviter de changer entre phases de recherche, et phases de d'implémentation, sur une même itération. Ainsi, cela nous permettait de mieux se concentrer sur la phase d'implémentation.
+Toutefois, nous avons quand même pris du retard notamment sur la deuxième et troisième itération. Lors de la deuxième itération, nous pensions que nous pourrions avoir une meilleure base de notre plugin sur CloudCompare, afin de pousser l'implémentation des algorithmes de segmentation. Malheureusement, nous avions rencontré des difficultés par rapport à la création d'un nouveau plugin. Ce temps perdu a donc impacté le développement de la troisième itération, qui consistait à l'amélioration de ce que nous avions développé, et l'implémentation de nouveaux algorithmes. \newline
 
-Toutefois, nous avons quand même pris du retard notamment sur la deuxième et troisième itération. Lors de la deuxième itération, nous pensions que nous pourrions avoir une meilleure base de notre plugin sur CloudCompare, afin de pousser l'implémentation des algorithmes de segmentation. Malheureusement, nous avions rencontré des difficultés par rapport à la création d'un nouveau plugin. Ce temps perdu a donc impacté le développement de la troisième itération, qui consistait à l'amélioration de ce que nous avions développé, et l'implémentation de nouveaux algorithmes.
-
-Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation.
+Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation. \newline
 
 De plus, nous avons quand même pris en compte le feedback du client, afin d'améliorer notre solution, par rapport à son utilisation. Ici, c'était principalement lié à l'interface des algorithmes de segmentation. Nous avons apporté des modifications notamment sur le point picking, très important pour faciliter l'utilisation de notre plugin (au lieu de rentrer manuellement les valeurs à filtrer), ou encore des changements sur la plage de couleur à prendre, etc. \newline
 
-%TODO : COMPLETER AVEC LES DERNIERES ITERATIONS%
+Nous avions rencontré beaucoup de difficulté pour fournir la première version du projet à notre client, notamment à cause des problèmes de compatibilité des versions, par rapport au logiciel CloudCompare, Qt, ou encore la version du SDK de windows. En effet, nous compilions avec une version plus récente de Visual Studio (2019), qui utilisait donc une version SDK windows plus récente que les machines de notre client. Le seul moyen de savoir d'où venait le problème était de notre côté, tester différentes solutions, puis de les fournir au client afin qu'il puisse réaliser les tests. En prenant en compte les délais de communication, nous avions perdu du temps. \newline
+
+Une fois ce problème résolu, il a nous été assez facile d'avancer sur le projet, tout en prenant en compte le feedback du client qui pouvait utiliser le plugin pour des cas réels. \newline
+
+Même si l'ensemble des tâches ont été validées, le projet peut encore être améliorable. En effet, nous avons, par exemple, la version avancé du filtrage HSV, pour qu'un utilisateur plus expérimenté puisse affiner sa sélection de points. \newline
+
+Ce projet sera, à terme, un plugin qui fera partie des autres plugins de CloudCompare. Un contact a déjà eu lieu avec M. Daniel Girardeau-Montaut, afin de discuter dans un premier temps sur les règles à respecter.
 
 \newpage
 \section{Annexes}
@@ -395,15 +399,15 @@ Il est important de faire un retour sur le déroulement du projet, afin de savoi
 
 \subsubsection{Vision globale du projet}
 
-D'un point de vu global sur le projet, nous avons rencontré certaines difficultés, mais aussi appris beaucoup par rapport au fonctionnement d'un projet agile.
+D'un point de vu global sur le projet, nous avons rencontré certaines difficultés, mais aussi appris beaucoup par rapport au fonctionnement d'un projet agile. \newline
 
-Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme c'était notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte expérimenter notre capacité de travail et d'évaluer les tâches à réaliser.
+Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme c'était notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte expérimenter notre capacité de travail et d'évaluer les tâches à réaliser. \newline
 
 Certaines tâches furent plus difficiles à réaliser, par rapport à nos prévisions. Par exemple, nous pouvons citer l'implémentation d'un nouvel algorithme de segmentation, plus complexe, ou encore l'implémentation d'un point picking. Le temps prévu à consacrer sur ces types de tâches n'était pas assez important, car nous avions mal pris en compte les autres tâches en parallèle, hors projet. Ces autres tâches était notamment d'autres projets sur de courtes durées, devoir surveillées, oraux, etc. \newline
 
 Nous nous sommes aussi rendu compte que les itérations se déroulent très vite. Pour chaque itération, nous étions surpris par le fait qu'un mois s'était passé. Grâce aux réunions planifiées avec le client et le tuteur académique, nous pouvions quand même garder une bonne dynamique pour respecter les deadlines. \newline
 
-De plus, la mise en situation d'un projet agile nous a fait prendre conscience de l'importance de garder le client au courant, afin d'avancer correctement par rapport aux besoin de celui-ci. Mais pour cela, il faut rédiger de nombreux rapports. Ce sont des tâches qu'il ne faut pas sous-estimer, puisque cela demande beaucoup de temps. Même si les réunions aident à transmettre l'avancement du projet et des tâches réalisées, il faut aussi écrire formellement dans un rapport l'avancement pour garder une trace de ce qui a été fait.
+De plus, la mise en situation d'un projet agile nous a fait prendre conscience de l'importance de garder le client au courant, afin d'avancer correctement par rapport aux besoin de celui-ci. Mais pour cela, il faut rédiger de nombreux rapports. Ce sont des tâches qu'il ne faut pas sous-estimer, puisque cela demande beaucoup de temps. Même si les réunions aident à transmettre l'avancement du projet et des tâches réalisées, il faut aussi écrire formellement dans un rapport l'avancement pour garder une trace de ce qui a été fait. \newline
 
 La rédaction des rapports d'itération, et des rapports hebdomadaires, sont difficiles à maintenir. En effet, nous avions eu parfois des difficultés à suivre le rythme des rapports hebdomadaires. Malgré tout, cela reste nécessaire notamment pour avoir un historique de l'avancement des tâches, et des heures passées sur chacune d'entre elles.
 
