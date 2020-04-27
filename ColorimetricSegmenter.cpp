@@ -236,12 +236,22 @@ void ColorimetricSegmenter::filterRgb()
 	} 
 }
 
+/**
+ * @brief knnRegions Determines the neighboring regions of a region.
+ * @param basePointCloud The base cloud containing the points.
+ * @param regions The list containing all the regions in the base cloud point.
+ * @param region The region to compare with others.
+ * @param k Max number of neighbours to find.
+ * @param neighbours The resulting nearest regions.
+ * @param thresholdDistance The maximum distance to search for neighbors.
+ */
 void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const CCLib::ReferenceCloud* region, unsigned k, std::vector<CCLib::ReferenceCloud*>* neighbours, unsigned thresholdDistance) {
     ccPointCloud* computedRegion = basePointCloud->partialClone(region);
     // compute distances
     CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams params = CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams();
     params.kNNForLocalModel = k;
     params.maxSearchDist = thresholdDistance;
+        // create to array, one containing regions, and another containing the distances to these regions.
     std::vector<CCLib::ReferenceCloud*> *tempNeighbours = new std::vector<CCLib::ReferenceCloud*>();
     std::vector<int> *distances = new std::vector<int>();
     for(CCLib::ReferenceCloud* r : *regions)
@@ -264,6 +274,7 @@ void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*
         index->begin(), index->end(),
         [&](int a, int b) { return distances[a] < distances[b]; });
 
+    // then extract the 'k' nearest neighbors.
     neighbours = new std::vector<CCLib::ReferenceCloud*>();
     for(int i : *index)
     {
@@ -275,6 +286,12 @@ void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*
 
 }
 
+/**
+ * @brief colorimetricalDifference Compute colorimetrical difference between two RGB color values.
+ * @param c1 First color value.
+ * @param c2 Second color value.
+ * @return Colorimetrical difference.
+ */
 double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
     return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
 }
@@ -299,11 +316,12 @@ ccColor::Rgb* meanRgb(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c)
 }
 
 /**
- * @brief colorimetricalDifference compute mean coloremtrical difference between two reference clouds.
- * @param basePointCloud
- * @param c1
- * @param c2
- * @return
+ * @brief colorimetricalDifference compute mean colorimetrical difference between two reference clouds.
+ * The points in both clouds must be represented in RGB value.
+ * @param basePointCloud The base cloud on which the reference clouds are based.
+ * @param c1 The first reference cloud.
+ * @param c2 The second reference cloud.
+ * @return Colorimetrical difference.
  */
 double colorimetricalDifference(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c1, CCLib::ReferenceCloud* c2) {
     ccColor::Rgb* rgb1 = meanRgb(basePointCloud, c1);
@@ -380,6 +398,12 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
     return regions;
 }
 
+/**
+ * @brief findRegion Find a given region in a vector of reference clouds.
+ * @param container Container containing all the regions.
+ * @param region Region to search for in the vector.
+ * @return The pointer to the region if found, nullptr in the other case.
+ */
 std::vector<CCLib::ReferenceCloud*>* findRegion(std::vector<std::vector<CCLib::ReferenceCloud*>*>* container, CCLib::ReferenceCloud* region)
 {
     if(container->size() == 0)

@@ -90,8 +90,27 @@ private:
     //! Segment a cloud with RGB color
     void filterRgbWithSegmentation();
 
+    /**
+     * @brief regionGrowing Segmentation method grouping the points into regions of similar colors.
+     * Method described in Qingming Zhan, Yubin Liang, Yinghui Xiao, 2009 "Color-based segmentation of point clouds".
+     * @param pointCloud The point cloud to segment.
+     * @param TNN Point-point colorimetrical similarity threshold.
+     * @param TPP Number of neighbours to search using KNN.
+     * @param TD Threshold distance between neighbouring points.
+     * @return Vector containing the resulting regions.
+     */
     std::vector<CCLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
 
+    /**
+     * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
+     * @param basePointCloud The base segmented point cloud used to create the regions.
+     * @param regions Vector containing the regions.
+     * @param TNN Point-point colorimetrical similarity threshold.
+     * @param TRR Region-region colorimetrical similarity threshold.
+     * @param TD Threshold distance between neighbouring regions. Used to merge close regions.
+     * @param Min Minimal size for a region.
+     * @return Vector containing the resulting merged and refined regions.
+     */
     std::vector<CCLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
 
 
