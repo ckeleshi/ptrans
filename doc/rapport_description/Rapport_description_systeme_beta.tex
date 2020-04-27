@@ -266,20 +266,20 @@ Après le renseignement des bornes inférieures et supérieures en RGB, et la va
 \begin{figure}[H]
 \center
 \includegraphics[width=0.7\textwidth]{./img/ex_rgb_avant.PNG}
-\caption{\label{} Filtrage RGB avant}
+\caption{\label{} Filtrage RGB rouge : avant}
 \end{figure}
 
 \begin{figure}[H]
 \center
 \includegraphics[width=0.7\textwidth]{./img/ex_rgb_apres.PNG}
-\caption{\label{} Filtrage RGB après}
+\caption{\label{} Filtrage RGB rouge : après}
 \end{figure}
 
-Malgré une solution qui semble fonctionner, nous pouvons quand même ressentir les limites de cette méthode. En effet, en utilisant uniquement l'espace colorimétrique RGB, nous sommes limités pour établir des vrai bornes qui permettent de séparer les couleurs plus nuancées. En effet, la qualité du filtrage dépend en grande partie des points que l'utilisateur aura sélectionné, et reste très vague en utilisant uniquement des bornes sur les valeurs RGB. C'est donc pour cela que nous avons utilisé un autre espace colorimétrique, le HSV, qui nous fournira des informations sur la teinte, la saturation et la valeur d'un point.
+Malgré une solution qui semble fonctionner, nous pouvons quand même ressentir les limites de cette méthode. En effet, en utilisant uniquement l'espace colorimétrique RGB, nous sommes limités pour établir des vraies bornes qui permettent de séparer les couleurs plus nuancées. En effet, la qualité du filtrage dépend en grande partie des points que l'utilisateur aura sélectionné, et reste très vague en utilisant uniquement des bornes sur les valeurs RGB. C'est donc pour cela que nous avons utilisé un autre espace colorimétrique, le HSV, qui nous fournira des informations sur la teinte, la saturation et la valeur d'un point.
 
 \subsubsection{Filtrage via l'espace colorimétrique Hue-Saturation-Value (HSV)}
 
-Afin d'avoir plus de précision sur la sélection de plages de couleurs, nous avons donc décidé d'utiliser l'espace colorimétrique HSV (Teinte, Saturation, Valeur en français).
+Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous avons donc décidé d'utiliser l'espace colorimétrique HSV (Teinte, Saturation, Valeur en français).
 
 \begin{figure}[H]
 \center
@@ -287,7 +287,7 @@ Afin d'avoir plus de précision sur la sélection de plages de couleurs, nous av
 \caption{\label{} Description de l'espace colorimétrique HSV}
 \end{figure}
 
- La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
+ La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuances de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
 Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
 
@@ -295,9 +295,9 @@ La description de l'algorithme de conversion est disponible ici \cite{B02}. \new
 
 Une fois la conversion faite, nous allons pouvoir utiliser nos trois nouvelles composantes pour établir nos bornes de couleurs. Nous avons réalisé nos bornes en plusieurs étapes : \newline
 
-Tout d'abord, nous avons commencé par analysé la composante de la saturation. Cette dernière nous permet nous dit si la couleur est vive (très "coloré"), ou pâle. Nous avons considéré qu'une saturation entre 0 et 25, sur 100, donnait une couleur pâle, donc une couleur dans les nuances de gris. Grâce à cela, nous n'avons donc pas besoin d'analyser la teinte, puisque nous savons que la couleur sera grise. \newline
+Tout d'abord, nous avons commencé par analyser la composante de la saturation. Cette dernière nous permet nous dit si la couleur est vive (très "coloré"), ou pâle. Nous avons considéré qu'une saturation entre 0 et 25, sur 100, donnait une couleur pâle, donc une couleur dans les nuances de gris. Grâce à cela, nous n'avons donc pas besoin d'analyser la teinte, puisque nous savons que la couleur sera grise. \newline
 
-Dans le cas d'une couleur grise, nous pouvons donc analyser la composante de la valeur. Ici, nous avons remarqué qu'il est donc possible de distinguer 3 couleurs principales : noir, gris et blanc. Nous avons donc définis le noir comme étant une valeur entre 0 et 25, gris pour une valeur entre 26 et 60, et blanc pour une valeur entre 61 et 100. \newline
+Dans le cas d'une couleur grise, nous pouvons donc analyser la composante de la valeur. Ici, nous avons remarqué qu'il est donc possible de distinguer 3 couleurs principales : noir, gris et blanc. Nous avons donc défini le noir comme étant une valeur entre 0 et 25, gris pour une valeur entre 26 et 60, et blanc pour une valeur entre 61 et 100. \newline
 
 Dans le cas où nous avons une couleur non grise, nous avons décomposé l'analyse de la valeur en deux parties seulement : une couleur noire et les autres couleurs. \newline
 
@@ -323,7 +323,45 @@ Les plages de couleurs que nous avons fixé sont donc les suivantes :
     \item Rouge : $330 < teinte \leq 360$ \newline
 \end{itemize}
 
-Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il nous reste donc qu'à ajouter les points qui sont de la même catégorie que le point sélectionné. Ci-dessous, un exemple du filtrage :
+Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il ne nous reste donc qu'à ajouter les points qui sont de la même catégorie que le point sélectionné. Ci-dessous, un exemple de ce filtrage, identique à celui pour le RGB :
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/1_red.PNG}
+\caption{\label{} Filtrage HSV rouge : avant}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/2_red.PNG}
+\caption{\label{} Filtrage HSV rouge : après}
+\end{figure}
+
+Nous remarquons une amélioration au niveau de la sélection de tous les points rougeâtres, mais on remarque aussi qu'il y a plus de résidus. En effet, il est difficile de distinguer des points sombres de l'objet rouge que l'on veut sélectionner, des points résidus rougeâtres à cause de l'ombre. \newline
+
+Un autre exemple sur un autre nuage de points va nous permettre de mieux voir les différences. Ci-dessous, nous allons récupérer les points blancs (RGB:255/255/255) :
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/1_white.PNG}
+\caption{\label{} Filtrage blanc : avant}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/3_white.PNG}
+\caption{\label{} Filtrage RGB blanc : après}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/2_white.PNG}
+\caption{\label{} Filtrage HSV blanc : après}
+\end{figure}
+
+Nous remarquons donc une nette amélioration au niveau de la sélection des tuyaux blancs, surtout pour les tuyaux qui ont une couleur blanche mais avec un peu d'ombre. Même si on obtient des résidus, nous pouvons maintenant récupérer avec plus de précision les points que nous voulons. \newline
+
+Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
 
 \newpage
 \section{Conclusion et perspectives}
