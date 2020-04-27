@@ -289,11 +289,41 @@ Afin d'avoir plus de précision sur la sélection de plages de couleurs, nous av
 
  La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donne respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuance de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
-Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp.
+Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
 
-%TODO : expliquer l'algo OU montrer un lien ?
+La description de l'algorithme de conversion est disponible ici \cite{B02}. \newline
 
-%TODO : expliquer les plages (fin d'itération 4)
+Une fois la conversion faite, nous allons pouvoir utiliser nos trois nouvelles composantes pour établir nos bornes de couleurs. Nous avons réalisé nos bornes en plusieurs étapes : \newline
+
+Tout d'abord, nous avons commencé par analysé la composante de la saturation. Cette dernière nous permet nous dit si la couleur est vive (très "coloré"), ou pâle. Nous avons considéré qu'une saturation entre 0 et 25, sur 100, donnait une couleur pâle, donc une couleur dans les nuances de gris. Grâce à cela, nous n'avons donc pas besoin d'analyser la teinte, puisque nous savons que la couleur sera grise. \newline
+
+Dans le cas d'une couleur grise, nous pouvons donc analyser la composante de la valeur. Ici, nous avons remarqué qu'il est donc possible de distinguer 3 couleurs principales : noir, gris et blanc. Nous avons donc définis le noir comme étant une valeur entre 0 et 25, gris pour une valeur entre 26 et 60, et blanc pour une valeur entre 61 et 100. \newline
+
+Dans le cas où nous avons une couleur non grise, nous avons décomposé l'analyse de la valeur en deux parties seulement : une couleur noire et les autres couleurs. \newline
+
+Une couleur noire aura une valeur entre 0 et 25. Il n'y aura donc pas besoin d'analyser la teinte. Dans le cas contraire, il faudra l'analyser pour séparer les gammes de couleurs. \newline
+
+Concernant la dernière composante, qui est la teinte, nous nous sommes aidé du cercle chromatique, ci-dessous.
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/cercle_chromatique.PNG}
+\caption{\label{} Cercle chromatique}
+\end{figure}
+
+Les plages de couleurs que nous avons fixé sont donc les suivantes :
+
+\begin{itemize}
+    \item Rouge : $0 \leq teinte \leq 30$
+    \item Jaune : $30 < teinte \leq 90$
+    \item Vert : $90 < teinte \leq 150$
+    \item Cyan : $150 < teinte \leq 210$
+    \item Bleu : $210 < teinte \leq 270$
+    \item Magenta : $270 < teinte \leq 330$
+    \item Rouge : $330 < teinte \leq 360$ \newline
+\end{itemize}
+
+Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il nous reste donc qu'à ajouter les points qui sont de la même catégorie que le point sélectionné. Ci-dessous, un exemple du filtrage :
 
 \newpage
 \section{Conclusion et perspectives}
@@ -388,7 +418,7 @@ Il faut aussi noter que pour le développement d'un nouvel algorithme de sélect
 
 Cette section sera présente pour le rapport final de la description du système (version beta).
 \begin{thebibliography}{3}
-
   \bibitem{B01} Qingming Zhan, Yubin Liang, Yinghui Xiao, \textit{Color-based segmentation of point clouds}, 2009
+  \bibitem{B02} Conversion RGB - HSV : \url{https://mattlockyer.github.io/iat455/documents/rgb-hsv.pdf}
 \end{thebibliography}
 \end{document}
