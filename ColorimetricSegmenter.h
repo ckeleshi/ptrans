@@ -49,6 +49,9 @@
 	components (database, 3D views, console, etc.) - see the ccMainAppInterface
 	class in ccMainAppInterface.h.
 **/
+const int MIN_VALUE = 0;
+const int MAX_VALUE = 255;
+
 class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
 	Q_OBJECT
@@ -97,6 +100,10 @@ private:
 	void filterHSV();
 
 	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
+
+	void createClouds(ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name);
+
+	void ColorimetricSegmenter::createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
 
 	//picked point callbacks
 	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);

@@ -205,13 +205,22 @@ void ColorimetricSegmenter::filterRgb()
 	int blueInf = rgbDlg->blue_first->value() - marginError * rgbDlg->blue_first->value();
 	int blueSup = rgbDlg->blue_second->value() + marginError * rgbDlg->blue_second->value();
 
+	redInf = (redInf < MIN_VALUE ? MIN_VALUE : redInf);
+	greenInf = (greenInf < MIN_VALUE ? MIN_VALUE : greenInf);
+	blueInf = (blueInf < MIN_VALUE ? MIN_VALUE : blueInf);
+
+	redSup = (redSup > MAX_VALUE ? MAX_VALUE : redSup);
+	greenSup = (greenSup > MAX_VALUE ? MAX_VALUE : greenSup);
+	blueSup = (blueSup > MAX_VALUE ? MAX_VALUE : blueSup);
+
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
 	for (ccPointCloud* cloud : clouds) {
 		if (cloud->hasColors())
 		{
 			// Use only references for speed reasons
-			CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
+			CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
+			CCLib::ReferenceCloud* filteredCloudOutside = new CCLib::ReferenceCloud(cloud);
 
 			for (unsigned j = 0; j < cloud->size(); ++j)
 			{
@@ -220,27 +229,30 @@ void ColorimetricSegmenter::filterRgb()
 				if (rgb.r > redInf && rgb.r < redSup &&
 					rgb.g > greenInf && rgb.g < greenSup &&
 					rgb.b > blueInf && rgb.b < blueSup) { // Points to select
-					if (!filteredCloud->addPointIndex(j))
+					if (!filteredCloudInside->addPointIndex(j))
 					{
 						//not enough memory
-						delete filteredCloud;
-						filteredCloud = nullptr;
+						delete filteredCloudInside;
+						filteredCloudInside = nullptr;
+						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
+						break;
+					}
+				}
+				else {
+					if (!filteredCloudOutside->addPointIndex(j))
+					{
+						//not enough memory
+						delete filteredCloudOutside;
+						filteredCloudOutside = nullptr;
 						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
 						break;
 					}
 				}
 
 			}
-			ccPointCloud* newCloud = cloud->partialClone(filteredCloud);
-			newCloud->setName(QString::fromStdString("Rmin:" + std::to_string(redInf) + "/Gmin:" + std::to_string(greenInf) + "/Bmin:" + std::to_string(blueInf) +
-													"/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup)));
-			
-			cloud->setEnabled(false);
-			if (cloud->getParent()) {
-				cloud->getParent()->addChild(newCloud);
-			}
-
-			m_app->addToDB(newCloud, false, true, false, false);
+			std::string name = "Rmin:" + std::to_string(redInf) + "/Gmin:" + std::to_string(greenInf) + "/Bmin:" + std::to_string(blueInf) +
+							   "/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup);
+			createClouds(cloud, filteredCloudInside, filteredCloudOutside, name);
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
 			
@@ -370,4 +382,38 @@ void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsig
 		filteredCloud = nullptr;
 		m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
 	}
+}
+
+void ColorimetricSegmenter::createClouds(ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name)
+{
+	
+	if (rgbDlg->retain->isChecked()) {
+		createCloud(cloud, filteredCloudInside, name, true);
+	}
+	else if (rgbDlg->exclude->isChecked()) {
+		createCloud(cloud, filteredCloudOutside, name, false);
+	}
+	else if (rgbDlg->both->isChecked()) {
+		createCloud(cloud, filteredCloudInside, name, true);
+		createCloud(cloud, filteredCloudOutside, name, false);
+	}
+	
+}
+
+void ColorimetricSegmenter::createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside) {
+	ccPointCloud* newCloud = cloud->partialClone(referenceCloud);
+	if (inside) {
+		name += ".inside";
+	}
+	else {
+		name += ".outside";
+	}
+
+	newCloud->setName(QString::fromStdString(name));
+	cloud->setEnabled(false);
+	if (cloud->getParent()) {
+		cloud->getParent()->addChild(newCloud);
+	}
+
+	m_app->addToDB(newCloud, false, true, false, false);
 }
