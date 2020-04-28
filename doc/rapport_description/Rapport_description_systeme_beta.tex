@@ -244,7 +244,21 @@ Bien qu'implémenté, cet algorithme n'a pas été suffisamment testé. Sa compl
 
 \subsubsection{Conversion RGB à l'espace colorimétrique CIELAB}
 
-%TODO
+Compte tenu de l'impact du mouchetage sur le nuage de point, il s'agissait du problème le plus important à palier afin d'obtenir une segmentation colorimétrique la plus rigoureuse.
+C'est pourquoi, nous nous sommes tournés vers un autre espace colorimétrique que le classique RGB.
+Le CIELAB ou lab, est un espace où la luminance et la chrominance sont dissociés, or le problème réside dans des variations de la luminance, mais dans une même gamme de couleurs.
+Dans le cas du lab, il suffirait de ne prendre en compte seulement la chrominance.
+\newline
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.8\textwidth]{./img/CIELAB.png}
+    \caption{\label{} Répresentation de l'espace CIELAB}
+\end{figure}
+
+Cependant, l'utilisation du lab a des désavantages, il faudra réaliser la conversion de RGB à XYZ puis de XYZ à lab avant de pouvoir réaliser le processus de segmentation et ceci sur l'ensemble des points qui composent le nuage.
+De plus, la représentation lab requière plus d'espace mémoire. En effet, lors d'un jeu de tests, on a pu constater qu'entre segmentation naïve RGB et CIELAB, le ratio de temps d'exécution était environ de 15.
+Après discussion avec le client, il a été convenu de nous concentrer sur d'autres algorithmes et de chercher vers d'autres espaces colorimétriques où la conversion est moins complexe.
 
 
 \subsubsection{Filtrage via les valeurs RGB}
@@ -370,6 +384,42 @@ Nous remarquons donc une nette amélioration au niveau de la sélection des tuya
 
 Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
 
+
+\subsection{Tone mapping}
+
+Dans l'optique d'avoir une meilleure visualisation des éléments du nuage de points, nous avons ajouté un processus permettant de restreindre la palette de couleurs au sein d'un scan. Ceci a donc pour but de limiter les variations d'intensité imputées par les fusions de scans, qui compose le nuage. Ce processus est analogue à la quantification d'image, deux algorithmes, on était implémentés dans notre solution :
+
+\begin{itemize}
+    \item Algorithme par segmentation de l'histogramme
+    \item Algorithme K-means
+\end{itemize}
+
+L'algorithme de segmentation de l'histogramme scinde chaque composante de l'espace RGB, suivant un coefficient donnée par l'utilisateur.
+Pour un N donné, on obtiendra une grille de $Q\times Q \times Q$ cubes / partitions qui engendreront une palette de $Q^3$ couleurs.
+\newline
+
+Pour chaque partition, on cherche et attribue chaque point du nuage à celle qui lui est propre. Une fois fait,
+on calcule la couleur moyenne de toutes les partitions et on affecte les couleurs obtenues aux points correspondants. La figure ci-dessus montre les résultats obtenus en faisant varier le coefficient\newline
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.8\textwidth]{./img/ExpToonMapping.png}
+\caption{\label{} Exemples du Tone Mapping}
+\end{figure}
+
+Les limites de cette méthode résident dans les couleurs moyennes.
+l'espace RGB n'est pas l'espace colorimétrique le plus adéquat pour générer une couleur moyenne pertinente, mais permet d'éviter le temps d'exécution d'une double conversion.
+La seconde limite est le fait que cette méthode peut générer des couleurs qui n'étaient pas présentes à l'origine dans le nuage.
+\newline
+
+L'algorithme K-means connu dans la quantification d'images.
+Comme pour l'algorithme de segmentation, il aurait été intéressant de travailler par référence afin de limiter l'utilisation en mémoire.
+Cependant, la structure "ReferenceCloud" de CloudCompare, n'a pas accès aux couleurs des points, c'est pourquoi elle n'a pas été utilisée.
+Bien que l'algorithme k-means doit se terminer lorsqu'il n'y a plus de variation entre deux itérations, une limite d'itérations a été mise afin que l'utilisateur puisse obtenir un résultat dans un temps modéré.
+\newline
+
+Hélas, certains risque réside dans l'algorithme k-means, le risque de rester coincé dans un minimum local. L'autre biais est que le résultat obtenu dépendant grandement des points pris à l'initialisation.
+
 \newpage
 \section{Conclusion et perspectives}
 
@@ -402,7 +452,7 @@ Les annexes contiendront tout ce qui ne concerne pas directement la description 
 
 \subsection{Déroulement du projet}
 
-Il est important de faire un retour sur le déroulement du projet, afin de savoir ce que nous avons bien réalisé, les difficultés que nous avons rencontrés, nos méthodes de travail, etc. En effet, cela nous permettra d'améliorer nos démarches pour mener à bien ce projet. 
+Il est important de faire un retour sur le déroulement du projet, afin de savoir ce que nous avons bien réalisé, les difficultés que nous avons rencontrés, nos méthodes de travail, etc. En effet, cela nous permettra d'améliorer nos démarches pour mener à bien ce projet.
 
 \subsubsection{Vision globale du projet}
 
