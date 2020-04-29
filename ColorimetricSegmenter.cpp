@@ -346,6 +346,7 @@ void ColorimetricSegmenter::filterHSV()
 	ccLog::Print("Time to execute : " + s + " milliseconds");
 }
 
+// Method to add point to a ReferenceCloud*
 void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j)
 {
 	if (!filteredCloud->addPointIndex(j))
@@ -357,6 +358,7 @@ void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsig
 	}
 }
 
+// Method to interact with the component "Which points to keep"
 template <typename T>
 void ColorimetricSegmenter::createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name)
 {
@@ -374,6 +376,7 @@ void ColorimetricSegmenter::createClouds(T& dlg, ccPointCloud* cloud, CCLib::Ref
 	
 }
 
+// Method to create a new cloud
 void ColorimetricSegmenter::createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside) {
 	ccPointCloud* newCloud = cloud->partialClone(referenceCloud);
 	if (inside) {
