@@ -198,20 +198,20 @@ void ColorimetricSegmenter::filterRgb()
 	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
 
 	// Get all values to make the color range with RGB values
-	int redInf = rgbDlg->red_first->value() - (marginError * rgbDlg->red_first->value());
-	int redSup = rgbDlg->red_second->value() + marginError * rgbDlg->red_second->value();
-	int greenInf = rgbDlg->green_first->value() - marginError * rgbDlg->green_first->value();
-	int greenSup = rgbDlg->green_second->value() + marginError * rgbDlg->green_second->value();
-	int blueInf = rgbDlg->blue_first->value() - marginError * rgbDlg->blue_first->value();
-	int blueSup = rgbDlg->blue_second->value() + marginError * rgbDlg->blue_second->value();
+	int redInf   = rgbDlg->red_first    ->value() - (marginError * rgbDlg->red_first    ->value());
+	int redSup   = rgbDlg->red_second   ->value() + (marginError * rgbDlg->red_second   ->value());
+	int greenInf = rgbDlg->green_first  ->value() - (marginError * rgbDlg->green_first  ->value());
+	int greenSup = rgbDlg->green_second ->value() + (marginError * rgbDlg->green_second ->value());
+	int blueInf  = rgbDlg->blue_first   ->value() - (marginError * rgbDlg->blue_first   ->value());
+	int blueSup  = rgbDlg->blue_second  ->value() + (marginError * rgbDlg->blue_second  ->value());
 
-	redInf = (redInf < MIN_VALUE ? MIN_VALUE : redInf);
+	redInf   = (redInf   < MIN_VALUE ? MIN_VALUE : redInf  );
 	greenInf = (greenInf < MIN_VALUE ? MIN_VALUE : greenInf);
-	blueInf = (blueInf < MIN_VALUE ? MIN_VALUE : blueInf);
+	blueInf  = (blueInf  < MIN_VALUE ? MIN_VALUE : blueInf );
 
-	redSup = (redSup > MAX_VALUE ? MAX_VALUE : redSup);
+	redSup   = (redSup   > MAX_VALUE ? MAX_VALUE : redSup  );
 	greenSup = (greenSup > MAX_VALUE ? MAX_VALUE : greenSup);
-	blueSup = (blueSup > MAX_VALUE ? MAX_VALUE : blueSup);
+	blueSup  = (blueSup  > MAX_VALUE ? MAX_VALUE : blueSup );
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
@@ -225,38 +225,16 @@ void ColorimetricSegmenter::filterRgb()
 			for (unsigned j = 0; j < cloud->size(); ++j)
 			{
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
-
-				if (rgb.r > redInf && rgb.r < redSup &&
-					rgb.g > greenInf && rgb.g < greenSup &&
-					rgb.b > blueInf && rgb.b < blueSup) { // Points to select
-					if (!filteredCloudInside->addPointIndex(j))
-					{
-						//not enough memory
-						delete filteredCloudInside;
-						filteredCloudInside = nullptr;
-						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
-						break;
-					}
-				}
-				else {
-					if (!filteredCloudOutside->addPointIndex(j))
-					{
-						//not enough memory
-						delete filteredCloudOutside;
-						filteredCloudOutside = nullptr;
-						m_app->dispToConsole("[ColorimetricSegmenter] Error, filter canceled.");
-						break;
-					}
-				}
-
+				(rgb.r > redInf   && rgb.r < redSup   &&
+				 rgb.g > greenInf && rgb.g < greenSup &&
+				 rgb.b > blueInf  && rgb.b < blueSup) ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
 			}
 			std::string name = "Rmin:" + std::to_string(redInf) + "/Gmin:" + std::to_string(greenInf) + "/Bmin:" + std::to_string(blueInf) +
 							   "/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup);
-			createClouds(cloud, filteredCloudInside, filteredCloudOutside, name);
+
+			createClouds<RgbDialog*>(rgbDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-			
-
 		}
 	}
 
@@ -277,7 +255,6 @@ void ColorimetricSegmenter::filterHSV()
 	{
 		// m_app should have already been initialized by CC when plugin is loaded
 		Q_ASSERT(false);
-
 		return;
 	}
 
@@ -313,7 +290,8 @@ void ColorimetricSegmenter::filterHSV()
 	for (ccPointCloud* cloud : clouds) {
 		if (cloud->hasColors()) {
 			// Use only references for speed reasons
-			CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
+			CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
+			CCLib::ReferenceCloud* filteredCloudOutside = new CCLib::ReferenceCloud(cloud);
 
 			// We manually add color ranges with HSV values
 			for (unsigned j = 0; j < cloud->size(); ++j)
@@ -325,38 +303,33 @@ void ColorimetricSegmenter::filterHSV()
 				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25)
 				{
 					// We only check value
-					if      (hsv_first.v >= 0 && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25)   addPoint(filteredCloud, j); // black
-					else if (hsv_first.v > 25 && hsv_first.v <= 60 && hsv_current.v > 25 && hsv_current.v <= 60)   addPoint(filteredCloud, j); // grey
-					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) addPoint(filteredCloud, j); // white
+					if      (hsv_first.v >= 0 && hsv_first.v <= 25  && 0 <= hsv_current.v && hsv_current.v <= 25)  addPoint(filteredCloudInside, j); // black
+					else if (hsv_first.v > 25 && hsv_first.v <= 60  && hsv_current.v > 25 && hsv_current.v <= 60)  addPoint(filteredCloudInside, j); // grey
+					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) addPoint(filteredCloudInside, j); // white
+					else addPoint(filteredCloudOutside, j);
 				}
 				else if (hsv_first.s > 25 && hsv_first.s <= 100 && hsv_current.s > 25 && hsv_current.s <= 100) {
 					// We need to check value first
-					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) addPoint(filteredCloud, j); // black
+					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) addPoint(filteredCloudInside, j); // black
 					// Then, we can check value
 					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100) 
 					{
-						if     (((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360)) &&
-							    ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloud, j); // red
-						else if (hsv_first.h > 30 && hsv_first.h <= 90 && hsv_current.h > 30 && hsv_current.h <= 90)             addPoint(filteredCloud, j); // yellow
-						else if (hsv_first.h > 90 && hsv_first.h <= 150 && hsv_current.h > 90 && hsv_current.h <= 150)           addPoint(filteredCloud, j); // green
-						else if (hsv_first.h > 150 && hsv_first.h <= 210 && hsv_current.h > 150 && hsv_current.h <= 210)         addPoint(filteredCloud, j); // cyan
-						else if (hsv_first.h > 210 && hsv_first.h <= 270 && hsv_current.h > 210 && hsv_current.h <= 270)         addPoint(filteredCloud, j); // blue
-						else if (hsv_first.h > 270 && hsv_first.h <= 330 && hsv_current.h > 270 && hsv_current.h <= 330)         addPoint(filteredCloud, j); // magenta
+						if     (((hsv_first.h   >= 0 && hsv_first.h   <= 30) || (hsv_first.h   >= 330 && hsv_first.h   <= 360)) &&
+							    ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloudInside, j); // red
+						else if (hsv_first.h > 30  && hsv_first.h <= 90  && hsv_current.h > 30  && hsv_current.h <= 90 )         addPoint(filteredCloudInside, j); // yellow
+						else if (hsv_first.h > 90  && hsv_first.h <= 150 && hsv_current.h > 90  && hsv_current.h <= 150)         addPoint(filteredCloudInside, j); // green
+						else if (hsv_first.h > 150 && hsv_first.h <= 210 && hsv_current.h > 150 && hsv_current.h <= 210)         addPoint(filteredCloudInside, j); // cyan
+						else if (hsv_first.h > 210 && hsv_first.h <= 270 && hsv_current.h > 210 && hsv_current.h <= 270)         addPoint(filteredCloudInside, j); // blue
+						else if (hsv_first.h > 270 && hsv_first.h <= 330 && hsv_current.h > 270 && hsv_current.h <= 330)         addPoint(filteredCloudInside, j); // magenta
+						else addPoint(filteredCloudOutside, j);
 					}
-				}
-
+					else addPoint(filteredCloudOutside, j);
+				} 
+				else addPoint(filteredCloudOutside, j);
 			}
 
-			// Copy new cloud
-			ccPointCloud* newCloud = cloud->partialClone(filteredCloud);
-			newCloud->setName(QString::fromStdString("h:" + std::to_string((int)hsv_first.h) + "/s:" + std::to_string((int)hsv_first.s) + "/v:" + std::to_string((int)hsv_first.v)));
-
-			cloud->setEnabled(false);
-			if (cloud->getParent()) {
-				cloud->getParent()->addChild(newCloud);
-			}
-
-			m_app->addToDB(newCloud, false, true, false, false);
+			std::string name = "h:" + std::to_string((int)hsv_first.h) + "/s:" + std::to_string((int)hsv_first.s) + "/v:" + std::to_string((int)hsv_first.v);
+			createClouds<HSVDialog*>(hsvDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
 
@@ -384,16 +357,17 @@ void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsig
 	}
 }
 
-void ColorimetricSegmenter::createClouds(ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name)
+template <typename T>
+void ColorimetricSegmenter::createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name)
 {
 	
-	if (rgbDlg->retain->isChecked()) {
+	if (dlg->retain->isChecked()) {
 		createCloud(cloud, filteredCloudInside, name, true);
 	}
-	else if (rgbDlg->exclude->isChecked()) {
+	else if (dlg->exclude->isChecked()) {
 		createCloud(cloud, filteredCloudOutside, name, false);
 	}
-	else if (rgbDlg->both->isChecked()) {
+	else if (dlg->both->isChecked()) {
 		createCloud(cloud, filteredCloudInside, name, true);
 		createCloud(cloud, filteredCloudOutside, name, false);
 	}

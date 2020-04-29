@@ -101,7 +101,8 @@ private:
 
 	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
 
-	void createClouds(ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name);
+	template <typename T>
+	void createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name);
 
 	void ColorimetricSegmenter::createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
 
