@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>204</height>
+    <width>471</width>
+    <height>253</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -261,6 +261,42 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="horizontalGroupBox">
+     <property name="title">
+      <string>Choose which points to keep </string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QRadioButton" name="retain">
+        <property name="text">
+         <string>Retain</string>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QRadioButton" name="exclude">
+        <property name="text">
+         <string>Exclude</string>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QRadioButton" name="both">
+        <property name="text">
+         <string>Both</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
