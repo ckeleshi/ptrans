@@ -128,7 +128,7 @@ void ScalarDialog::onItemPicked(const PickedItem& pi)
 
 	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
 	{
-		if (static_cast<ccGenericPointCloud*>(pi.entity)->hasColors()) {
+        if (static_cast<ccGenericPointCloud*>(pi.entity)->hasScalarFields()) {
 				//Get RGB values of the picked point
                 ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
                 const ScalarType scalarValue = cloud->getPointScalarValue(pi.itemIndex);
@@ -148,7 +148,7 @@ void ScalarDialog::onItemPicked(const PickedItem& pi)
 				}
 		}
 		else {
-			ccLog::Print("The point cloud is not with RGB values.");
+            ccLog::Print("The point cloud hasn't any scalar field.");
 		}
 
 	}

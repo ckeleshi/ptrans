@@ -111,7 +111,7 @@
              <string notr="true">(0-1) : </string>
             </property>
             <property name="decimals">
-             <number>0</number>
+             <number>7</number>
             </property>
             <property name="minimum">
              <double>0.000000000000000</double>
@@ -201,7 +201,7 @@
              <string notr="true">(0-1) : </string>
             </property>
             <property name="decimals">
-             <number>0</number>
+             <number>7</number>
             </property>
             <property name="minimum">
              <double>0.000000000000000</double>

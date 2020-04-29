@@ -342,9 +342,12 @@ void ColorimetricSegmenter::filterScalar()
     scalarDlg = new ScalarDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
     scalarDlg->show();
 
+    if (!scalarDlg->exec())
+        return;
+
     auto start = std::chrono::high_resolution_clock::now();
 
-    double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
+    double marginError = static_cast<double>(scalarDlg->margin->value()) / 100.0;
     ScalarType first = scalarDlg->first->value() - (marginError * scalarDlg->first ->value());
     ScalarType second = scalarDlg->second->value() - (marginError * scalarDlg->second ->value());
 
