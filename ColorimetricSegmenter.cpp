@@ -268,12 +268,12 @@ void ColorimetricSegmenter::filterRgb()
 	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
 
 	// Get all values to make the color range with RGB values
-	int redInf   = rgbDlg->red_first    ->value() - (marginError * rgbDlg->red_first    ->value());
-	int redSup   = rgbDlg->red_second   ->value() + (marginError * rgbDlg->red_second   ->value());
-	int greenInf = rgbDlg->green_first  ->value() - (marginError * rgbDlg->green_first  ->value());
-	int greenSup = rgbDlg->green_second ->value() + (marginError * rgbDlg->green_second ->value());
-	int blueInf  = rgbDlg->blue_first   ->value() - (marginError * rgbDlg->blue_first   ->value());
-	int blueSup  = rgbDlg->blue_second  ->value() + (marginError * rgbDlg->blue_second  ->value());
+	int redInf   = std::min(rgbDlg->red_first->value(),   rgbDlg->red_second->value())   - (marginError * std::min(rgbDlg->red_first->value(),   rgbDlg->red_second->value()));
+	int redSup   = std::max(rgbDlg->red_first->value(),   rgbDlg->red_second->value())   + (marginError * std::max(rgbDlg->red_first->value(),   rgbDlg->red_second->value()));
+	int greenInf = std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()) - (marginError * std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
+	int greenSup = std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()) + (marginError * std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
+	int blueInf  = std::min(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value())  - (marginError * std::min(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value()));
+	int blueSup  = std::max(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value())  + (marginError * std::max(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value()));
 
 	redInf   = (redInf   < MIN_VALUE ? MIN_VALUE : redInf  );
 	greenInf = (greenInf < MIN_VALUE ? MIN_VALUE : greenInf);

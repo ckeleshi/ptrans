@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>314</height>
+    <width>564</width>
+    <height>192</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -292,7 +292,7 @@
        <item>
         <widget class="QLabel" name="margin_label">
          <property name="text">
-          <string>Deviation from limit  (%) :</string>
+          <string>Deviation from limits (%) :</string>
          </property>
         </widget>
        </item>

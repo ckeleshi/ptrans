@@ -27,7 +27,7 @@
        <item>
         <widget class="QGroupBox" name="centerGroupBox">
          <property name="title">
-          <string>Choose the darkest point </string>
+          <string>Choose the first point </string>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -188,7 +188,7 @@
        <item>
         <widget class="QGroupBox" name="centerGroupBox_2">
          <property name="title">
-          <string>Choose the clearest point </string>
+          <string>Choose the second point </string>
          </property>
          <property name="flat">
           <bool>true</bool>
