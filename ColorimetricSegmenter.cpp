@@ -45,7 +45,8 @@ ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
 	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )
 	, m_action_filterRgb( nullptr )
     , m_action_filterRgbWithSegmentation(nullptr)
-	, m_action_filterHSV( nullptr )
+    , m_action_filterHSV( nullptr )
+    , m_action_filterScalar( nullptr )
 {
 }
 
@@ -88,6 +89,11 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
         return;
     }
 	
+    if (m_action_filterScalar == nullptr)
+    {
+        return;
+    }
+
 	// If you need to check for a specific type of object, you can use the methods
 	// in ccHObjectCaster.h or loop and check the objects' classIDs like this:
 	//
@@ -119,12 +125,14 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	m_action_filterRgb->setEnabled(false);
 	m_action_filterHSV->setEnabled(false);
     m_action_filterRgbWithSegmentation->setEnabled(false);
+    m_action_filterScalar->setEnabled(false);
 
     //Activate only if only one of them is activated
 	if ((activateColorFilters != activateScalarFilter) && !selectedEntities.empty()) {
 		m_action_filterRgb->setEnabled(activateColorFilters);
         m_action_filterHSV->setEnabled(activateColorFilters);
         m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
+        m_action_filterScalar->setEnabled(activateScalarFilter);
 	}
 
 }
@@ -179,9 +187,24 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		connect(m_action_filterHSV, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
 		connect(m_action_filterHSV, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 
-	}
+    }
 
-    return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation };
+    // Scalar filter
+    if (!m_action_filterScalar)
+    {
+        m_action_filterScalar = new QAction("Filter scalar", this);
+        m_action_filterScalar->setToolTip("Filter the points on the selected cloud using scalar field");
+        m_action_filterScalar->setIcon(getIcon());
+
+        // Connect appropriate signal
+        connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalar);
+
+        connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+        connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+        connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+
+    }
+    return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar };
 }
 
 // Get all point clouds that are selected in CC
@@ -283,7 +306,79 @@ void ColorimetricSegmenter::filterRgb()
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
 		}
-	} 
+    }
+    // Stop timer
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+    QString s = QString::number(duration);
+
+    //Print time of execution
+    ccLog::Print("Time to execute : " + s + " milliseconds.");
+}
+
+
+void ColorimetricSegmenter::filterScalar()
+{
+    if ( m_app == nullptr )
+    {
+        // m_app should have already been initialized by CC when plugin is loaded
+        Q_ASSERT( false );
+
+        return;
+    }
+
+    //check valid window
+    if (!m_app->getActiveGLWindow())
+    {
+        m_app->dispToConsole("[ccCompass] Could not find valid 3D window.", ccMainAppInterface::ERR_CONSOLE_MESSAGE);
+        return;
+    }
+
+    // Retrieve parameters from dialog
+    if (m_app->pickingHub()) {
+        m_pickingHub = m_app->pickingHub();
+    }
+
+    scalarDlg = new ScalarDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
+    scalarDlg->show();
+
+    if (!scalarDlg->exec())
+        return;
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    double marginError = static_cast<double>(scalarDlg->margin->value()) / 100.0;
+    ScalarType first = scalarDlg->first->value() - (marginError * scalarDlg->first ->value());
+    ScalarType second = scalarDlg->second->value() - (marginError * scalarDlg->second ->value());
+
+    std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
+    for (ccPointCloud* cloud : clouds) {
+        const ScalarType min = std::min(first, second);
+        const ScalarType max = std::max(first, second);
+
+        // Use only references for speed reasons
+        CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
+        CCLib::ReferenceCloud* filteredCloudOutside = new CCLib::ReferenceCloud(cloud);
+
+        for (unsigned j = 0; j < cloud->size(); ++j)
+        {
+            const ScalarType val = cloud->getPointScalarValue(j);
+            (val > min   && val < max)
+                ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
+        }
+        std::string name = "min:" + std::to_string(min) + "/max:" + std::to_string(max);
+
+        createClouds<ScalarDialog*>(scalarDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
+
+        m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+    }
+    // Stop timer
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+    QString s = QString::number(duration);
+
+    //Print time of execution
+    ccLog::Print("Time to execute : " + s + " milliseconds.");
 }
 
 /**

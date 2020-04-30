@@ -31,6 +31,7 @@
 
 #include "RgbDialog.h"
 #include "HSVDialog.h"
+#include "ScalarDialog.h"
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
@@ -98,7 +99,9 @@ private:
 	//! Filter a cloud with RGB color
 	void filterRgb();
 
-	void filterHSV();
+    void filterHSV();
+
+    void filterScalar();
 
 	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
 
@@ -146,12 +149,14 @@ private:
 	QAction* m_action_filterRgb;
     QAction* m_action_filterRgbWithSegmentation;
 	QAction* m_action_filterHSV;
+    QAction* m_action_filterScalar;
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub = nullptr;
 
 	RgbDialog* rgbDlg;
-	HSVDialog* hsvDlg;
+    HSVDialog* hsvDlg;
+    ScalarDialog* scalarDlg;
 
 	//link to application windows
 	//ccGLWindow* m_window;
