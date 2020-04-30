@@ -420,7 +420,6 @@ void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*
         [&](int a, int b) { return distances[a] < distances[b]; });
 
     // then extract the 'k' nearest neighbors.
-    neighbours = new std::vector<CCLib::ReferenceCloud*>();
     for(int i : *index)
     {
         if(neighbours->size() < k)
@@ -581,7 +580,7 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionMergingAndRefi
         }
 
         // for each region Rj in {KNNTNN2,TD2(Ri)}
-        std::vector<CCLib::ReferenceCloud*>* knnResult;
+        std::vector<CCLib::ReferenceCloud*>* knnResult = new std::vector<CCLib::ReferenceCloud*>();
         knnRegions(basePointCloud, regions, ri, TNN, knnResult, TD);
         for(CCLib::ReferenceCloud* rj : *knnResult)
         {
@@ -663,9 +662,6 @@ void ColorimetricSegmenter::filterRgbWithSegmentation()
     for (ccPointCloud* cloud : clouds) {
         if (cloud->hasColors())
         {
-            // Use only references for speed reasons
-            CCLib::ReferenceCloud* filteredCloud = new CCLib::ReferenceCloud(cloud);
-
             std::vector<CCLib::ReferenceCloud*>* regions = regionGrowing(cloud, TNN, TPP, TD);
             regions = regionMergingAndRefinement(cloud, regions, TNN, TRR, TD, Min);
             //m_app->dispToConsole(QString("[ColorimetricSegmenter] regions %1").arg(regions->size()), ccMainAppInterface::STD_CONSOLE_MESSAGE);
