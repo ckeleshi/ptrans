@@ -59,20 +59,20 @@ const int MAX_VALUE = 255;
 class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
 	Q_OBJECT
-	Q_INTERFACES(ccStdPluginInterface)
+		Q_INTERFACES(ccStdPluginInterface)
 
-	// Replace "Example" by your plugin name (IID should be unique - let's hope your plugin name is unique ;)
-	// The info.json file provides information about the plugin to the loading system and
-	// it is displayed in the plugin information dialog.
-	Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
+		// Replace "Example" by your plugin name (IID should be unique - let's hope your plugin name is unique ;)
+		// The info.json file provides information about the plugin to the loading system and
+		// it is displayed in the plugin information dialog.
+		Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
 
 public:
-	explicit ColorimetricSegmenter( QObject *parent = nullptr );
+	explicit ColorimetricSegmenter(QObject* parent = nullptr);
 	~ColorimetricSegmenter() override = default;
 
 	// inherited from ccStdPluginInterface
-	void onNewSelection( const ccHObject::Container &selectedEntities ) override;
-	QList<QAction *> getActions() override;
+	void onNewSelection(const ccHObject::Container& selectedEntities) override;
+	QList<QAction*> getActions() override;
 
 public slots:
 	//! Handles new entity
@@ -101,50 +101,50 @@ private:
 	//! Filter a cloud with RGB color
 	void filterRgb();
 
-    void filterHSV();
+	void filterHSV();
 
-    void filterScalar();
+	void filterScalar();
 
-		void HistogramClustering();
+	void HistogramClustering();
 
-		void KmeansClustering();
+	void KmeansClustering();
 
 	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
 
 	template <typename T>
 	void createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name);
 
-    void createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
+	void createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
 
 	//picked point callbacks
 	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
 	//virtual void onItemPicked(const ccPickingListener::PickedItem& pi); //inherited from ccPickingListener
 
-    //! Segment a cloud with RGB color
-    void filterRgbWithSegmentation();
+	//! Segment a cloud with RGB color
+	void filterRgbWithSegmentation();
 
-    /**
-     * @brief regionGrowing Segmentation method grouping the points into regions of similar colors.
-     * Method described in Qingming Zhan, Yubin Liang, Yinghui Xiao, 2009 "Color-based segmentation of point clouds".
-     * @param pointCloud The point cloud to segment.
-     * @param TNN Point-point colorimetrical similarity threshold.
-     * @param TPP Number of neighbours to search using KNN.
-     * @param TD Threshold distance between neighbouring points.
-     * @return Vector containing the resulting regions.
-     */
-    std::vector<CCLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
+	/**
+	 * @brief regionGrowing Segmentation method grouping the points into regions of similar colors.
+	 * Method described in Qingming Zhan, Yubin Liang, Yinghui Xiao, 2009 "Color-based segmentation of point clouds".
+	 * @param pointCloud The point cloud to segment.
+	 * @param TNN Point-point colorimetrical similarity threshold.
+	 * @param TPP Number of neighbours to search using KNN.
+	 * @param TD Threshold distance between neighbouring points.
+	 * @return Vector containing the resulting regions.
+	 */
+	std::vector<CCLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
 
-    /**
-     * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
-     * @param basePointCloud The base segmented point cloud used to create the regions.
-     * @param regions Vector containing the regions.
-     * @param TNN Point-point colorimetrical similarity threshold.
-     * @param TRR Region-region colorimetrical similarity threshold.
-     * @param TD Threshold distance between neighbouring regions. Used to merge close regions.
-     * @param Min Minimal size for a region.
-     * @return Vector containing the resulting merged and refined regions.
-     */
-    std::vector<CCLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
+	/**
+	 * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
+	 * @param basePointCloud The base segmented point cloud used to create the regions.
+	 * @param regions Vector containing the regions.
+	 * @param TNN Point-point colorimetrical similarity threshold.
+	 * @param TRR Region-region colorimetrical similarity threshold.
+	 * @param TD Threshold distance between neighbouring regions. Used to merge close regions.
+	 * @param Min Minimal size for a region.
+	 * @return Vector containing the resulting merged and refined regions.
+	 */
+	std::vector<CCLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
 
 
 	//! Default action
@@ -153,10 +153,10 @@ private:
 		toolbar and an entry in the plugin menu.
 	**/
 	QAction* m_action_filterRgb;
-    QAction* m_action_filterRgbWithSegmentation;
+	QAction* m_action_filterRgbWithSegmentation;
 	QAction* m_action_filterHSV;
-    QAction* m_action_filterScalar;
-		QAction* m_action_ToonMapping_Hist;
+	QAction* m_action_filterScalar;
+	QAction* m_action_ToonMapping_Hist;
 	QAction* m_action_ToonMapping_KMeans;
 
 
@@ -164,21 +164,21 @@ private:
 	ccPickingHub* m_pickingHub = nullptr;
 
 	RgbDialog* rgbDlg;
-    HSVDialog* hsvDlg;
-    ScalarDialog* scalarDlg;
-		QuantiDialog* quantiDlg;
-		KmeansDlg* kmeansDlg;
+	HSVDialog* hsvDlg;
+	ScalarDialog* scalarDlg;
+	QuantiDialog* quantiDlg;
+	KmeansDlg* kmeansDlg;
 
 
 	//link to application windows
 	//ccGLWindow* m_window;
 	//QMainWindow* m_main_window;
 
-    const unsigned TNN = 1;
-    const double TPP = 2.0;
-    const double TD = 2.0;
-    const double TRR = 2.0;
-    const unsigned Min = 2;
+	const unsigned TNN = 1;
+	const double TPP = 2.0;
+	const double TD = 2.0;
+	const double TRR = 2.0;
+	const unsigned Min = 2;
 };
 
 #endif

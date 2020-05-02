@@ -41,15 +41,15 @@
 /*
 	Class that will apply all the algorithm of our plugin
 */
-ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
-	: QObject( parent )
-	, ccStdPluginInterface( ":/CC/plugin/ColorimetricSegmenter/info.json" )
-	, m_action_filterRgb( nullptr )
-    , m_action_filterRgbWithSegmentation(nullptr)
-    , m_action_filterHSV( nullptr )
-    , m_action_filterScalar( nullptr )
-		, m_action_ToonMapping_Hist(nullptr)
-		, m_action_ToonMapping_KMeans(nullptr)
+ColorimetricSegmenter::ColorimetricSegmenter(QObject* parent)
+	: QObject(parent)
+	, ccStdPluginInterface(":/CC/plugin/ColorimetricSegmenter/info.json")
+	, m_action_filterRgb(nullptr)
+	, m_action_filterRgbWithSegmentation(nullptr)
+	, m_action_filterHSV(nullptr)
+	, m_action_filterScalar(nullptr)
+	, m_action_ToonMapping_Hist(nullptr)
+	, m_action_ToonMapping_KMeans(nullptr)
 {
 }
 
@@ -75,33 +75,33 @@ void ColorimetricSegmenter::handleErrorMessage(QString message)
 
 // This method should enable or disable your plugin actions
 // depending on the currently selected entities ('selectedEntities').
-void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selectedEntities )
+void ColorimetricSegmenter::onNewSelection(const ccHObject::Container& selectedEntities)
 {
 	if (m_action_filterRgb == nullptr)
 	{
 		return;
-    }
+	}
 
 	if (m_action_filterHSV == nullptr)
 	{
 		return;
 	}
 
-    if (m_action_filterRgbWithSegmentation == nullptr)
-    {
-        return;
-    }
-
-    if (m_action_filterScalar == nullptr)
-    {
-        return;
-    }
-		if (m_action_ToonMapping_Hist == nullptr)
-		{
+	if (m_action_filterRgbWithSegmentation == nullptr)
+	{
 		return;
-	  }
+	}
+
+	if (m_action_filterScalar == nullptr)
+	{
+		return;
+	}
+	if (m_action_ToonMapping_Hist == nullptr)
+	{
+		return;
+	}
 	if (m_action_ToonMapping_KMeans == nullptr)
-  {
+	{
 		return;
 	}
 
@@ -121,7 +121,7 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	// Only enable our action if something is selected.
 	bool activateColorFilters = false;
 	bool activateScalarFilter = false;
-	for (ccHObject *entity : selectedEntities)
+	for (ccHObject* entity : selectedEntities)
 	{
 		if (entity->isKindOf(CC_TYPES::POINT_CLOUD))
 		{
@@ -136,20 +136,20 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 
 	m_action_filterRgb->setEnabled(false);
 	m_action_filterHSV->setEnabled(false);
-    m_action_filterRgbWithSegmentation->setEnabled(false);
-    m_action_filterScalar->setEnabled(false);
-		m_action_ToonMapping_Hist->setEnabled(false);
+	m_action_filterRgbWithSegmentation->setEnabled(false);
+	m_action_filterScalar->setEnabled(false);
+	m_action_ToonMapping_Hist->setEnabled(false);
 	m_action_ToonMapping_KMeans->setEnabled(false);
 
 
-    //Activate only if only one of them is activated
+	//Activate only if only one of them is activated
 	if ((activateColorFilters != activateScalarFilter) && !selectedEntities.empty()) {
 		m_action_filterRgb->setEnabled(activateColorFilters);
-        m_action_filterHSV->setEnabled(activateColorFilters);
-        m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
-        m_action_filterScalar->setEnabled(activateScalarFilter);
-				m_action_ToonMapping_Hist->setEnabled(activateColorFilters);
-				m_action_ToonMapping_KMeans->setEnabled(activateColorFilters);
+		m_action_filterHSV->setEnabled(activateColorFilters);
+		m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
+		m_action_filterScalar->setEnabled(activateScalarFilter);
+		m_action_ToonMapping_Hist->setEnabled(activateColorFilters);
+		m_action_ToonMapping_KMeans->setEnabled(activateColorFilters);
 
 	}
 
@@ -175,21 +175,21 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 	}
 
-    if (!m_action_filterRgbWithSegmentation)
-    {
-        // Here we use the default plugin name, description, and icon,
-        // but each action should have its own.
-        m_action_filterRgbWithSegmentation = new QAction( "Filter RGB using segmentation", this);
-        m_action_filterRgbWithSegmentation->setToolTip( "Filter the points on the selected cloud by RGB color using segmentation" );
-        m_action_filterRgbWithSegmentation->setIcon(getIcon());
+	if (!m_action_filterRgbWithSegmentation)
+	{
+		// Here we use the default plugin name, description, and icon,
+		// but each action should have its own.
+		m_action_filterRgbWithSegmentation = new QAction("Filter RGB using segmentation", this);
+		m_action_filterRgbWithSegmentation->setToolTip("Filter the points on the selected cloud by RGB color using segmentation");
+		m_action_filterRgbWithSegmentation->setIcon(getIcon());
 
-        // Connect appropriate signal
-        connect(m_action_filterRgbWithSegmentation, &QAction::triggered, this, &ColorimetricSegmenter::filterRgbWithSegmentation);
+		// Connect appropriate signal
+		connect(m_action_filterRgbWithSegmentation, &QAction::triggered, this, &ColorimetricSegmenter::filterRgbWithSegmentation);
 
-        connect(m_action_filterRgbWithSegmentation, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-        connect(m_action_filterRgbWithSegmentation, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-        connect(m_action_filterRgbWithSegmentation, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-    }
+		connect(m_action_filterRgbWithSegmentation, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+		connect(m_action_filterRgbWithSegmentation, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+		connect(m_action_filterRgbWithSegmentation, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+	}
 
 	// HSV Filter
 	if (!m_action_filterHSV)
@@ -205,39 +205,39 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		connect(m_action_filterHSV, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
 		connect(m_action_filterHSV, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 
-    }
+	}
 
-    // Scalar filter
-    if (!m_action_filterScalar)
-    {
-        m_action_filterScalar = new QAction("Filter scalar", this);
-        m_action_filterScalar->setToolTip("Filter the points on the selected cloud using scalar field");
-        m_action_filterScalar->setIcon(getIcon());
+	// Scalar filter
+	if (!m_action_filterScalar)
+	{
+		m_action_filterScalar = new QAction("Filter scalar", this);
+		m_action_filterScalar->setToolTip("Filter the points on the selected cloud using scalar field");
+		m_action_filterScalar->setIcon(getIcon());
 
-        // Connect appropriate signal
-        connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalar);
+		// Connect appropriate signal
+		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalar);
 
-        connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-        connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-        connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+		connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+		connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+		connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 
-    }
-		if(!m_action_ToonMapping_Hist)
- {
-	 // Here we use the default plugin name, description, and icon,
-	 // but each action should have its own.
-	 m_action_ToonMapping_Hist = new QAction("Histogram Clustering", this);
-	 m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator");
-	 m_action_ToonMapping_Hist->setIcon(getIcon());
+	}
+	if (!m_action_ToonMapping_Hist)
+	{
+		// Here we use the default plugin name, description, and icon,
+		// but each action should have its own.
+		m_action_ToonMapping_Hist = new QAction("Histogram Clustering", this);
+		m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator");
+		m_action_ToonMapping_Hist->setIcon(getIcon());
 
-	 // Connect appropriate signal
-	 connect(m_action_ToonMapping_Hist, &QAction::triggered, this, &ColorimetricSegmenter::HistogramClustering);
+		// Connect appropriate signal
+		connect(m_action_ToonMapping_Hist, &QAction::triggered, this, &ColorimetricSegmenter::HistogramClustering);
 
-	 connect(m_action_ToonMapping_Hist, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-	 connect(m_action_ToonMapping_Hist, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-	 connect(m_action_ToonMapping_Hist, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+		connect(m_action_ToonMapping_Hist, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+		connect(m_action_ToonMapping_Hist, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+		connect(m_action_ToonMapping_Hist, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 
- }
+	}
 	if (!m_action_ToonMapping_KMeans)
 	{
 		// Here we use the default plugin name, description, and icon,
@@ -256,7 +256,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	}
 
 
-    return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar, ,m_action_ToonMapping_Hist, m_action_ToonMapping_KMeans };
+	return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar,m_action_ToonMapping_Hist, m_action_ToonMapping_KMeans };
 }
 
 // Get all point clouds that are selected in CC
@@ -287,10 +287,10 @@ std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 // It uses a color range with RGB values, and keeps the points with a color within that range.
 void ColorimetricSegmenter::filterRgb()
 {
-	if ( m_app == nullptr )
+	if (m_app == nullptr)
 	{
 		// m_app should have already been initialized by CC when plugin is loaded
-		Q_ASSERT( false );
+		Q_ASSERT(false);
 
 		return;
 	}
@@ -307,7 +307,7 @@ void ColorimetricSegmenter::filterRgb()
 		m_pickingHub = m_app->pickingHub();
 	}
 
-	rgbDlg = new RgbDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
+	rgbDlg = new RgbDialog(m_pickingHub, (QWidget*)m_app->getMainWindow());
 	rgbDlg->show();
 
 	if (!rgbDlg->exec())
@@ -320,20 +320,20 @@ void ColorimetricSegmenter::filterRgb()
 	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
 
 	// Get all values to make the color range with RGB values
-	int redInf   = std::min(rgbDlg->red_first->value(),   rgbDlg->red_second->value())   - (marginError * std::min(rgbDlg->red_first->value(),   rgbDlg->red_second->value()));
-	int redSup   = std::max(rgbDlg->red_first->value(),   rgbDlg->red_second->value())   + (marginError * std::max(rgbDlg->red_first->value(),   rgbDlg->red_second->value()));
+	int redInf = std::min(rgbDlg->red_first->value(), rgbDlg->red_second->value()) - (marginError * std::min(rgbDlg->red_first->value(), rgbDlg->red_second->value()));
+	int redSup = std::max(rgbDlg->red_first->value(), rgbDlg->red_second->value()) + (marginError * std::max(rgbDlg->red_first->value(), rgbDlg->red_second->value()));
 	int greenInf = std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()) - (marginError * std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
 	int greenSup = std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()) + (marginError * std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
-	int blueInf  = std::min(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value())  - (marginError * std::min(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value()));
-	int blueSup  = std::max(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value())  + (marginError * std::max(rgbDlg->blue_first->value(),  rgbDlg->blue_second->value()));
+	int blueInf = std::min(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()) - (marginError * std::min(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()));
+	int blueSup = std::max(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()) + (marginError * std::max(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()));
 
-	redInf   = (redInf   < MIN_VALUE ? MIN_VALUE : redInf  );
+	redInf = (redInf < MIN_VALUE ? MIN_VALUE : redInf);
 	greenInf = (greenInf < MIN_VALUE ? MIN_VALUE : greenInf);
-	blueInf  = (blueInf  < MIN_VALUE ? MIN_VALUE : blueInf );
+	blueInf = (blueInf < MIN_VALUE ? MIN_VALUE : blueInf);
 
-	redSup   = (redSup   > MAX_VALUE ? MAX_VALUE : redSup  );
+	redSup = (redSup > MAX_VALUE ? MAX_VALUE : redSup);
 	greenSup = (greenSup > MAX_VALUE ? MAX_VALUE : greenSup);
-	blueSup  = (blueSup  > MAX_VALUE ? MAX_VALUE : blueSup );
+	blueSup = (blueSup > MAX_VALUE ? MAX_VALUE : blueSup);
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
@@ -347,90 +347,90 @@ void ColorimetricSegmenter::filterRgb()
 			for (unsigned j = 0; j < cloud->size(); ++j)
 			{
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
-				(rgb.r > redInf   && rgb.r < redSup   &&
-				 rgb.g > greenInf && rgb.g < greenSup &&
-				 rgb.b > blueInf  && rgb.b < blueSup) ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
+				(rgb.r > redInf&& rgb.r < redSup &&
+					rgb.g > greenInf&& rgb.g < greenSup &&
+					rgb.b > blueInf&& rgb.b < blueSup) ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
 			}
 			std::string name = "Rmin:" + std::to_string(redInf) + "/Gmin:" + std::to_string(greenInf) + "/Bmin:" + std::to_string(blueInf) +
-							   "/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup);
+				"/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup);
 
 			createClouds<RgbDialog*>(rgbDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
 
 			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
 		}
-    }
-    // Stop timer
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
-    QString s = QString::number(duration);
+	}
+	// Stop timer
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+	QString s = QString::number(duration);
 
-    //Print time of execution
-    ccLog::Print("Time to execute : " + s + " milliseconds.");
+	//Print time of execution
+	ccLog::Print("Time to execute : " + s + " milliseconds.");
 }
 
 
 void ColorimetricSegmenter::filterScalar()
 {
-    if ( m_app == nullptr )
-    {
-        // m_app should have already been initialized by CC when plugin is loaded
-        Q_ASSERT( false );
+	if (m_app == nullptr)
+	{
+		// m_app should have already been initialized by CC when plugin is loaded
+		Q_ASSERT(false);
 
-        return;
-    }
+		return;
+	}
 
-    //check valid window
-    if (!m_app->getActiveGLWindow())
-    {
-        m_app->dispToConsole("[ccCompass] Could not find valid 3D window.", ccMainAppInterface::ERR_CONSOLE_MESSAGE);
-        return;
-    }
+	//check valid window
+	if (!m_app->getActiveGLWindow())
+	{
+		m_app->dispToConsole("[ccCompass] Could not find valid 3D window.", ccMainAppInterface::ERR_CONSOLE_MESSAGE);
+		return;
+	}
 
-    // Retrieve parameters from dialog
-    if (m_app->pickingHub()) {
-        m_pickingHub = m_app->pickingHub();
-    }
+	// Retrieve parameters from dialog
+	if (m_app->pickingHub()) {
+		m_pickingHub = m_app->pickingHub();
+	}
 
-    scalarDlg = new ScalarDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
-    scalarDlg->show();
+	scalarDlg = new ScalarDialog(m_pickingHub, (QWidget*)m_app->getMainWindow());
+	scalarDlg->show();
 
-    if (!scalarDlg->exec())
-        return;
+	if (!scalarDlg->exec())
+		return;
 
-    auto start = std::chrono::high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
 
-    double marginError = static_cast<double>(scalarDlg->margin->value()) / 100.0;
-    ScalarType first = scalarDlg->first->value() - (marginError * scalarDlg->first ->value());
-    ScalarType second = scalarDlg->second->value() - (marginError * scalarDlg->second ->value());
+	double marginError = static_cast<double>(scalarDlg->margin->value()) / 100.0;
+	ScalarType first = scalarDlg->first->value() - (marginError * scalarDlg->first->value());
+	ScalarType second = scalarDlg->second->value() - (marginError * scalarDlg->second->value());
 
-    std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
-    for (ccPointCloud* cloud : clouds) {
-        const ScalarType min = std::min(first, second);
-        const ScalarType max = std::max(first, second);
+	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
+	for (ccPointCloud* cloud : clouds) {
+		const ScalarType min = std::min(first, second);
+		const ScalarType max = std::max(first, second);
 
-        // Use only references for speed reasons
-        CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
-        CCLib::ReferenceCloud* filteredCloudOutside = new CCLib::ReferenceCloud(cloud);
+		// Use only references for speed reasons
+		CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
+		CCLib::ReferenceCloud* filteredCloudOutside = new CCLib::ReferenceCloud(cloud);
 
-        for (unsigned j = 0; j < cloud->size(); ++j)
-        {
-            const ScalarType val = cloud->getPointScalarValue(j);
-            (val > min   && val < max)
-                ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
-        }
-        std::string name = "min:" + std::to_string(min) + "/max:" + std::to_string(max);
+		for (unsigned j = 0; j < cloud->size(); ++j)
+		{
+			const ScalarType val = cloud->getPointScalarValue(j);
+			(val > min&& val < max)
+				? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
+		}
+		std::string name = "min:" + std::to_string(min) + "/max:" + std::to_string(max);
 
-        createClouds<ScalarDialog*>(scalarDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
+		createClouds<ScalarDialog*>(scalarDlg, cloud, filteredCloudInside, filteredCloudOutside, name);
 
-        m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-    }
-    // Stop timer
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
-    QString s = QString::number(duration);
+		m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+	}
+	// Stop timer
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+	QString s = QString::number(duration);
 
-    //Print time of execution
-    ccLog::Print("Time to execute : " + s + " milliseconds.");
+	//Print time of execution
+	ccLog::Print("Time to execute : " + s + " milliseconds.");
 }
 
 /**
@@ -443,42 +443,42 @@ void ColorimetricSegmenter::filterScalar()
  * @param thresholdDistance The maximum distance to search for neighbors.
  */
 void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const CCLib::ReferenceCloud* region, unsigned k, std::vector<CCLib::ReferenceCloud*>* neighbours, unsigned thresholdDistance) {
-    ccPointCloud* computedRegion = basePointCloud->partialClone(region);
-    // compute distances
-    CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams params = CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams();
-    params.kNNForLocalModel = k;
-    params.maxSearchDist = thresholdDistance;
-        // create to array, one containing regions, and another containing the distances to these regions.
-    std::vector<CCLib::ReferenceCloud*> *tempNeighbours = new std::vector<CCLib::ReferenceCloud*>();
-    std::vector<int> *distances = new std::vector<int>();
-    for(CCLib::ReferenceCloud* r : *regions)
-    {
-        distances->push_back(CCLib::DistanceComputationTools::computeCloud2CloudDistance(computedRegion, basePointCloud->partialClone(r), params));
-        tempNeighbours->push_back(r);
-    }
-    // sort the vectors
-    std::vector<int>* index = new std::vector<int>(tempNeighbours->size());
-    int n = 0;
-    std::generate(index->begin(), index->end(),
-              [n]
-              ()
-              mutable
-              {
-                  return n++;
-              });
+	ccPointCloud* computedRegion = basePointCloud->partialClone(region);
+	// compute distances
+	CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams params = CCLib::DistanceComputationTools::Cloud2CloudDistanceComputationParams();
+	params.kNNForLocalModel = k;
+	params.maxSearchDist = thresholdDistance;
+	// create to array, one containing regions, and another containing the distances to these regions.
+	std::vector<CCLib::ReferenceCloud*>* tempNeighbours = new std::vector<CCLib::ReferenceCloud*>();
+	std::vector<int>* distances = new std::vector<int>();
+	for (CCLib::ReferenceCloud* r : *regions)
+	{
+		distances->push_back(CCLib::DistanceComputationTools::computeCloud2CloudDistance(computedRegion, basePointCloud->partialClone(r), params));
+		tempNeighbours->push_back(r);
+	}
+	// sort the vectors
+	std::vector<int>* index = new std::vector<int>(tempNeighbours->size());
+	int n = 0;
+	std::generate(index->begin(), index->end(),
+		[n]
+	()
+		mutable
+	{
+		return n++;
+	});
 
-    std::sort(
-        index->begin(), index->end(),
-        [&](int a, int b) { return distances[a] < distances[b]; });
+	std::sort(
+		index->begin(), index->end(),
+		[&](int a, int b) { return distances[a] < distances[b]; });
 
-    // then extract the 'k' nearest neighbors.
-    for(int i : *index)
-    {
-        if(neighbours->size() < k)
-        {
-            neighbours->push_back(tempNeighbours->at(i));
-        }
-    }
+	// then extract the 'k' nearest neighbors.
+	for (int i : *index)
+	{
+		if (neighbours->size() < k)
+		{
+			neighbours->push_back(tempNeighbours->at(i));
+		}
+	}
 
 }
 
@@ -489,26 +489,26 @@ void knnRegions(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*
  * @return Colorimetrical difference.
  */
 double colorimetricalDifference(ccColor::Rgb c1, ccColor::Rgb c2) {
-    return sqrt(pow(c1.r-c2.r, 2) + pow(c1.g-c2.g, 2) + pow(c1.b-c2.b, 2));
+	return sqrt(pow(c1.r - c2.r, 2) + pow(c1.g - c2.g, 2) + pow(c1.b - c2.b, 2));
 }
 
 ccColor::Rgb* meanRgb(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c)
 {
-    unsigned red = 0;
-    unsigned green = 0;
-    unsigned blue = 0;
-    for (unsigned j = 0; j < c->size(); ++j)
-    {
-        const ccColor::Rgb& pRgb = basePointCloud->getPointColor(c->getPointGlobalIndex(j));
-        red += pRgb.r;
-        green += pRgb.g;
-        blue += pRgb.b;
-    }
-    ccColor::Rgb* rgb = new ccColor::Rgb();
-    rgb->r = red / c->size();
-    rgb->g = green / c->size();
-    rgb->b = blue / c->size();
-    return rgb;
+	unsigned red = 0;
+	unsigned green = 0;
+	unsigned blue = 0;
+	for (unsigned j = 0; j < c->size(); ++j)
+	{
+		const ccColor::Rgb& pRgb = basePointCloud->getPointColor(c->getPointGlobalIndex(j));
+		red += pRgb.r;
+		green += pRgb.g;
+		blue += pRgb.b;
+	}
+	ccColor::Rgb* rgb = new ccColor::Rgb();
+	rgb->r = red / c->size();
+	rgb->g = green / c->size();
+	rgb->b = blue / c->size();
+	return rgb;
 }
 
 /**
@@ -520,77 +520,77 @@ ccColor::Rgb* meanRgb(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c)
  * @return Colorimetrical difference.
  */
 double colorimetricalDifference(ccPointCloud* basePointCloud, CCLib::ReferenceCloud* c1, CCLib::ReferenceCloud* c2) {
-    ccColor::Rgb* rgb1 = meanRgb(basePointCloud, c1);
+	ccColor::Rgb* rgb1 = meanRgb(basePointCloud, c1);
 
-    ccColor::Rgb* rgb2 = meanRgb(basePointCloud, c2);
+	ccColor::Rgb* rgb2 = meanRgb(basePointCloud, c2);
 
-    return colorimetricalDifference(*rgb1, *rgb2);
+	return colorimetricalDifference(*rgb1, *rgb2);
 }
 
 
 std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD)
 {
-    std::vector<unsigned> unlabeledPoints;
-    for (unsigned j = 0; j < pointCloud->size(); ++j)
-    {
-        unlabeledPoints.push_back(j);
-    }
-    std::vector<CCLib::ReferenceCloud*>* regions = new std::vector<CCLib::ReferenceCloud*>();
-    std::vector<unsigned>* points = new std::vector<unsigned>();
-    CCLib::DgmOctree* octree = new CCLib::DgmOctree(pointCloud);// used to search nearest neighbors
-    octree->build();
-    // while there is any point in {P} that hasn’t been labeled
-    while(unlabeledPoints.size() > 0)
-    {
-        // push an unlabeled point into stack Points
-        points->push_back(unlabeledPoints.back());
-        unlabeledPoints.pop_back();
-        // initialize a new region Rc and add current point to R
-        CCLib::ReferenceCloud* rc = new CCLib::ReferenceCloud(pointCloud);
-        rc->addPointIndex(unlabeledPoints.back());
-        // while stack Points is not empty
-        while(points->size() > 0)
-        {
-            // pop Points’ top element Tpoint
-            unsigned tPointIndex = points->back();
-            points->pop_back();
+	std::vector<unsigned> unlabeledPoints;
+	for (unsigned j = 0; j < pointCloud->size(); ++j)
+	{
+		unlabeledPoints.push_back(j);
+	}
+	std::vector<CCLib::ReferenceCloud*>* regions = new std::vector<CCLib::ReferenceCloud*>();
+	std::vector<unsigned>* points = new std::vector<unsigned>();
+	CCLib::DgmOctree* octree = new CCLib::DgmOctree(pointCloud);// used to search nearest neighbors
+	octree->build();
+	// while there is any point in {P} that hasn’t been labeled
+	while (unlabeledPoints.size() > 0)
+	{
+		// push an unlabeled point into stack Points
+		points->push_back(unlabeledPoints.back());
+		unlabeledPoints.pop_back();
+		// initialize a new region Rc and add current point to R
+		CCLib::ReferenceCloud* rc = new CCLib::ReferenceCloud(pointCloud);
+		rc->addPointIndex(unlabeledPoints.back());
+		// while stack Points is not empty
+		while (points->size() > 0)
+		{
+			// pop Points’ top element Tpoint
+			unsigned tPointIndex = points->back();
+			points->pop_back();
 
-            // for each point p in {KNNTNN(Tpoint)}
-            CCLib::DgmOctree::NearestNeighboursSearchStruct nNSS =  CCLib::DgmOctree::NearestNeighboursSearchStruct();
-            nNSS.level = 1;
-            nNSS.queryPoint = *(pointCloud->getPoint(tPointIndex));
-            Tuple3i cellPos = Tuple3i();
-            octree->getCellPos(octree->getCellCode(tPointIndex), 1, cellPos, false);
-            nNSS.cellPos = cellPos;
-            CCVector3 cellCenter;
-            octree->computeCellCenter(octree->getCellCode(tPointIndex), 1, cellCenter);
-            nNSS.cellCenter = cellCenter;
-            nNSS.maxSearchSquareDistd = TD;
-            nNSS.minNumberOfNeighbors = TNN;
+			// for each point p in {KNNTNN(Tpoint)}
+			CCLib::DgmOctree::NearestNeighboursSearchStruct nNSS = CCLib::DgmOctree::NearestNeighboursSearchStruct();
+			nNSS.level = 1;
+			nNSS.queryPoint = *(pointCloud->getPoint(tPointIndex));
+			Tuple3i cellPos = Tuple3i();
+			octree->getCellPos(octree->getCellCode(tPointIndex), 1, cellPos, false);
+			nNSS.cellPos = cellPos;
+			CCVector3 cellCenter;
+			octree->computeCellCenter(octree->getCellCode(tPointIndex), 1, cellCenter);
+			nNSS.cellCenter = cellCenter;
+			nNSS.maxSearchSquareDistd = TD;
+			nNSS.minNumberOfNeighbors = TNN;
 
-            octree->findNearestNeighborsStartingFromCell(nNSS);
-            CCLib::DgmOctree::NeighboursSet knnResult = nNSS.pointsInNeighbourhood;
+			octree->findNearestNeighborsStartingFromCell(nNSS);
+			CCLib::DgmOctree::NeighboursSet knnResult = nNSS.pointsInNeighbourhood;
 
-            for(int i=0; i < knnResult.size(); i++)
-            {
-                unsigned p = knnResult.at(i).pointIndex;
-                // if p is labelled
-                if(std::find(unlabeledPoints.begin(), unlabeledPoints.end(), p) != unlabeledPoints.end())
-                {
-                    continue;
-                }
-                // if CD(Tpoint,p)<TPP
-                if(colorimetricalDifference(pointCloud->getPointColor(p), pointCloud->getPointColor(tPointIndex)) < TPP)
-                {
-                    points->push_back(p);
-                    rc->addPointIndex(p);
-                }
-            }
+			for (int i = 0; i < knnResult.size(); i++)
+			{
+				unsigned p = knnResult.at(i).pointIndex;
+				// if p is labelled
+				if (std::find(unlabeledPoints.begin(), unlabeledPoints.end(), p) != unlabeledPoints.end())
+				{
+					continue;
+				}
+				// if CD(Tpoint,p)<TPP
+				if (colorimetricalDifference(pointCloud->getPointColor(p), pointCloud->getPointColor(tPointIndex)) < TPP)
+				{
+					points->push_back(p);
+					rc->addPointIndex(p);
+				}
+			}
 
-        }
-        regions->push_back(rc);
-    }
-    return regions;
+		}
+		regions->push_back(rc);
+	}
+	return regions;
 }
 
 /**
@@ -601,148 +601,148 @@ std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionGrowing(ccPoin
  */
 std::vector<CCLib::ReferenceCloud*>* findRegion(std::vector<std::vector<CCLib::ReferenceCloud*>*>* container, CCLib::ReferenceCloud* region)
 {
-    if(container->size() == 0)
-    {
-        return nullptr;
-    }
-    for(std::vector<CCLib::ReferenceCloud*>* l : *container)
-    {
-        if(std::find(l->begin(), l->end(), region) != l->end())
-        {
-           return l;
-        }
-    }
-    return nullptr;
+	if (container->size() == 0)
+	{
+		return nullptr;
+	}
+	for (std::vector<CCLib::ReferenceCloud*>* l : *container)
+	{
+		if (std::find(l->begin(), l->end(), region) != l->end())
+		{
+			return l;
+		}
+	}
+	return nullptr;
 }
 
 std::vector<CCLib::ReferenceCloud*>* ColorimetricSegmenter::regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min)
 {
-    std::vector<std::vector<CCLib::ReferenceCloud*>*>* homogeneous = new std::vector<std::vector<CCLib::ReferenceCloud*>*>();
+	std::vector<std::vector<CCLib::ReferenceCloud*>*>* homogeneous = new std::vector<std::vector<CCLib::ReferenceCloud*>*>();
 
-    // for each region Ri in {R}
-    for(CCLib::ReferenceCloud* ri : *regions)
-    {
-        // if Ri is not in {H}
-       if(findRegion(homogeneous, ri) == nullptr)
-        {
-           // create a new list to record Ri
-           std::vector<CCLib::ReferenceCloud*>* newRegionGroup = new std::vector<CCLib::ReferenceCloud*>();
-           newRegionGroup->push_back(ri);
-           homogeneous->push_back(newRegionGroup);
-        }
+	// for each region Ri in {R}
+	for (CCLib::ReferenceCloud* ri : *regions)
+	{
+		// if Ri is not in {H}
+		if (findRegion(homogeneous, ri) == nullptr)
+		{
+			// create a new list to record Ri
+			std::vector<CCLib::ReferenceCloud*>* newRegionGroup = new std::vector<CCLib::ReferenceCloud*>();
+			newRegionGroup->push_back(ri);
+			homogeneous->push_back(newRegionGroup);
+		}
 
-        // for each region Rj in {KNNTNN2,TD2(Ri)}
-        std::vector<CCLib::ReferenceCloud*>* knnResult = new std::vector<CCLib::ReferenceCloud*>();
-        knnRegions(basePointCloud, regions, ri, TNN, knnResult, TD);
-        for(CCLib::ReferenceCloud* rj : *knnResult)
-        {
-            // if CD(Ri,Rj)<TRR
-            if(colorimetricalDifference(basePointCloud, ri, rj) < TNN)
-            {
-                // if Rj is in {H}
-                std::vector<CCLib::ReferenceCloud*>* regionContainer = findRegion(homogeneous, rj);
-                if(regionContainer != nullptr)
-                {
-                    continue;
-                }
-                else
-                {
-                    // add Rj to the list which contains Ri
-                    regionContainer->push_back(rj);
-                }
-            }
-        }
-    }
+		// for each region Rj in {KNNTNN2,TD2(Ri)}
+		std::vector<CCLib::ReferenceCloud*>* knnResult = new std::vector<CCLib::ReferenceCloud*>();
+		knnRegions(basePointCloud, regions, ri, TNN, knnResult, TD);
+		for (CCLib::ReferenceCloud* rj : *knnResult)
+		{
+			// if CD(Ri,Rj)<TRR
+			if (colorimetricalDifference(basePointCloud, ri, rj) < TNN)
+			{
+				// if Rj is in {H}
+				std::vector<CCLib::ReferenceCloud*>* regionContainer = findRegion(homogeneous, rj);
+				if (regionContainer != nullptr)
+				{
+					continue;
+				}
+				else
+				{
+					// add Rj to the list which contains Ri
+					regionContainer->push_back(rj);
+				}
+			}
+		}
+	}
 
-    // merge all the regions in the same list in {H} and get {R’}
-    std::vector<CCLib::ReferenceCloud*>* mergedRegionsRef = new std::vector<CCLib::ReferenceCloud*>();
-    for(std::vector<CCLib::ReferenceCloud*>* l : *homogeneous)
-    {
-        CCLib::ReferenceCloud* merged = l->at(0);
-        for(int i = 1; i<l->size(); i++)
-        {
-           merged->add(*l->at(i));
-        }
-        mergedRegionsRef->push_back(merged);
-    }
-    std::vector<CCLib::ReferenceCloud*>* knnResult;
-    // for each region Ri in {R’}
-    /*for (CCLib::ReferenceCloud* r : *mergedRegionsRef)
-    {
-        // if sizeof(Ri)<Min
-        if(r->size() < Min)
-        {
-            // merge Ri to its nearest neighbors
-            knnRegions(basePointCloud, mergedRegionsRef, r, 1, knnResult, 0);
-            mergedRegionsRef.
-        }
-    }*/
-    //Return the merged and refined {R’}
-    return mergedRegionsRef;
+	// merge all the regions in the same list in {H} and get {R’}
+	std::vector<CCLib::ReferenceCloud*>* mergedRegionsRef = new std::vector<CCLib::ReferenceCloud*>();
+	for (std::vector<CCLib::ReferenceCloud*>* l : *homogeneous)
+	{
+		CCLib::ReferenceCloud* merged = l->at(0);
+		for (int i = 1; i < l->size(); i++)
+		{
+			merged->add(*l->at(i));
+		}
+		mergedRegionsRef->push_back(merged);
+	}
+	std::vector<CCLib::ReferenceCloud*>* knnResult;
+	// for each region Ri in {R’}
+	/*for (CCLib::ReferenceCloud* r : *mergedRegionsRef)
+	{
+		// if sizeof(Ri)<Min
+		if(r->size() < Min)
+		{
+			// merge Ri to its nearest neighbors
+			knnRegions(basePointCloud, mergedRegionsRef, r, 1, knnResult, 0);
+			mergedRegionsRef.
+		}
+	}*/
+	//Return the merged and refined {R’}
+	return mergedRegionsRef;
 }
 
 
 void ColorimetricSegmenter::filterRgbWithSegmentation()
 {
-    if ( m_app == nullptr )
-    {
-        // m_app should have already been initialized by CC when plugin is loaded
-        Q_ASSERT( false );
+	if (m_app == nullptr)
+	{
+		// m_app should have already been initialized by CC when plugin is loaded
+		Q_ASSERT(false);
 
-        return;
-    }
+		return;
+	}
 
-    // Retrieve parameters from dialog
-    rgbDlg = new RgbDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
+	// Retrieve parameters from dialog
+	rgbDlg = new RgbDialog(m_pickingHub, (QWidget*)m_app->getMainWindow());
 
-    auto start = std::chrono::high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
 
-    if (!rgbDlg->exec())
-        return;
-    // Get margin value (percent)
-    double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
+	if (!rgbDlg->exec())
+		return;
+	// Get margin value (percent)
+	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
 
-    // Get all values to make the color range with RGB values
-    int redInf = rgbDlg->red_first->value() - (marginError * rgbDlg->red_first->value());
-    int redSup = rgbDlg->red_second->value() + marginError * rgbDlg->red_second->value();
-    int greenInf = rgbDlg->green_first->value() - marginError * rgbDlg->green_first->value();
-    int greenSup = rgbDlg->green_second->value() + marginError * rgbDlg->green_second->value();
-    int blueInf = rgbDlg->blue_first->value() - marginError * rgbDlg->blue_first->value();
-    int blueSup = rgbDlg->blue_second->value() + marginError * rgbDlg->blue_second->value();
-    std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
+	// Get all values to make the color range with RGB values
+	int redInf = rgbDlg->red_first->value() - (marginError * rgbDlg->red_first->value());
+	int redSup = rgbDlg->red_second->value() + marginError * rgbDlg->red_second->value();
+	int greenInf = rgbDlg->green_first->value() - marginError * rgbDlg->green_first->value();
+	int greenSup = rgbDlg->green_second->value() + marginError * rgbDlg->green_second->value();
+	int blueInf = rgbDlg->blue_first->value() - marginError * rgbDlg->blue_first->value();
+	int blueSup = rgbDlg->blue_second->value() + marginError * rgbDlg->blue_second->value();
+	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 
-    for (ccPointCloud* cloud : clouds) {
-        if (cloud->hasColors())
-        {
-            std::vector<CCLib::ReferenceCloud*>* regions = regionGrowing(cloud, TNN, TPP, TD);
-            regions = regionMergingAndRefinement(cloud, regions, TNN, TRR, TD, Min);
-            //m_app->dispToConsole(QString("[ColorimetricSegmenter] regions %1").arg(regions->size()), ccMainAppInterface::STD_CONSOLE_MESSAGE);
+	for (ccPointCloud* cloud : clouds) {
+		if (cloud->hasColors())
+		{
+			std::vector<CCLib::ReferenceCloud*>* regions = regionGrowing(cloud, TNN, TPP, TD);
+			regions = regionMergingAndRefinement(cloud, regions, TNN, TRR, TD, Min);
+			//m_app->dispToConsole(QString("[ColorimetricSegmenter] regions %1").arg(regions->size()), ccMainAppInterface::STD_CONSOLE_MESSAGE);
 
-            // retrieve the nearest region (in color range)
-            for(CCLib::ReferenceCloud* r : *regions)
-            {
-                ccColor::Rgb* mean = meanRgb(cloud, r);
-                if(redInf >= mean->r && redSup <= mean->r &&
-                        greenInf >= mean->g && greenSup <= mean->g &&
-                        blueInf >= mean->b && blueSup <= mean->b)
-                {
-                    ccPointCloud* newCloud = cloud->partialClone(r);
+			// retrieve the nearest region (in color range)
+			for (CCLib::ReferenceCloud* r : *regions)
+			{
+				ccColor::Rgb* mean = meanRgb(cloud, r);
+				if (redInf >= mean->r && redSup <= mean->r &&
+					greenInf >= mean->g && greenSup <= mean->g &&
+					blueInf >= mean->b && blueSup <= mean->b)
+				{
+					ccPointCloud* newCloud = cloud->partialClone(r);
 
-                    cloud->setEnabled(false);
-                    if (cloud->getParent()) {
-                        cloud->getParent()->addChild(newCloud);
-                    }
+					cloud->setEnabled(false);
+					if (cloud->getParent()) {
+						cloud->getParent()->addChild(newCloud);
+					}
 
-                    m_app->addToDB(newCloud, false, true, false, false);
+					m_app->addToDB(newCloud, false, true, false, false);
 
-                    m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered with segmentation ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
-                }
+					m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully filtered with segmentation ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+				}
 
-            }
+			}
 
 
-        }
-    }
+		}
+	}
 	// Stop timer
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
@@ -805,11 +805,11 @@ void ColorimetricSegmenter::filterHSV()
 				hsv hsv_current = hsvDlg->rgb2hsv(rgb);
 
 				// Hue is useless here because the saturation is not high enough
-				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25)
+				if (0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25)
 				{
 					// We only check value
-					if      (hsv_first.v >= 0 && hsv_first.v <= 25  && 0 <= hsv_current.v && hsv_current.v <= 25)  addPoint(filteredCloudInside, j); // black
-					else if (hsv_first.v > 25 && hsv_first.v <= 60  && hsv_current.v > 25 && hsv_current.v <= 60)  addPoint(filteredCloudInside, j); // grey
+					if (hsv_first.v >= 0 && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25)  addPoint(filteredCloudInside, j); // black
+					else if (hsv_first.v > 25 && hsv_first.v <= 60 && hsv_current.v > 25 && hsv_current.v <= 60)  addPoint(filteredCloudInside, j); // grey
 					else if (hsv_first.v > 60 && hsv_first.v <= 100 && hsv_current.v > 60 && hsv_current.v <= 100) addPoint(filteredCloudInside, j); // white
 					else addPoint(filteredCloudOutside, j);
 				}
@@ -819,10 +819,10 @@ void ColorimetricSegmenter::filterHSV()
 					// Then, we can check value
 					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100)
 					{
-						if     (((hsv_first.h   >= 0 && hsv_first.h   <= 30) || (hsv_first.h   >= 330 && hsv_first.h   <= 360)) &&
-							    ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloudInside, j); // red
-						else if (hsv_first.h > 30  && hsv_first.h <= 90  && hsv_current.h > 30  && hsv_current.h <= 90 )         addPoint(filteredCloudInside, j); // yellow
-						else if (hsv_first.h > 90  && hsv_first.h <= 150 && hsv_current.h > 90  && hsv_current.h <= 150)         addPoint(filteredCloudInside, j); // green
+						if (((hsv_first.h >= 0 && hsv_first.h <= 30) || (hsv_first.h >= 330 && hsv_first.h <= 360)) &&
+							((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloudInside, j); // red
+						else if (hsv_first.h > 30 && hsv_first.h <= 90 && hsv_current.h > 30 && hsv_current.h <= 90)         addPoint(filteredCloudInside, j); // yellow
+						else if (hsv_first.h > 90 && hsv_first.h <= 150 && hsv_current.h > 90 && hsv_current.h <= 150)         addPoint(filteredCloudInside, j); // green
 						else if (hsv_first.h > 150 && hsv_first.h <= 210 && hsv_current.h > 150 && hsv_current.h <= 210)         addPoint(filteredCloudInside, j); // cyan
 						else if (hsv_first.h > 210 && hsv_first.h <= 270 && hsv_current.h > 210 && hsv_current.h <= 270)         addPoint(filteredCloudInside, j); // blue
 						else if (hsv_first.h > 270 && hsv_first.h <= 330 && hsv_current.h > 270 && hsv_current.h <= 330)         addPoint(filteredCloudInside, j); // magenta
@@ -922,7 +922,7 @@ std::map<int, std::vector<unsigned>> getKeyCluster(const ccPointCloud& cloud, in
 		int greenCluster = rgb.g / clusterSize;
 		int blueCluster = rgb.b / clusterSize;
 
-		int index = redCluster+greenCluster*10+blueCluster*100;
+		int index = redCluster + greenCluster * 10 + blueCluster * 100;
 		it = keyMap.find(index);
 		//check if the entry with this index already exists
 		if (it == keyMap.end()) {
@@ -947,13 +947,13 @@ Compute the average color (RGB)
 Returns average color (RGB)
 */
 ccColor::Rgb computeAverageColor(const ccPointCloud& cloud, std::vector<unsigned> bucket) {
-	unsigned  red=0, green=0, blue=0;
+	unsigned  red = 0, green = 0, blue = 0;
 	unsigned length = bucket.size();
 
 	//other formula to compute the average can be used
 	for (unsigned point : bucket) {
 		const ccColor::Rgb rgb = cloud.getPointColor(point);
-		red += rgb.r ;
+		red += rgb.r;
 		green += rgb.g;
 		blue += rgb.b;
 
@@ -972,7 +972,7 @@ Compute the distance between two colors
 /!\ the formula can be modified, here it is simple to be as quick as possible
 */
 double ColorDistance(ccColor::Rgb c1, ccColor::Rgb c2) {
-	return (c1.r-c2.r) + (c1.b - c2.b) + (c1.g - c2.g);
+	return (c1.r - c2.r) + (c1.b - c2.b) + (c1.g - c2.g);
 }
 /**
 Generate a pointcloud quantified using an histogram clustering
@@ -988,14 +988,14 @@ void ColorimetricSegmenter::HistogramClustering() {
 		return;
 	}
 	// creation of the window
-	quantiDlg = new QuantiDlg((QWidget*)m_app->getMainWindow());
-	if (!quantiDlg.exec())
+	quantiDlg = new QuantiDialog((QWidget*)m_app->getMainWindow());
+	if (!quantiDlg->exec())
 		return;
 
 	// Start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
-	int nbClusterByComponent = quantiDlg.area_quanti->value();
+	int nbClusterByComponent = quantiDlg->area_quanti->value();
 
 
 
@@ -1006,13 +1006,13 @@ void ColorimetricSegmenter::HistogramClustering() {
 		if (cloud->hasColors()) {
 
 			ccPointCloud* histCloud = cloud->cloneThis();
-			histCloud->setName(QString::fromStdString("HistogramClustering : Indice Q : "+std::to_string(nbClusterByComponent)+" //Couleurs : "+std::to_string(nbClusterByComponent* nbClusterByComponent * nbClusterByComponent)));
+			histCloud->setName(QString::fromStdString("HistogramClustering : Indice Q : " + std::to_string(nbClusterByComponent) + " //Couleurs : " + std::to_string(nbClusterByComponent * nbClusterByComponent * nbClusterByComponent)));
 
 			std::map<int, std::vector<unsigned>> clusterMap;
 
-			clusterMap =getKeyCluster(*histCloud, nbClusterByComponent);
+			clusterMap = getKeyCluster(*histCloud, nbClusterByComponent);
 
-			for (std::map<int,std::vector<unsigned>>::iterator it = clusterMap.begin(), end = clusterMap.end(); it != end; it++)
+			for (std::map<int, std::vector<unsigned>>::iterator it = clusterMap.begin(), end = clusterMap.end(); it != end; it++)
 			{
 
 				ccColor::Rgb averageColor = computeAverageColor(*histCloud, it->second);
@@ -1049,8 +1049,7 @@ K-means algorithm
 @param it : limit of iterations before returns a result
 Returns a cloud quantified
 */
-ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud,
-	unsigned char K, int it)
+ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud, unsigned char K, int it)
 {
 	//valid parameters?
 	if (!theCloud || K == 0)
@@ -1086,7 +1085,7 @@ ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud,
 	//init classes centers (regularly sampled
 	unsigned step = n / K;
 	for (unsigned char j = 0; j < K; ++j)
-		theKMeans[j] = theCloud->getPointColor(step*j);
+		theKMeans[j] = theCloud->getPointColor(step * j);
 
 
 	//let's start
@@ -1147,7 +1146,7 @@ ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud,
 			ccColor::Rgb newMean = (KGroups[j].size() > 0 ? computeAverageColor(*theCloud, KGroups[j]) : theKMeans[j]);
 
 			if (theOldKNums[j] != theKNums[j]) {
-					meansHaveMoved = true;
+				meansHaveMoved = true;
 			}
 
 			theKMeans[j] = newMean;
@@ -1174,7 +1173,7 @@ Algorithm based on k-means for clustering points cloud by its colors
 void ColorimetricSegmenter::KmeansClustering() {
 
 	kmeansDlg = new KmeansDlg((QWidget*)m_app->getMainWindow());
-	if (!kmeansDlg.exec())
+	if (!kmeansDlg->exec())
 		return;
 
 	// Start timer
@@ -1185,18 +1184,16 @@ void ColorimetricSegmenter::KmeansClustering() {
 	for (ccPointCloud* cloud : clouds)
 	{
 
-			std::cout << " nb iteration : " << kmeansDlg.spinBox_it->value() << std::endl << "nb k : " << kmeansDlg.spinBox_k->value() << std::endl;
+		ccPointCloud* kcloud = computeKmeansClustering(cloud, kmeansDlg->spinBox_k->value(), kmeansDlg->spinBox_it->value());
 
-			ccPointCloud* kcloud = computeKmeansClustering(cloud, kmeansDlg.spinBox_k->value(), kmeansDlg.spinBox_it->value());
+		cloud->setEnabled(false);
+		if (cloud->getParent())
+		{
+			cloud->getParent()->addChild(kcloud);
+		}
 
-			cloud->setEnabled(false);
-			if (cloud->getParent())
-			{
-				cloud->getParent()->addChild(kcloud);
-			}
-
-			m_app->addToDB(kcloud, false, true, false, false);
-			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully clustering ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+		m_app->addToDB(kcloud, false, true, false, false);
+		m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully clustering ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
 
 	}
 	// Stop timer
