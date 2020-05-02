@@ -19,6 +19,7 @@
 
 #include <QtGui>
 #include <algorithm>
+#include <map>
 
 #include "ColorimetricSegmenter.h"
 #include "ccLog.h"
@@ -29,12 +30,12 @@
 
 
 // Default constructor:
-//	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file) 
+//	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file)
 //  - constructor should mainly be used to initialize actions and other members
 
-/* 
+/*
 	Default constructor:
-	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file) 
+	- pass the Qt resource path to the info.json file (from <yourPluginName>.qrc file)
 	- constructor should mainly be used to initialize actions and other members
 */
 /*
@@ -47,6 +48,8 @@ ColorimetricSegmenter::ColorimetricSegmenter( QObject *parent )
     , m_action_filterRgbWithSegmentation(nullptr)
     , m_action_filterHSV( nullptr )
     , m_action_filterScalar( nullptr )
+		, m_action_ToonMapping_Hist(nullptr)
+		, m_action_ToonMapping_KMeans(nullptr)
 {
 }
 
@@ -88,11 +91,20 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
     {
         return;
     }
-	
+
     if (m_action_filterScalar == nullptr)
     {
         return;
     }
+		if (m_action_ToonMapping_Hist == nullptr)
+		{
+		return;
+	  }
+	if (m_action_ToonMapping_KMeans == nullptr)
+  {
+		return;
+	}
+
 
 	// If you need to check for a specific type of object, you can use the methods
 	// in ccHObjectCaster.h or loop and check the objects' classIDs like this:
@@ -104,7 +116,7 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	//			// ... do something with the viewports
 	//		}
 	//	}
-	
+
 	// For example - only enable our action if something is selected.
 	// Only enable our action if something is selected.
 	bool activateColorFilters = false;
@@ -126,6 +138,9 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
 	m_action_filterHSV->setEnabled(false);
     m_action_filterRgbWithSegmentation->setEnabled(false);
     m_action_filterScalar->setEnabled(false);
+		m_action_ToonMapping_Hist->setEnabled(false);
+	m_action_ToonMapping_KMeans->setEnabled(false);
+
 
     //Activate only if only one of them is activated
 	if ((activateColorFilters != activateScalarFilter) && !selectedEntities.empty()) {
@@ -133,6 +148,9 @@ void ColorimetricSegmenter::onNewSelection( const ccHObject::Container &selected
         m_action_filterHSV->setEnabled(activateColorFilters);
         m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
         m_action_filterScalar->setEnabled(activateScalarFilter);
+				m_action_ToonMapping_Hist->setEnabled(activateColorFilters);
+				m_action_ToonMapping_KMeans->setEnabled(activateColorFilters);
+
 	}
 
 }
@@ -204,7 +222,41 @@ QList<QAction*> ColorimetricSegmenter::getActions()
         connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 
     }
-    return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar };
+		if(!m_action_ToonMapping_Hist)
+ {
+	 // Here we use the default plugin name, description, and icon,
+	 // but each action should have its own.
+	 m_action_ToonMapping_Hist = new QAction("Histogram Clustering", this);
+	 m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator");
+	 m_action_ToonMapping_Hist->setIcon(getIcon());
+
+	 // Connect appropriate signal
+	 connect(m_action_ToonMapping_Hist, &QAction::triggered, this, &ColorimetricSegmenter::HistogramClustering);
+
+	 connect(m_action_ToonMapping_Hist, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+	 connect(m_action_ToonMapping_Hist, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+	 connect(m_action_ToonMapping_Hist, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+
+ }
+	if (!m_action_ToonMapping_KMeans)
+	{
+		// Here we use the default plugin name, description, and icon,
+		// but each action should have its own.
+		m_action_ToonMapping_KMeans = new QAction("Kmeans Clustering", this);
+		m_action_ToonMapping_KMeans->setToolTip("Quantified cloud generator");
+		m_action_ToonMapping_KMeans->setIcon(getIcon());
+
+		// Connect appropriate signal
+		connect(m_action_ToonMapping_KMeans, &QAction::triggered, this, &ColorimetricSegmenter::KmeansClustering);
+
+		connect(m_action_ToonMapping_KMeans, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
+		connect(m_action_ToonMapping_KMeans, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
+		connect(m_action_ToonMapping_KMeans, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
+
+	}
+
+
+    return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar, ,m_action_ToonMapping_Hist, m_action_ToonMapping_KMeans };
 }
 
 // Get all point clouds that are selected in CC
@@ -234,12 +286,12 @@ std::vector<ccPointCloud*> ColorimetricSegmenter::getSelectedPointClouds()
 // Algorithm for the RGB filter
 // It uses a color range with RGB values, and keeps the points with a color within that range.
 void ColorimetricSegmenter::filterRgb()
-{	
+{
 	if ( m_app == nullptr )
 	{
 		// m_app should have already been initialized by CC when plugin is loaded
 		Q_ASSERT( false );
-		
+
 		return;
 	}
 
@@ -254,7 +306,7 @@ void ColorimetricSegmenter::filterRgb()
 	if (m_app->pickingHub()) {
 		m_pickingHub = m_app->pickingHub();
 	}
-	
+
 	rgbDlg = new RgbDialog(m_pickingHub,(QWidget*)m_app->getMainWindow());
 	rgbDlg->show();
 
@@ -751,7 +803,7 @@ void ColorimetricSegmenter::filterHSV()
 			{
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
 				hsv hsv_current = hsvDlg->rgb2hsv(rgb);
-				
+
 				// Hue is useless here because the saturation is not high enough
 				if ( 0 <= hsv_first.s && hsv_first.s <= 25 && 0 <= hsv_current.s && hsv_current.s <= 25)
 				{
@@ -765,7 +817,7 @@ void ColorimetricSegmenter::filterHSV()
 					// We need to check value first
 					if (0 <= hsv_first.v && hsv_first.v <= 25 && 0 <= hsv_current.v && hsv_current.v <= 25) addPoint(filteredCloudInside, j); // black
 					// Then, we can check value
-					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100) 
+					else if (hsv_first.v > 25 && hsv_first.v <= 100 && hsv_current.v > 25 && hsv_current.v <= 100)
 					{
 						if     (((hsv_first.h   >= 0 && hsv_first.h   <= 30) || (hsv_first.h   >= 330 && hsv_first.h   <= 360)) &&
 							    ((hsv_current.h >= 0 && hsv_current.h <= 30) || (hsv_current.h >= 330 && hsv_current.h <= 360))) addPoint(filteredCloudInside, j); // red
@@ -777,7 +829,7 @@ void ColorimetricSegmenter::filterHSV()
 						else addPoint(filteredCloudOutside, j);
 					}
 					else addPoint(filteredCloudOutside, j);
-				} 
+				}
 				else addPoint(filteredCloudOutside, j);
 			}
 
@@ -815,7 +867,7 @@ void ColorimetricSegmenter::addPoint(CCLib::ReferenceCloud* filteredCloud, unsig
 template <typename T>
 void ColorimetricSegmenter::createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name)
 {
-	
+
 	if (dlg->retain->isChecked()) {
 		createCloud(cloud, filteredCloudInside, name, true);
 	}
@@ -826,7 +878,7 @@ void ColorimetricSegmenter::createClouds(T& dlg, ccPointCloud* cloud, CCLib::Ref
 		createCloud(cloud, filteredCloudInside, name, true);
 		createCloud(cloud, filteredCloudOutside, name, false);
 	}
-	
+
 }
 
 // Method to create a new cloud
@@ -846,4 +898,312 @@ void ColorimetricSegmenter::createCloud(ccPointCloud* cloud, CCLib::ReferenceClo
 	}
 
 	m_app->addToDB(newCloud, false, true, false, false);
+}
+
+/**
+Generate nxnxn clusters of points according to their color value (RGB)
+@param cloud : the cloud which we work with
+@param clusterPerDim : coefficient uses to split each RGB component
+Returns a map of nxnxn keys, for each key a vector of the points index in the partition
+*/
+std::map<int, std::vector<unsigned>> getKeyCluster(const ccPointCloud& cloud, int clusterPerDim) {
+
+	float clusterSize = 256 / clusterPerDim;
+
+	std::map<int, std::vector<unsigned>> keyMap;
+	std::map<int, std::vector<unsigned>>::iterator it;
+
+
+	for (unsigned i = 0; i < cloud.size(); i++) {
+
+		const ccColor::Rgb& rgb = cloud.getPointColor(i);
+
+		int redCluster = rgb.r / clusterSize;
+		int greenCluster = rgb.g / clusterSize;
+		int blueCluster = rgb.b / clusterSize;
+
+		int index = redCluster+greenCluster*10+blueCluster*100;
+		it = keyMap.find(index);
+		//check if the entry with this index already exists
+		if (it == keyMap.end()) {
+			//if no, we create it
+			std::vector<unsigned> points = { i };
+			keyMap.insert(std::pair<int, std::vector<unsigned>>(index, points));
+		}
+		else {
+			//else we add the point in the container
+			it->second.push_back(i);
+		}
+
+
+	}
+
+	return keyMap;
+}
+/**
+Compute the average color (RGB)
+@param cloud : cloud who contains the points
+@param bucket : vector of indexes of points
+Returns average color (RGB)
+*/
+ccColor::Rgb computeAverageColor(const ccPointCloud& cloud, std::vector<unsigned> bucket) {
+	unsigned  red=0, green=0, blue=0;
+	unsigned length = bucket.size();
+
+	//other formula to compute the average can be used
+	for (unsigned point : bucket) {
+		const ccColor::Rgb rgb = cloud.getPointColor(point);
+		red += rgb.r ;
+		green += rgb.g;
+		blue += rgb.b;
+
+	}
+	red = floor(red / length);
+	blue = floor(blue / length);
+	green = floor(green / length);
+	ccColor::Rgb res;
+
+	res.r = static_cast<unsigned char>(red); res.b = static_cast<unsigned char>((blue)); res.g = static_cast<unsigned char>((green));
+	return res;
+}
+
+/**
+Compute the distance between two colors
+/!\ the formula can be modified, here it is simple to be as quick as possible
+*/
+double ColorDistance(ccColor::Rgb c1, ccColor::Rgb c2) {
+	return (c1.r-c2.r) + (c1.b - c2.b) + (c1.g - c2.g);
+}
+/**
+Generate a pointcloud quantified using an histogram clustering
+The purpose is to counter luminance variation due to the merge of different scans
+*/
+void ColorimetricSegmenter::HistogramClustering() {
+
+	if (m_app == nullptr)
+	{
+		// m_app should have already been initialized by CC when plugin is loaded
+		Q_ASSERT(false);
+
+		return;
+	}
+	// creation of the window
+	quantiDlg = new QuantiDlg((QWidget*)m_app->getMainWindow());
+	if (!quantiDlg.exec())
+		return;
+
+	// Start timer
+	auto start = std::chrono::high_resolution_clock::now();
+
+	int nbClusterByComponent = quantiDlg.area_quanti->value();
+
+
+
+	std::vector<ccPointCloud*> clouds = ColorimetricSegmenter::getSelectedPointClouds();
+
+	for (ccPointCloud* cloud : clouds) {
+
+		if (cloud->hasColors()) {
+
+			ccPointCloud* histCloud = cloud->cloneThis();
+			histCloud->setName(QString::fromStdString("HistogramClustering : Indice Q : "+std::to_string(nbClusterByComponent)+" //Couleurs : "+std::to_string(nbClusterByComponent* nbClusterByComponent * nbClusterByComponent)));
+
+			std::map<int, std::vector<unsigned>> clusterMap;
+
+			clusterMap =getKeyCluster(*histCloud, nbClusterByComponent);
+
+			for (std::map<int,std::vector<unsigned>>::iterator it = clusterMap.begin(), end = clusterMap.end(); it != end; it++)
+			{
+
+				ccColor::Rgb averageColor = computeAverageColor(*histCloud, it->second);
+
+				for (auto point : it->second) {
+					(*histCloud).setPointColor(point, averageColor);
+				}
+
+
+			}
+
+			cloud->setEnabled(false);
+			if (cloud->getParent()) {
+				cloud->getParent()->addChild(histCloud);
+			}
+
+			m_app->addToDB(histCloud, false, true, false, false);
+
+			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully clustering ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+
+		}
+	}
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+	QString s = QString::number(duration);
+
+	//Print time of execution
+	ccLog::Print("Time to execute : " + s + " milliseconds.");
+
+}
+/**
+K-means algorithm
+@param k : k clusters
+@param it : limit of iterations before returns a result
+Returns a cloud quantified
+*/
+ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud,
+	unsigned char K, int it)
+{
+	//valid parameters?
+	if (!theCloud || K == 0)
+	{
+		assert(false);
+		return false;
+	}
+
+	unsigned n = theCloud->size();
+	if (n == 0)
+		return false;
+
+	//on a besoin de memoire ici !
+	std::vector<ccColor::Rgb> theKMeans;	//K clusters centers
+	std::vector<unsigned char> belongings;	//index of the cluster the point belongs to
+	std::vector<double> minDistsToMean; 	//distance to the nearest cluster center
+	std::vector<unsigned> theKNums;			//number of points per clusters
+	std::vector<unsigned> theOldKNums;		//number of points per clusters (prior to iteration)
+	try
+	{
+		theKMeans.resize(n);
+		belongings.resize(n);
+		minDistsToMean.resize(n);
+		theKNums.resize(K);
+		theOldKNums.resize(K);
+	}
+	catch (const std::bad_alloc&)
+	{
+		//not enough memory
+		return false;
+	}
+
+	//init classes centers (regularly sampled
+	unsigned step = n / K;
+	for (unsigned char j = 0; j < K; ++j)
+		theKMeans[j] = theCloud->getPointColor(step*j);
+
+
+	//let's start
+	bool meansHaveMoved = false;
+	int iteration = 0;
+	do
+	{
+		meansHaveMoved = false;
+		++iteration;
+		//
+		std::map<unsigned char, std::vector<unsigned>> KGroups;
+		{
+			for (unsigned i = 0; i < n; ++i)
+			{
+				unsigned char minK = 0;
+
+				ccColor::Rgb color = theCloud->getPointColor(i);
+				minDistsToMean[i] = std::abs(ColorDistance(color, theKMeans[minK]));
+
+				//we look for the nearest cluster center
+				for (unsigned char j = 1; j < K; ++j)
+				{
+					double distToMean = std::abs(ColorDistance(color, theKMeans[j]));
+					if (distToMean < minDistsToMean[i])
+					{
+						minDistsToMean[i] = distToMean;
+						minK = j;
+					}
+				}
+
+
+				belongings[i] = minK;
+				//minDistsToMean[i] = V;
+			}
+		}
+
+		//compute the clusters centers
+
+		theOldKNums = theKNums;
+		std::fill(theKNums.begin(), theKNums.end(), static_cast<unsigned>(0));
+		for (unsigned i = 0; i < n; ++i)
+		{
+			auto it = KGroups.find(belongings[i]);
+			if (it == KGroups.end()) {
+				std::vector<unsigned> points = { i };
+				KGroups.insert(std::pair<unsigned char, std::vector<unsigned>>(belongings[i], points));
+			}
+			else {
+				it->second.push_back(i);
+			}
+			++theKNums[belongings[i]];
+		}
+
+
+
+		for (unsigned char j = 0; j < K; ++j)
+		{
+			ccColor::Rgb newMean = (KGroups[j].size() > 0 ? computeAverageColor(*theCloud, KGroups[j]) : theKMeans[j]);
+
+			if (theOldKNums[j] != theKNums[j]) {
+					meansHaveMoved = true;
+			}
+
+			theKMeans[j] = newMean;
+		}
+
+
+
+	} while (iteration < it);
+
+	ccPointCloud* KCloud = theCloud->cloneThis();
+	KCloud->setName(QString::fromStdString("Kmeans clustering : K : " + std::to_string(K)));
+
+	//set color for each cluster
+	for (unsigned i = 0; i < n; i++) {
+		(*KCloud).setPointColor(i, theKMeans[belongings[i]]);
+	}
+
+	return KCloud;
+}
+
+/**
+Algorithm based on k-means for clustering points cloud by its colors
+*/
+void ColorimetricSegmenter::KmeansClustering() {
+
+	kmeansDlg = new KmeansDlg((QWidget*)m_app->getMainWindow());
+	if (!kmeansDlg.exec())
+		return;
+
+	// Start timer
+	auto start = std::chrono::high_resolution_clock::now();
+
+	std::vector<ccPointCloud*> clouds = ColorimetricSegmenter::getSelectedPointClouds();
+
+	for (ccPointCloud* cloud : clouds)
+	{
+
+			std::cout << " nb iteration : " << kmeansDlg.spinBox_it->value() << std::endl << "nb k : " << kmeansDlg.spinBox_k->value() << std::endl;
+
+			ccPointCloud* kcloud = computeKmeansClustering(cloud, kmeansDlg.spinBox_k->value(), kmeansDlg.spinBox_it->value());
+
+			cloud->setEnabled(false);
+			if (cloud->getParent())
+			{
+				cloud->getParent()->addChild(kcloud);
+			}
+
+			m_app->addToDB(kcloud, false, true, false, false);
+			m_app->dispToConsole("[ColorimetricSegmenter] Cloud successfully clustering ! ", ccMainAppInterface::STD_CONSOLE_MESSAGE);
+
+	}
+	// Stop timer
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
+	QString s = QString::number(duration);
+
+	//Print time of execution
+	ccLog::Print("Time to execute : " + s + " milliseconds");
 }

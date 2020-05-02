@@ -32,21 +32,23 @@
 #include "RgbDialog.h"
 #include "HSVDialog.h"
 #include "ScalarDialog.h"
+#include "QuantiDialog.h"
+#include "KmeansDlg.h"
 
 //! Example qCC plugin
 /** Replace 'ExamplePlugin' by your own plugin class name throughout and then
 	check 'ExamplePlugin.cpp' for more directions.
-	
+
 	Each plugin requires an info.json file to provide information about itself -
 	the name, authors, maintainers, icon, etc..
-	
+
 	The one method you are required to implement is 'getActions'. This should
 	return all actions (QAction objects) for the plugin. CloudCompare will
 	automatically add these with their icons in the plugin toolbar and to the
 	plugin menu. If	your plugin returns	several actions, CC will create a
 	dedicated toolbar and a	sub-menu for your plugin. You are responsible for
 	connecting these actions to	methods in your plugin.
-	
+
 	Use the ccStdPluginInterface::m_app variable for access to most of the CC
 	components (database, 3D views, console, etc.) - see the ccMainAppInterface
 	class in ccMainAppInterface.h.
@@ -58,16 +60,16 @@ class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
 	Q_OBJECT
 	Q_INTERFACES(ccStdPluginInterface)
-	
+
 	// Replace "Example" by your plugin name (IID should be unique - let's hope your plugin name is unique ;)
 	// The info.json file provides information about the plugin to the loading system and
 	// it is displayed in the plugin information dialog.
 	Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
-	
+
 public:
 	explicit ColorimetricSegmenter( QObject *parent = nullptr );
 	~ColorimetricSegmenter() override = default;
-	
+
 	// inherited from ccStdPluginInterface
 	void onNewSelection( const ccHObject::Container &selectedEntities ) override;
 	QList<QAction *> getActions() override;
@@ -103,6 +105,10 @@ private:
 
     void filterScalar();
 
+		void HistogramClustering();
+
+		void KmeansClustering();
+
 	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
 
 	template <typename T>
@@ -113,7 +119,7 @@ private:
 	//picked point callbacks
 	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
 	//virtual void onItemPicked(const ccPickingListener::PickedItem& pi); //inherited from ccPickingListener
-	
+
     //! Segment a cloud with RGB color
     void filterRgbWithSegmentation();
 
@@ -150,6 +156,9 @@ private:
     QAction* m_action_filterRgbWithSegmentation;
 	QAction* m_action_filterHSV;
     QAction* m_action_filterScalar;
+		QAction* m_action_ToonMapping_Hist;
+	QAction* m_action_ToonMapping_KMeans;
+
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub = nullptr;
@@ -157,6 +166,9 @@ private:
 	RgbDialog* rgbDlg;
     HSVDialog* hsvDlg;
     ScalarDialog* scalarDlg;
+		QuantiDialog* quantiDlg;
+		KmeansDlg* kmeansDlg;
+
 
 	//link to application windows
 	//ccGLWindow* m_window;
