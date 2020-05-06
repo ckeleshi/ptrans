@@ -289,18 +289,12 @@ Pour cela, nous avons développé dans un premier temps, l'interface utilisateur
   \caption{\label{} Interface filtrage RGB}
 \end{figure}
 
-Après le renseignement des différents paramètres, et la validation de la fenêtre via le bouton "OK", le plugin va recalculer les bornes si un pourcentage d'écart à été renseigné. Une fois ces nouvelles bornes calculées, il reste donc à parcourir l'ensemble des points du nuage, et de vérifier pour chaque point, si ses valeurs RGB sont à l'intérieur des bornes. Les points qui respectent cette condition sont gardés dans une liste de points, et les autres seront stockés dans une autre liste. Ces deux listes vont nous permettre de créer des sous-scans sur CloudCompare, selon le choix sélectionné par l'utilisateur.\newline
+Après le renseignement des différents paramètres, et la validation de la fenêtre via le bouton "OK", le plugin va recalculer les bornes si un pourcentage d'écart à été renseigné. Une fois ces nouvelles bornes calculées, il reste donc à parcourir l'ensemble des points du nuage, et de vérifier pour chaque point, si ses valeurs RGB sont à l'intérieur des bornes. Les points qui respectent cette condition sont gardés dans une liste de points, et les autres seront stockés dans une autre liste. Ces deux listes vont nous permettre de créer des sous-scans sur CloudCompare, selon le choix sélectionné par l'utilisateur.
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.6\textwidth]{./img/ex_rgb_avant.PNG}
-\caption{\label{} Filtrage RGB rouge : avant}
-\end{figure}
-
-\begin{figure}[H]
-\center
-\includegraphics[width=0.6\textwidth]{./img/ex_rgb_apres.PNG}
-\caption{\label{} Filtrage RGB rouge : après}
+\includegraphics[width=1\textwidth]{./img/rgb_avant_apres.PNG}
+\caption{\label{} Filtrage RGB rouge : avant / après}
 \end{figure}
 
 Malgré une solution qui semble fonctionner, nous pouvons quand même ressentir les limites de cette méthode. En effet, en utilisant uniquement l'espace colorimétrique RGB, nous sommes limités pour établir des vraies bornes qui permettent de séparer les couleurs plus nuancées. En effet, la qualité du filtrage dépend en grande partie des points que l'utilisateur aura sélectionné, et reste très vague en utilisant uniquement des bornes sur les valeurs RGB. C'est donc pour cela que nous avons utilisé un autre espace colorimétrique, le HSV, qui nous fournira des informations sur la teinte, la saturation et la valeur d'un point.
@@ -360,20 +354,14 @@ Au niveau de l'interface, elle est très similaire à celle du RGB, en ajoutant 
   \caption{\label{} Interface filtrage HSV}
 \end{figure}
 
-Il est possible d'utiliser le point picking afin de choisir directement un point sur le nuage, ce qui va remplir les trois champs RED / GREEN / BLUE. Lorsque un de ces trois champs est modifié, les trois autres champs HUE / SAT / VAL sont automatiquement modifiés. Il est aussi possible de modifier les valeurs directement en modifiant un des champs. \newline
+Il est possible d'utiliser le point picking afin de choisir directement un point sur le nuage, ce qui va remplir les trois champs RED / GREEN / BLUE. Lorsque un de ces trois champs est modifié, les trois autres champs HUE / SAT / VAL sont automatiquement modifiés. Il est aussi possible de modifier les valeurs directement en modifiant un des champs.
 
 Ci-dessous, un exemple de ce filtrage, identique à celui pour le RGB :
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.6\textwidth]{./img/1_red.PNG}
-\caption{\label{} Filtrage HSV rouge : avant}
-\end{figure}
-
-\begin{figure}[H]
-\center
-\includegraphics[width=0.6\textwidth]{./img/2_red.PNG}
-\caption{\label{} Filtrage HSV rouge : après}
+\includegraphics[width=1\textwidth]{./img/hsv_avant_apres.PNG}
+\caption{\label{} Filtrage HSV rouge : avant / après}
 \end{figure}
 
 Nous remarquons une amélioration au niveau de la sélection de tous les points rougeâtres, mais on remarque aussi qu'il y a plus de résidus. En effet, il est difficile de distinguer des points sombres de l'objet rouge que l'on veut sélectionner, des points résidus rougeâtres à cause de l'ombre. \newline
@@ -388,19 +376,11 @@ Un autre exemple sur un autre nuage de points va nous permettre de mieux voir le
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.5\textwidth]{./img/3_white.PNG}
-\caption{\label{} Filtrage RGB blanc : après}
+\includegraphics[width=1\textwidth]{./img/hsv2_avant_apres.PNG}
+\caption{\label{} Filtrage RGB blanc et HSV blanc}
 \end{figure}
 
-\begin{figure}[H]
-\center
-\includegraphics[width=0.5\textwidth]{./img/2_white.PNG}
-\caption{\label{} Filtrage HSV blanc : après}
-\end{figure}
-
-Nous remarquons donc une nette amélioration au niveau de la sélection des tuyaux blancs, surtout pour les tuyaux qui ont une couleur blanche mais avec un peu d'ombre. Même si on obtient des résidus, nous pouvons maintenant récupérer avec plus de précision les points que nous voulons. \newline
-
-Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
+Nous remarquons donc une nette amélioration au niveau de la sélection des tuyaux blancs, surtout pour les tuyaux qui ont une couleur blanche mais avec un peu d'ombre. Même si on obtient des résidus, nous pouvons maintenant récupérer avec plus de précision les points que nous voulons. Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
 
 \subsubsection{Filtrage via la valeur scalaire}
 
@@ -415,14 +395,8 @@ Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utili
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.5\textwidth]{./img/scalar_avant.png}
+\includegraphics[width=0.9\textwidth]{./img/scalaire_avant_apres.png}
 \caption{\label{} Filtrage scalaire : avant}
-\end{figure}
-
-\begin{figure}[H]
-\center
-\includegraphics[width=0.5\textwidth]{./img/scalar_apres.png}
-\caption{\label{} Filtrage scalaire: après}
 \end{figure}
 
 Afin de pouvoir distinguer les intensités plus facilement sur l'exemple, nous avons choisi d'appliquer une fausse couleur. Les points de fortes intensités tendent vers le rouge, les plus faible, vers le vert. On peut voir sur le résultat que les points se rapprochant le plus du rouge avant le filtrage sont sélectionnés. Ce qui correspond aux attentes. On pourra noter qu'une nouvelle échelle de couleur est réalisée par CloudCompare, les points n'ont donc plus la même correspondance de couleur.
