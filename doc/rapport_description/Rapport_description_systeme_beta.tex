@@ -54,7 +54,7 @@ Depuis quelques années, il est possible de faire scanner les bâtiments en 3D e
 
 \begin{figure}[H]
 \center
-\includegraphics[width=1\textwidth]{./img/exemple_ndp.PNG}
+\includegraphics[width=0.7\textwidth]{./img/exemple_ndp.PNG}
     \caption{\label{} Exemple de nuage de points en 3D}
 \end{figure}
 
@@ -99,7 +99,7 @@ Comme dit précédemment, la solution proposée pour répondre à la problémati
 
 Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur. \newline
 
-La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin.
+La figure ci-dessous montre la démarche que doit suivre l'utilisateur pour avoir accès au plugin.
 
 \begin{figure}[H]
 \center
@@ -109,7 +109,7 @@ La figure 1 montre la démarche que doit suivre l'utilisateur pour avoir accès 
 
 La marche à suivre est relativement simple puisque notre plugin s'intègre dans le menu défilant qui répertorie l'ensemble des autres plugins accessibles de CloudCompare. De cette manière, l'utilisateur n'a qu'à le sélectionner et pourra l'utiliser si un ou des nuages ont été choisis pour être traités. \newline
 
-La figure 2, quant à elle, illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique.
+La figure suivante, quant à elle, illustre l'utilisation du plugin, plus particulièrement la segmentation colorimétrique.
 
 \begin{figure}[H]
 \center
@@ -128,7 +128,7 @@ Le tableau ci-dessous présente l'état d'avancement des composants de la soluti
 \end{itemize}
 
 \begin{figure}[H]
-\center \includegraphics[width=0.5\textwidth]{./img/avancement.png}
+\center \includegraphics[width=0.4\textwidth]{./img/avancement.png}
   \caption{\label{} Tableau d'avancement global}
 \end{figure}
 
@@ -159,7 +159,7 @@ Nous présenterons ici la structure du projet CloudCompare, et de l'implémentat
 
 \begin{figure}[H]
 \center
-  \includegraphics[width=0.9\textwidth]{./img/structure_code.PNG}
+  \includegraphics[width=0.8\textwidth]{./img/structure_code.PNG}
   \caption{\label{} Code source du projet CloudCompare}
 \end{figure}
 
@@ -189,7 +189,7 @@ Nous avons représenté la structure globale du plugin, avec ce schéma ci-desso
 
 \begin{figure}[H]
 \center
-  \includegraphics[width=0.9\textwidth]{./img/architecture_plugin.PNG}
+  \includegraphics[width=0.7\textwidth]{./img/architecture_plugin.PNG}
   \caption{\label{} Structure de notre plugin}
 \end{figure}
 
@@ -260,7 +260,7 @@ Dans le cas du lab, il suffirait de ne prendre en compte seulement la chrominanc
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.8\textwidth]{./img/CIELAB.png}
+\includegraphics[width=0.4\textwidth]{./img/CIELAB.png}
     \caption{\label{} Répresentation de l'espace CIELAB}
 \end{figure}
 
@@ -274,7 +274,7 @@ Notre première solution développée pour obtenir un filtrage, est d'utiliser l
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.8\textwidth]{./img/exemple_rgb.PNG}
+\includegraphics[width=0.5\textwidth]{./img/exemple_rgb.PNG}
     \caption{\label{} Exemple des valeurs RGB d'un point rougeâtre}
 \end{figure}
 
@@ -282,14 +282,10 @@ Nous pouvons voir dans cet exemple, les valeurs RGB d'un point qui a été séle
 
 Notre première idée a donc été d'exploiter ces trois valeurs, et d'avoir un premier filtrage du nuage. Pour ce faire, nous avons réalisé un algorithme consistant à sélectionner uniquement les points qui ont des valeurs RGB proches d'un point dans le nuage. Dans nos premières itérations, nous nous basions uniquement sur la sélection d'un point, pour en définir des bornes RGB qui vont constituer notre plage de points à garder, grâce à un pourcentage d'écart. Suite à des réunions avec le client, une autre solution alternative a été de sélectionner deux points, pour directement définir nos bornes. \newline
 
-Pour cela, nous avons développé dans un premier temps, l'interface utilisateur. Cette dernière est composée de deux points à renseigner, par leurs valeurs RGB. Afin de simplifier l'utilisation du plugin, nous avons intégré un bouton afin de sélectionner un point directement sur le nuage, et qui va ensuite renseigner les valeurs RGB du point sélectionné automatiquement. \newline
-
-Il est aussi possible de choisir les points que l'utilisateur veut garder. Le choix de l'option "Retain" permet à l'utilisateur de créer un sous-scan où les points affichés seront les points qui sont à l'intérieurs des bornes. Inversement, l'option "Exclude" va permettre de créer un sous-scan avec les points qui seront hors de l'intervalle choisis. Enfin, la dernière option "Both" va permettre de réaliser les deux options. Nous aurons donc à la fin, deux sous-scans où la somme va permettre de retrouver le scan original.
-
-Nous avons enfin un champ afin d'écarter les limites de nos bornes RGB, pour accepter des points qui sont proches des bornes renseignées.  \newline
+Pour cela, nous avons développé dans un premier temps, l'interface utilisateur. Cette dernière est composée de deux points à renseigner, par leurs valeurs RGB. Afin de simplifier l'utilisation du plugin, nous avons intégré un bouton afin de sélectionner un point directement sur le nuage, et qui va ensuite renseigner les valeurs RGB du point sélectionné automatiquement. Il est aussi possible de choisir les points que l'utilisateur veut garder. Le choix de l'option "Retain" permet à l'utilisateur de créer un sous-scan où les points affichés seront les points qui sont à l'intérieurs des bornes. Inversement, l'option "Exclude" va permettre de créer un sous-scan avec les points qui seront hors de l'intervalle choisis. Enfin, la dernière option "Both" va permettre de réaliser les deux options. Nous aurons donc à la fin, deux sous-scans où la somme va permettre de retrouver le scan original. Nous avons enfin un champ afin d'écarter les limites de nos bornes RGB, pour accepter des points qui sont proches des bornes renseignées.
 
 \begin{figure}[H]
-\center \includegraphics[width=0.8\textwidth]{./img/ui_filter_rgb.png}
+\center \includegraphics[width=0.7\textwidth]{./img/ui_filter_rgb.png}
   \caption{\label{} Interface filtrage RGB}
 \end{figure}
 
@@ -297,13 +293,13 @@ Après le renseignement des différents paramètres, et la validation de la fen�
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/ex_rgb_avant.PNG}
+\includegraphics[width=0.6\textwidth]{./img/ex_rgb_avant.PNG}
 \caption{\label{} Filtrage RGB rouge : avant}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/ex_rgb_apres.PNG}
+\includegraphics[width=0.6\textwidth]{./img/ex_rgb_apres.PNG}
 \caption{\label{} Filtrage RGB rouge : après}
 \end{figure}
 
@@ -315,7 +311,7 @@ Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous a
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/HSV.png}
+\includegraphics[width=0.3\textwidth]{./img/HSV.png}
 \caption{\label{} Description de l'espace colorimétrique HSV}
 \end{figure}
 
@@ -339,7 +335,7 @@ Concernant la dernière composante, qui est la teinte, nous nous sommes aidé du
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/cercle_chromatique.png}
+\includegraphics[width=0.3\textwidth]{./img/cercle_chromatique.png}
 \caption{\label{} Cercle chromatique}
 \end{figure}
 
@@ -360,7 +356,7 @@ Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il
 Au niveau de l'interface, elle est très similaire à celle du RGB, en ajoutant les trois nouvelles composantes du HSV.
 
 \begin{figure}[H]
-\center \includegraphics[width=0.8\textwidth]{./img/ui_filter_hsv.PNG}
+\center \includegraphics[width=0.6\textwidth]{./img/ui_filter_hsv.PNG}
   \caption{\label{} Interface filtrage HSV}
 \end{figure}
 
@@ -370,13 +366,13 @@ Ci-dessous, un exemple de ce filtrage, identique à celui pour le RGB :
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/1_red.PNG}
+\includegraphics[width=0.6\textwidth]{./img/1_red.PNG}
 \caption{\label{} Filtrage HSV rouge : avant}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/2_red.PNG}
+\includegraphics[width=0.6\textwidth]{./img/2_red.PNG}
 \caption{\label{} Filtrage HSV rouge : après}
 \end{figure}
 
@@ -386,19 +382,19 @@ Un autre exemple sur un autre nuage de points va nous permettre de mieux voir le
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/1_white.PNG}
+\includegraphics[width=0.5\textwidth]{./img/1_white.PNG}
 \caption{\label{} Filtrage blanc : avant}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/3_white.PNG}
+\includegraphics[width=0.5\textwidth]{./img/3_white.PNG}
 \caption{\label{} Filtrage RGB blanc : après}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/2_white.PNG}
+\includegraphics[width=0.5\textwidth]{./img/2_white.PNG}
 \caption{\label{} Filtrage HSV blanc : après}
 \end{figure}
 
@@ -413,19 +409,19 @@ Il s'agit d'une fonctionnalité ajoutée à posteriori compte tenu de l'avanceme
 Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utilisateur est invité à renseigner la valeur du point le plus "clair"(une valeur plus proche de 1) et la valeur du plus "foncé" (une valeur plus proche de 0). Il est toujours possible de déterminer ces valeurs en effectuant un point-picking. Un pourcentage d'écart peut être renseigné et recalculera en conséquence les bornes. On peut également choisir si on désire sélectionner les points compris dans l'intervalle de valeurs, ou au contraire ceux qui n'y sont pas inclus. Une fois ce paramétrage réalisé, le nuage est segmenté et un nouveau sous-nuage est créé. Ci-dessous, un exemple de ce filtrage sur les points avec une forte intensité:
 
 \begin{figure}[H]
-\center \includegraphics[width=0.8\textwidth]{./img/scalar_menu.png}
+\center \includegraphics[width=0.6\textwidth]{./img/scalar_menu.png}
   \caption{\label{} Interface filtrage scalaire}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/scalar_avant.png}
+\includegraphics[width=0.5\textwidth]{./img/scalar_avant.png}
 \caption{\label{} Filtrage scalaire : avant}
 \end{figure}
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/scalar_apres.png}
+\includegraphics[width=0.5\textwidth]{./img/scalar_apres.png}
 \caption{\label{} Filtrage scalaire: après}
 \end{figure}
 
@@ -450,21 +446,17 @@ on calcule la couleur moyenne de toutes les partitions et on affecte les couleur
 
  \begin{figure}[H]
 \center
-\includegraphics[width=0.7\textwidth]{./img/HistogramDialog.png}
+\includegraphics[width=0.5\textwidth]{./img/HistogramDialog.png}
 \caption{\label{} Interface quantification par histogramme}
 \end{figure}
 
 L'image ci-dessus montre l'interface utilisateur pour la quantification par l'histogramme.
 Une spinBox permet à l'utilisateur de choisir le coefficient dans une amplitude de 1 à 255.
- Le champ sur le nombre de couleurs de la palette après exécution se met à jour à chaque valeur changée dans l'indice. Cela permet à l'utilisateur de se projeter et de choisir l'indice qui lui convient le mieux.
-  Une fois le paramétrage réalisé, un nouveau sous-nuage est créé.
-
-L'image ci-dessous illustre les résultats obtenus en faisant varier le coefficient\newline
-
+ Le champ sur le nombre de couleurs de la palette après exécution se met à jour à chaque valeur changée dans l'indice. Cela permet à l'utilisateur de se projeter et de choisir l'indice qui lui convient le mieux. Une fois le paramétrage réalisé, un nouveau sous-nuage est créé. L'image ci-dessous illustre les résultats obtenus en faisant varier le coefficient.
 
 \begin{figure}[H]
 \center
-\includegraphics[width=0.8\textwidth]{./img/ExpToonMapping.png}
+\includegraphics[width=0.75\textwidth]{./img/ExpToonMapping.png}
 \caption{\label{} Exemples du Tone Mapping}
 \end{figure}
 
@@ -481,12 +473,9 @@ Bien que l'algorithme K-means doit se terminer lorsqu'il n'y a plus de variation
 
 Hélas, certains risques résident dans l'algorithme K-means, le risque de rester coincé dans un minimum local. L'autre biais est que le résultat obtenu dépend grandement des points pris à l'initialisation.
 
-\newpage
 \section{Conclusion et perspectives}
 
 Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en grande partie ce que nous avions prévu sur le cahier des charges. La majorité des Users Stories ont été développés et validés par le client. Arrivant à la fin du projet, nous avons pu améliorer ce que nous avions développé dans la version alpha, et terminer les tâches en cours.\newline
-
-La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux itérations suivantes nous ont permis de poser les bases, et de commencer à donner une solution viable. Pendant la quatrième itération, nous avons consolidé ce que nous avions développé, puis nous avions préparé une première version du projet pour le client pendant la cinquième, qui a pu nous faire des retours côté utilisateur. Enfin la dernière itération a été dédiée à des correctifs, et la fin des tâches en suspend. \newline
 
 Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare. \newline
 
@@ -504,7 +493,9 @@ Une fois ce problème résolu, il a nous été assez facile d'avancer sur le pro
 
 Même si l'ensemble des tâches ont été validées, le projet peut encore être améliorable. En effet, nous avons, par exemple, la version avancé du filtrage HSV, pour qu'un utilisateur plus expérimenté puisse affiner sa sélection de points. \newline
 
-Ce projet sera, à terme, un plugin qui fera partie des autres plugins de CloudCompare. Un contact a déjà eu lieu avec M. Daniel Girardeau-Montaut, afin de discuter dans un premier temps sur les règles à respecter.
+Ce projet sera, à terme, un plugin qui fera partie des autres plugins de CloudCompare. Un contact a déjà eu lieu avec M. Daniel Girardeau-Montaut, afin de discuter dans un premier temps sur les règles à respecter. \newline
+
+Globalement, c'est un projet transversal qui s'est bien déroulé, et a été très enrichissant sur les connaissances acquises dans le domaine du nuage de points. Nous avons pu découvrir une jeune entreprise qui cherche à innover dans ce domaine, et nous avons eu l'occasion de communiquer avec le créateur du logiciel CloudCompare, qui est considéré comme un logiciel majeur pour le traitement de nuage de points 3D.
 
 \newpage
 \section{Annexes}
