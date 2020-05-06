@@ -457,19 +457,19 @@ La recherche d'algorithmes de segmentation nous a permis de gagner du temps sur 
 
 Toutefois, nous avons quand même pris du retard notamment sur la deuxième et troisième itération. Lors de la deuxième itération, nous pensions que nous pourrions avoir une meilleure base de notre plugin sur CloudCompare, afin de pousser l'implémentation des algorithmes de segmentation. Malheureusement, nous avions rencontré des difficultés par rapport à la création d'un nouveau plugin. Ce temps perdu a donc impacté le développement de la troisième itération, qui consistait à l'amélioration de ce que nous avions développé, et l'implémentation de nouveaux algorithmes. \newline
 
-Lors de la troisième itération, nous avions préféré se concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités, car il nous semblait important d'avoir une structure stable et facile à maintenir, pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et qui peut facilement ajouter des nouveaux algorithmes de segmentation. \newline
+Lors de la troisième itération, nous avions préféré nous concentrer sur l'amélioration de notre code par rapport à l'implémentation de nouvelles fonctionnalités. Il nous semblait important d'avoir une structure stable et facile à maintenir pour la suite du projet. Grâce à cela, nous avons maintenant un plugin indépendant aux autres, qui est totalement fonctionnel, et auquel on peut aisément ajouter de nouveaux algorithmes de segmentation. \newline
 
-De plus, nous avons quand même pris en compte le feedback du client, afin d'améliorer notre solution, par rapport à son utilisation. Ici, c'était principalement lié à l'interface des algorithmes de segmentation. Nous avons apporté des modifications notamment sur le point picking, très important pour faciliter l'utilisation de notre plugin (au lieu de rentrer manuellement les valeurs à filtrer), ou encore des changements sur la plage de couleur à prendre, etc. \newline
+De plus, nous nous sommes efforcés de prendre en compte le feedback du client, afin d'améliorer notre solution par rapport à son utilisation. Ici, ils s'agissait principalement de retours en rapport à l'interface des algorithmes de segmentation. Nous avons apporté des modifications notamment sur le point picking, très important pour faciliter l'utilisation de notre plugin (au lieu de rentrer manuellement les valeurs à filtrer), ou encore des changements sur la plage de couleur à prendre, etc. \newline
 
-Nous avions rencontré beaucoup de difficulté pour fournir la première version du projet à notre client, notamment à cause des problèmes de compatibilité des versions, par rapport au logiciel CloudCompare, Qt, ou encore la version du SDK de windows. En effet, nous compilions avec une version plus récente de Visual Studio (2019), qui utilisait donc une version SDK windows plus récente que les machines de notre client. Le seul moyen de savoir d'où venait le problème était de notre côté, tester différentes solutions, puis de les fournir au client afin qu'il puisse réaliser les tests. En prenant en compte les délais de communication, nous avions perdu du temps. \newline
+Nous avions rencontré beaucoup de difficultés pour fournir la première version du projet à notre client. Il s'agissait notamment de problèmes de compatibilité des versions, par rapport au logiciel CloudCompare, Qt, ou encore la version du SDK de windows. En effet, nous compilions avec une version plus récente de Visual Studio (2019), qui utilisait donc une version SDK Visual Studio plus récente que les machines de notre client. Le seul moyen de savoir d'où venait le problème était de tester différentes solutions de notre côté, puis de les fournir au client afin qu'il puisse réaliser les tests. En prenant en compte les délais de communication, nous avions perdu du temps. \newline
 
 Une fois ce problème résolu, il a nous été assez facile d'avancer sur le projet, tout en prenant en compte le feedback du client qui pouvait utiliser le plugin pour des cas réels. \newline
 
-Même si l'ensemble des tâches ont été validées, le projet peut encore être améliorable. En effet, nous avons, par exemple, la version avancé du filtrage HSV, pour qu'un utilisateur plus expérimenté puisse affiner sa sélection de points. \newline
+Même si l'ensemble des tâches a été validé, le projet peut encore être améliorable. En effet, nous pouvons par exemple envisager une version "avancée" du filtrage HSV, pour qu'un utilisateur plus expérimenté puisse affiner sa sélection de points. \newline
 
-Ce projet sera, à terme, un plugin qui fera partie des autres plugins de CloudCompare. Un contact a déjà eu lieu avec M. Daniel Girardeau-Montaut, afin de discuter dans un premier temps sur les règles à respecter. \newline
+Ce projet a à terme vocation à être un plugin qui fera partie de la bibliothèque de plugins de CloudCompare. Un contact a déjà eu lieu avec M. Daniel Girardeau-Montaut, afin de discuter dans un premier temps sur les règles à respecter. \newline
 
-Globalement, c'est un projet transversal qui s'est bien déroulé, et a été très enrichissant sur les connaissances acquises dans le domaine du nuage de points. Nous avons pu découvrir une jeune entreprise qui cherche à innover dans ce domaine, et nous avons eu l'occasion de communiquer avec le créateur du logiciel CloudCompare, qui est considéré comme un logiciel majeur pour le traitement de nuage de points 3D.
+Globalement, c'est un projet transversal qui s'est bien déroulé, et a été très enrichissant de par les connaissances acquises dans le domaine des nuages de points. Nous avons pu découvrir une jeune entreprise qui cherche à innover dans ce domaine, et nous avons eu l'occasion de communiquer avec le créateur du logiciel CloudCompare, qui est considéré comme un logiciel majeur pour le traitement de nuage de points 3D.
 
 \newpage
 \section{Annexes}
@@ -484,15 +484,15 @@ Il est important de faire un retour sur le déroulement du projet, afin de savoi
 
 D'un point de vu global sur le projet, nous avons rencontré certaines difficultés, mais aussi appris beaucoup par rapport au fonctionnement d'un projet agile. \newline
 
-Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme c'était notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte expérimenter notre capacité de travail et d'évaluer les tâches à réaliser. \newline
+Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme il s'agissait de notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte jauger notre capacité de travail et évaluer les tâches à réaliser. \newline
 
 Certaines tâches furent plus difficiles à réaliser, par rapport à nos prévisions. Par exemple, nous pouvons citer l'implémentation d'un nouvel algorithme de segmentation, plus complexe, ou encore l'implémentation d'un point picking. Le temps prévu à consacrer sur ces types de tâches n'était pas assez important, car nous avions mal pris en compte les autres tâches en parallèle, hors projet. Ces autres tâches étaient notamment d'autres projets sur de courtes durées, devoir surveillées, oraux, etc. \newline
 
-Nous nous sommes aussi rendu compte que les itérations se déroulent très vite. Pour chaque itération, nous étions surpris par le fait qu'un mois s'était passé. Grâce aux réunions planifiées avec le client et le tuteur académique, nous pouvions quand même garder une bonne dynamique pour respecter les deadlines. \newline
+Nous nous sommes aussi rendu compte que les itérations se déroulent très vite. Pour chaque itération, nous étions surpris par le fait qu'un mois s'était passé. Grâce aux réunions planifiées avec le client et le tuteur académique, nous pouvions toutefois garder une bonne dynamique pour respecter les deadlines. \newline
 
 De plus, la mise en situation d'un projet agile nous a fait prendre conscience de l'importance de garder le client au courant, afin d'avancer correctement par rapport aux besoins de celui-ci. Mais pour cela, il faut rédiger de nombreux rapports. Ce sont des tâches qu'il ne faut pas sous-estimer, puisque cela demande beaucoup de temps. Même si les réunions aident à transmettre l'avancement du projet et des tâches réalisées, il faut aussi écrire formellement dans un rapport l'avancement pour garder une trace de ce qui a été fait. \newline
 
-La rédaction des rapports d'itération, et des rapports hebdomadaires, sont difficiles à maintenir. En effet, nous avions eu parfois des difficultés à suivre le rythme des rapports hebdomadaires. Malgré tout, cela reste nécessaire notamment pour avoir un historique de l'avancement des tâches, et des heures passées sur chacune d'entre elles.
+La dynamique de rédaction des rapports d'itération, et des rapports hebdomadaires, est difficile à maintenir. En effet, nous avions eu parfois des difficultés à suivre le rythme des rapports hebdomadaires. Malgré tout, cela reste nécessaire notamment pour avoir un historique de l'avancement des tâches, et des heures passées sur chacune d'entre elles.
 
 \subsubsection{Comparaison de la planification des itérations}
 
@@ -513,11 +513,11 @@ Afin de faire ressortir les tâches qui nous ont pris plus ou moins de temps que
 
 Ce premier tableau nous montre les tâches que nous avions prévues pour notre première itération, représentées du côté gauche, avec la tâche prévue, le temps estimé et le responsable de la tâche. De l'autre côté, nous pouvons observer les mêmes tâches, avec le temps réellement passé pour les réaliser. \newline
 
-Nous pouvons voir que le temps réellement passé ne correspond pas du tout à ce que nous avions prévu. En effet, comme c'était notre première itération, il nous a été difficile d'estimer notre capacité de travail, et du temps à passer sur chacune de nos tâches. \newline
+Nous pouvons voir que le temps réellement passé ne correspond pas du tout à ce que nous avions prévu. En effet, comme il s'agissait de notre première itération, il nous a été difficile d'estimer notre capacité de travail, et du temps à accorder à chacune de nos tâches. \newline
 
-Nous pouvons aussi observer que sur la tâche des recherches sur les espaces colorimétriques, le responsable a été changé, de même que pour le choix du langage. Pendant notre avancée sur l'itération, nous nous sommes rendu compte que certaines tâches étaient plus rapide à réaliser que d'autres, par exemple sur la prise en main de CloudCompare, ou encore sur les méthodes de segmentation. Ce gain de temps nous a permis d'attribuer la responsabilité de travailler sur les espaces colorimétriques à Mathieu L, et libérer du temps à Tri-Thien T. pour se concentrer sur d'autres tâches. Ce dernier a eu beaucoup de temps supplémentaires à attribuer sur ses tâches, notamment car c'est un travail de recherches, donc cela nécessite beaucoup de documentations, donc beaucoup de temps. De plus, il fallait ensuite produire un rapport facile à comprendre pour les autres membres du groupe, et pour le client. \newline
+Nous pouvons aussi observer que sur la tâche des recherches sur les espaces colorimétriques, le responsable a été changé, de même que pour le choix du langage. Pendant notre avancée sur l'itération, nous nous sommes rendu compte que certaines tâches étaient plus rapide à réaliser que d'autres, par exemple sur la prise en main de CloudCompare, ou encore sur les méthodes de segmentation. Ce gain de temps nous a permis d'attribuer la responsabilité de travailler sur les espaces colorimétriques à Mathieu L, et libérer du temps à Tri-Thien T. Ce dernier a eu beaucoup de temps supplémentaire à attribuer sur ses tâches, notamment car il s'agit d'un travail de recherches, donc cela nécessite beaucoup de documentations, et par conséquent beaucoup de temps. Il fallait également produire un rapport facile à comprendre pour les autres membres du groupe, et pour le client. \newline
 
-De plus, nous avions des tâches qui n'étaient pas prévues dans nos prévisions, mais qui étaient présentes en réalité. Nous pouvons citer la préparation du Sprint review, ou encore le sprint planning. C'est pour cela que ces tâches n'apparaissent pas dans les tâches prévues, mais uniquement dans les tâches réalisées.
+De plus, nous avions des tâches qui n'étaient pas prévues dans nos prévisions, mais qui étaient présentes en implicitement. Nous pouvons citer la préparation du Sprint review, ou encore le sprint planning. C'est pour cela que ces tâches n'apparaissent pas dans les tâches prévues, mais uniquement dans les tâches réalisées.
 
 \begin{figure}[H]
 \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_2.PNG}}
@@ -533,7 +533,7 @@ Une fois ceci fait, il fallait ensuite créer notre propre interface et nos prop
     \caption{\label{} Comparaison Gantt de l'itération 3}
 \end{figure}
 
-Cette troisième itération était dédiée à l'amélioration de notre solution, et surtout de revoir la structure de notre code pour avoir une meilleure organisation. De même que pour la première itération, nous avons eu ici du mal à bien estimer la durée de nos tâches. Les principales différences entre le prévisionnel et le réalisé est le fait que nous ne connaissons pas encore assez le code du projet CloudCompare, donc ne savons pas vraiment ce qui est possible de faire avec les outils du projet ou non. \newline
+Cette troisième itération était dédiée à l'amélioration de notre solution, et surtout à revoir la structure de notre code pour avoir une meilleure organisation. De même que pour la première itération, nous avons eu ici du mal à bien estimer la durée de nos tâches. Les principales différences entre le prévisionnel et le réalisé est le fait que nous ne connaissons pas encore assez le code du projet CloudCompare, donc ne savons pas vraiment ce qui est possible de faire avec les outils du projet ou non. \newline
 
 De plus, nous avons rencontré des difficultés pour obtenir des résultats satisfaisants, notamment pour la conversion LAB, et des difficultés à comprendre le fonctionnement d'un plugin sur le logiciel CloudCompare, notamment le principe des signaux et des slots en C++ (pour l'implémentation d'un point picking). \newline
 
@@ -544,7 +544,7 @@ Il faut aussi noter que pour le développement d'un nouvel algorithme de sélect
     \caption{\label{} Comparaison Gantt de l'itération 4}
 \end{figure}
 
-La quatrième itération était concentrée principalement l'avancement du développement des tâches. Nous pouvons noter que certaines tâches sont encore en cours, notamment la nouvelle méthode de segmentation, et le tone mapping. En effet, ces tâches sont longues et assez complexes à développer. La majeur partie du code est implémenté, mais il reste surtout une phase de déboggage à effectuer, pour que l'exécution soit fonctionnelle. \newline
+La quatrième itération était concentrée principalement sur l'avancement du développement des tâches. Nous pouvons noter que certaines tâches sont encore en cours, notamment la nouvelle méthode de segmentation, et le tone mapping. En effet, ces tâches sont longues et assez complexes à développer. La majeur partie du code est implémenté, mais il reste surtout une phase de déboggage à effectuer, pour que l'exécution soit fonctionnelle. \newline
 
 Nous avions aussi remarqué pendant l'itération, que l'intégration de fausses couleurs n'était plus vraiment d'actualité. En effet, celle-ci était déjà présente sur le logiciel CloudCompare. Nous n'avions donc pas de plus-value à apporter sur cette fonctionnalité. \newline
 
@@ -564,11 +564,11 @@ Nous avions eu un peu plus de difficulté à respecter les temps prévus, car no
     \caption{\label{} Comparaison Gantt de l'itération 6}
 \end{figure}
 
-Lors de cette dernière itération, nous avons pu faire un point avec le client et notre tuteur académique, afin que l'on puisse valider nos nouvelles tâches implémentées, et de réfléchir à ce que l'on devait développer, par rapport au temps restant. En plus de ces tâches, il nous fallait aussi préparer notre dernière soutenance sur le système réalisé, version beta. \newline
+Lors de cette dernière itération, nous avons pu faire un point avec le client et notre tuteur académique. Cela nous a permis de valider nos nouvelles tâches implémentées, et de réfléchir à ce que l'on devait développer, par rapport au temps restant. En plus de ces tâches, il nous fallait aussi préparer notre dernière soutenance sur le système réalisé, version beta. \newline
 
-La décision qui a été prise est que nous devions surtout nous concentrer sur la fin des tâches en cours (algorithme de sélection de points / tone mapping). De plus, il nous fallait passer du temps à la correction de bugs, et d'amélioration par rapport au feedback des utilisateurs. \newline
+La décision qui a été prise est que nous devions surtout nous concentrer sur la finalisation des tâches en cours (algorithme de sélection de points / tone mapping). De plus, il nous fallait passer du temps à la correction de bugs, ainsi qu'à l'amélioration des fonctionnalité vis à vis du feedback des utilisateurs. \newline
 
-Durant cette itération, les temps prévus sont plutôt bien respectés par rapport à la réalisation. Cela pourrait venir du fait que nous avions pris l'habitude d'estimer notre capacité de travail, et qu'il nous était plus facile de travailler sur ce projet en cette période de confinement, comme nous avions moins de cours et plus de temps accordé au projet transversal.
+Durant cette itération, les temps prévus sont plutôt bien respectés par rapport à la réalisation. Cela pourrait venir du fait que nous avions pris l'habitude d'estimer notre capacité de travail, et qu'il nous était plus facile de travailler sur ce projet en cette période de confinement. En effet, nous avions moins de cours et plus de temps à accorder au projet transversal.
 
 \subsection{Rapport de recette}
 
