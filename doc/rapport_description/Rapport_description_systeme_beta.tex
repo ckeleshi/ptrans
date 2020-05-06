@@ -125,6 +125,7 @@ Le tableau ci-dessous présente l'état d'avancement des composants de la soluti
     \item Vert : composant réalisé
     \item Orange : composant en cours de réalisation
     \item Rouge : composant pas encore réalisé
+    \item Bleu : composant déjà existant
 \end{itemize}
 
 \begin{figure}[H]
@@ -132,7 +133,13 @@ Le tableau ci-dessous présente l'état d'avancement des composants de la soluti
   \caption{\label{} Tableau d'avancement global}
 \end{figure}
 
-Nous pouvons observer que notre avancement est en bonne voie. Étant à la moitié du projet, nous avons réalisé la moité des tâches. Il faut aussi noter que les composants sont amenés à évoluer, avec le feedback du client à nos fins d'itérations. Par exemple, la tâche du point picking, ou encore le toon mapping sont des composants qui ont été soulevé suite à nos réunions et discussions avec le client et notre tuteur académique.
+Les composants et tâches planifiés ont évolué au cours de l'avancement du projet.
+Certains composants ont été soulevés suite aux feedbacks de nos réunions et discussions avec le client et notre tuteur académique comme le Tone mapping ou le point picking.
+D'autres tâches, filtrage HSV et valeurs scalaires sont apparues pour répondre à la tâche planifiée qu'est l'implémentation de la fausse couleur.
+
+En effet, nous avons remarqué que la fausse couleur était déjà intégrée à CloudCompare.
+Ainsi, il n'était plus nécessaire de la développer, mais à la place nous avons vu qu'il était possible de proposer un filtrage directement sur des champs scalaires.
+Étant à la fin du projet, on peut noter que l'ensemble des composants listés ont été implémentés et intégrés à la solution.
 
 \section{Description technologique de la solution}
 
@@ -421,7 +428,22 @@ Pour un N donné, on obtiendra une grille de $Q\times Q \times Q$ cubes / partit
 \newline
 
 Pour chaque partition, on cherche et attribue chaque point du nuage à celle qui lui est propre. Une fois fait,
-on calcule la couleur moyenne de toutes les partitions et on affecte les couleurs obtenues aux points correspondants. La figure ci-dessus montre les résultats obtenus en faisant varier le coefficient\newline
+on calcule la couleur moyenne de toutes les partitions et on affecte les couleurs obtenues aux points correspondants.
+\newline
+
+ \begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/HistogramDialog.png}
+\caption{\label{} Interface quantification par histogramme}
+\end{figure}
+
+L'image ci-dessus montre l'interface utilisateur pour la quantification par l'histogramme.
+Une spinBox permet à l'utilisateur de choisir le coefficient dans une amplitude de 1 à 255.
+ Le champ sur le nombre de couleurs de la palette après exécution se met à jour à chaque valeur changée dans l'indice. Cela permet à l'utilisateur de se projeter et de choisir l'indice qui lui convient le mieux.
+  Une fois le paramétrage réalisé, un nouveau sous-nuage est créé.
+
+L'image ci-dessous illustre les résultats obtenus en faisant varier le coefficient\newline
+
 
 \begin{figure}[H]
 \center
