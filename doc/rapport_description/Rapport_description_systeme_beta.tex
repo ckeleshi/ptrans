@@ -473,20 +473,20 @@ l'espace RGB n'est pas l'espace colorimétrique le plus adéquat pour générer 
 La seconde limite est le fait que cette méthode peut générer des couleurs qui n'étaient pas présentes à l'origine dans le nuage.
 \newline
 
-L'algorithme K-means connu dans la quantification d'images.
+L'algorithme K-means est connu dans la quantification d'images.
 Comme pour l'algorithme de segmentation, il aurait été intéressant de travailler par référence afin de limiter l'utilisation en mémoire.
 Cependant, la structure "ReferenceCloud" de CloudCompare, n'a pas accès aux couleurs des points, c'est pourquoi elle n'a pas été utilisée.
-Bien que l'algorithme k-means doit se terminer lorsqu'il n'y a plus de variation entre deux itérations, une limite d'itérations a été mise afin que l'utilisateur puisse obtenir un résultat dans un temps modéré.
+Bien que l'algorithme K-means doit se terminer lorsqu'il n'y a plus de variation entre deux itérations, une limite d'itérations a été mise afin que l'utilisateur puisse obtenir un résultat dans un temps modéré.
 \newline
 
-Hélas, certains risque réside dans l'algorithme k-means, le risque de rester coincé dans un minimum local. L'autre biais est que le résultat obtenu dépendant grandement des points pris à l'initialisation.
+Hélas, certains risques résident dans l'algorithme K-means, le risque de rester coincé dans un minimum local. L'autre biais est que le résultat obtenu dépend grandement des points pris à l'initialisation.
 
 \newpage
 \section{Conclusion et perspectives}
 
 Pour conclure sur ces itérations, de façon générale, nous avons pu suivre en grande partie ce que nous avions prévu sur le cahier des charges. La majorité des Users Stories ont été développés et validés par le client. Arrivant à la fin du projet, nous avons pu améliorer ce que nous avions développé dans la version alpha, et terminer les tâches en cours.\newline
 
-La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux itérations suivantes nous ont permis de poser les bases, et de commencer à donner une solution viable. Pendant la quatrième itération, nous avons consolidé ce que nous avions développé, puis nous avions préparé une première version du projet pour le client pendant la cinquième, qui a pu nous faire des retours côté utilisateur. Enfin la dernière itération a été dédié à des correctifs, et la fin des tâches en suspend. \newline
+La première itération nous a permis de nous conforter sur le développement futur de notre solution, et les deux itérations suivantes nous ont permis de poser les bases, et de commencer à donner une solution viable. Pendant la quatrième itération, nous avons consolidé ce que nous avions développé, puis nous avions préparé une première version du projet pour le client pendant la cinquième, qui a pu nous faire des retours côté utilisateur. Enfin la dernière itération a été dédiée à des correctifs, et la fin des tâches en suspend. \newline
 
 Durant la première itération, nous avons de nombreuses questions sur le développement de notre projet. Nous avions notamment le choix du langage, la façon de développer nos algorithmes, l'implémentation, etc. C'était une itération où nous n'avions pas produit de contenu direct pour le client, mais nous avions pu partager nos recherches et de nos choix. Nous avions donc décidé de développer notre solution en C++, avec un plugin CloudCompare. \newline
 
@@ -521,11 +521,11 @@ D'un point de vu global sur le projet, nous avons rencontré certaines difficult
 
 Tout d'abord, il a été difficile d'estimer notre charge de travail. Comme c'était notre premier vrai projet en lien avec une autre entreprise, et d'une aussi grande envergure (durée d'un an), il nous fallait en quelque sorte expérimenter notre capacité de travail et d'évaluer les tâches à réaliser. \newline
 
-Certaines tâches furent plus difficiles à réaliser, par rapport à nos prévisions. Par exemple, nous pouvons citer l'implémentation d'un nouvel algorithme de segmentation, plus complexe, ou encore l'implémentation d'un point picking. Le temps prévu à consacrer sur ces types de tâches n'était pas assez important, car nous avions mal pris en compte les autres tâches en parallèle, hors projet. Ces autres tâches était notamment d'autres projets sur de courtes durées, devoir surveillées, oraux, etc. \newline
+Certaines tâches furent plus difficiles à réaliser, par rapport à nos prévisions. Par exemple, nous pouvons citer l'implémentation d'un nouvel algorithme de segmentation, plus complexe, ou encore l'implémentation d'un point picking. Le temps prévu à consacrer sur ces types de tâches n'était pas assez important, car nous avions mal pris en compte les autres tâches en parallèle, hors projet. Ces autres tâches étaient notamment d'autres projets sur de courtes durées, devoir surveillées, oraux, etc. \newline
 
 Nous nous sommes aussi rendu compte que les itérations se déroulent très vite. Pour chaque itération, nous étions surpris par le fait qu'un mois s'était passé. Grâce aux réunions planifiées avec le client et le tuteur académique, nous pouvions quand même garder une bonne dynamique pour respecter les deadlines. \newline
 
-De plus, la mise en situation d'un projet agile nous a fait prendre conscience de l'importance de garder le client au courant, afin d'avancer correctement par rapport aux besoin de celui-ci. Mais pour cela, il faut rédiger de nombreux rapports. Ce sont des tâches qu'il ne faut pas sous-estimer, puisque cela demande beaucoup de temps. Même si les réunions aident à transmettre l'avancement du projet et des tâches réalisées, il faut aussi écrire formellement dans un rapport l'avancement pour garder une trace de ce qui a été fait. \newline
+De plus, la mise en situation d'un projet agile nous a fait prendre conscience de l'importance de garder le client au courant, afin d'avancer correctement par rapport aux besoins de celui-ci. Mais pour cela, il faut rédiger de nombreux rapports. Ce sont des tâches qu'il ne faut pas sous-estimer, puisque cela demande beaucoup de temps. Même si les réunions aident à transmettre l'avancement du projet et des tâches réalisées, il faut aussi écrire formellement dans un rapport l'avancement pour garder une trace de ce qui a été fait. \newline
 
 La rédaction des rapports d'itération, et des rapports hebdomadaires, sont difficiles à maintenir. En effet, nous avions eu parfois des difficultés à suivre le rythme des rapports hebdomadaires. Malgré tout, cela reste nécessaire notamment pour avoir un historique de l'avancement des tâches, et des heures passées sur chacune d'entre elles.
 
@@ -579,11 +579,11 @@ Il faut aussi noter que pour le développement d'un nouvel algorithme de sélect
     \caption{\label{} Comparaison Gantt de l'itération 4}
 \end{figure}
 
-La quatrième itération était concentrée principalement l'avancement du développement des tâches. Nous pouvons noter que certaiens tâches sont encore en cours, notamment la nouvelle méthode de segmentation, et le tone mapping. En effet, ces tâches sont longues et assez complexes à développer. La majeur partie du code est implémenté, mais il reste surtout une phase de déboggage à effectuer, pour que l'exécution soit fonctionnelle. \newline
+La quatrième itération était concentrée principalement l'avancement du développement des tâches. Nous pouvons noter que certaines tâches sont encore en cours, notamment la nouvelle méthode de segmentation, et le tone mapping. En effet, ces tâches sont longues et assez complexes à développer. La majeur partie du code est implémenté, mais il reste surtout une phase de déboggage à effectuer, pour que l'exécution soit fonctionnelle. \newline
 
 Nous avions aussi remarqué pendant l'itération, que l'intégration de fausses couleurs n'était plus vraiment d'actualité. En effet, celle-ci était déjà présente sur le logiciel CloudCompare. Nous n'avions donc pas de plus-value à apporter sur cette fonctionnalité. \newline
 
-Par la suite, nous avions trouvé un autre type de filtrage, que nous n'avions jusqu'à ce moment pas développé, qui est le fait d'utiliser un autre espace colorimétrique. Après avoir vu les limites du RGB, nous avons essayé de passer par le HSV afin d'avoir des meilleurs bornes de couleurs. Nous avons donc ajouté cette tâche pour cette itération.
+Par la suite, nous avions trouvé un autre type de filtrage, que nous n'avions jusqu'à ce moment pas développé, qui est le fait d'utiliser un autre espace colorimétrique. Après avoir vu les limites du RGB, nous avons essayé de passer par le HSV afin d'avoir des meilleures bornes de couleurs. Nous avons donc ajouté cette tâche pour cette itération.
 
 \begin{figure}[H]
 \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./img/gantt_5.PNG}}
