@@ -44,11 +44,11 @@ Version 1.0 - Beta
 \newpage
 \section{Contexte et problème}
 
-Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entreprise s’inscrit dans le domaine de la modélisation 3D d’ouvrages. Ils proposent la modélisation et l’exploitation de nuages de points. Toutefois, ils travaillent surtout en interne sur un logiciel « ScanSap », le but de ce logiciel est d’exploiter les nuages de points 3D avec efficacité et simplicité inégalées. \newline
+Taglabs est une jeune entreprise créée il y a deux ans par Yan Koch. L’entreprise s’inscrit dans le domaine de la modélisation 3D d’ouvrages. Ils proposent la modélisation et l’exploitation de nuages de points. Toutefois, ils travaillent surtout en interne sur un logiciel « ScanSap ». Le but de ce logiciel est d’exploiter les nuages de points 3D avec efficacité et simplicité inégalées. \newline
 
 L’entreprise travaille principalement avec les acteurs du BTP et de l’industrie sur des opérations de rénovation et de modernisation des ouvrages. Ces opérations nécessitent de s’appuyer sur des plans qui vont servir aux divers corps d’état pour préparer les travaux.\newline
 
-Par le passé, les plans étaient physiques (plans papier), et sont désormais numériques (plans 2D et maquettes 3D). Ces plans sont malheureusement souvent obsolètes, ce qui est lié aux nombreux petits travaux réalisés au cours de la vie des bâtiments, et qui ne font pas l’objet de mise à jour documentaire. Ceci conduit les entreprises à faire des erreurs dans leurs études techniques, puis des reprises sur site chronophages et coûteuses. \newline
+Par le passé, les plans étaient physiques (plans papiers), et sont désormais numériques (plans 2D et maquettes 3D). Ces plans sont malheureusement souvent obsolètes, ce qui est lié aux nombreux petits travaux réalisés au cours de la vie des bâtiments, et qui ne font pas l’objet de mise à jour documentaire. Ceci conduit les entreprises à faire des erreurs dans leurs études techniques, puis des reprises sur site chronophages et coûteuses. \newline
 
 Depuis quelques années, il est possible de faire scanner les bâtiments en 3D et ainsi obtenir un relevé précis sous forme de nuages de points. Le problème rencontré par les entreprises réside dans la difficulté d’exploitation de ces relevés.\newline
 
@@ -89,10 +89,9 @@ Afin de répondre aux besoins, qui sont de pouvoir :
 
 Le service proposé doit permettre aux utilisateurs de réaliser ces tâches. Nous avons d'abord défini en tant qu'utilisateurs de la solution, ceux qui utiliseront "ScanSap" qu'il s'agisse de client ou de membre de l'entreprise TagLabs. Ainsi, nous visons des utilisateurs voulant manipuler des nuages de point en 3D. Ces personnes sont équipés de matériels puissants pour faire cela.\newline
 
-
 N'existant pas d'outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare. Il permet la manipulation et le traitement des nuages. De plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source. \newline
 
-Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et la réalisation des autres besoins de la segmentation et de la fausse couleur demandés par l'entreprise.
+Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et la réalisation des autres besoins de la segmentation, et de la fausse couleur.
 
 \subsection{Description de la solution}
 
@@ -136,7 +135,7 @@ Nous pouvons observer que notre avancement est en bonne voie. Étant à la moiti
 
 \section{Description technologique de la solution}
 
-Dans cette partie, nous présenterons les différents composants de l'architecture qui composent notre projet. Nous présenterons également la structure du code, et des différents éléments qui intéragissent sur le projet.
+Dans cette partie, nous présenterons les différents composants de l'architecture qui composent notre projet. Nous présenterons également la structure du code, et des différents éléments qui interagissent sur le projet.
 
 Notre solution étant un plugin pour CloudCompare, la principale difficulté technique est la compréhension de la structure de ce logiciel et de son API. \newline
 
@@ -185,7 +184,7 @@ Nous avons représenté la structure globale du plugin, avec ce schéma ci-desso
   \caption{\label{} Structure de notre plugin}
 \end{figure}
 
-Nous pouvons observer que le plugin se compose de deux principales classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare.
+Nous pouvons observer que le plugin se compose de deux types de classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare d'un type de filtrage. Pour chaque type de filtrage que nous montrerons par la suite, il faudra créer un nouveau fichier "Dialog".
 
 \subsubsection{Classe de traitement : ColorimetricSegmenter}
 
@@ -193,7 +192,7 @@ Notre classe principale est ainsi nommée "ColorimetricSegmenter". Étant donné
 
 Afin de pouvoir interagir avec l'environnement de CloudCompare, il a fallu faire hériter notre classe de la classe "ccStdPluginInterface". Cette dernière est déjà présente dans le projet de base de CloudCompare, et permet de faciliter l'implémentation d'un nouveau plugin. En effet, elle nous permet d'avoir un objet de type "ccMainAppInterface", qui regroupe tous les éléments de la fenêtre, et tous les éléments nécessaires pour interagir sur l'interface. \newline
 
-Cette classe "ColorimetricSegmenter" contient donc tous nos types de filtrage sur le nuage de points. Il contient donc le code permettant d'effecter les actions que l'on veut dans le nuage de points au moment où on valide la fenêtre de paramétrage d'un filtrage. \newline
+Cette classe "ColorimetricSegmenter" contient donc tous nos types de filtrage sur le nuage de points. Il contient le code permettant d'effectuer les actions que l'on veut dans le nuage de points au moment où on valide la fenêtre de paramétrage d'un filtrage. \newline
 
 Afin de faire le lien avec l'interface graphique sur CloudCompare (car dans ce fichier, nous avons uniquement la partie "traitement"), il faut aussi penser à initialiser l'attribut de la classe qui correspond à l'objet de l'interface, dans notre cas, c'est l'attribut de type "RgbDialog".
 
@@ -211,9 +210,9 @@ QtCreator permet de concevoir graphiquement un panneau au travers d'une interfac
 
 Concrètement, nous avons par exemple, un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements. \newline
 
-Au niveau de l'interface en elle même, il s'agit essentiellement de boutons et de champs de texte. Nous avons essayé de faire des interfaces très simple à comprendre et assez épurée.  \newline
+Au niveau de l'interface en elle-même, il s'agit essentiellement de boutons et de champs de texte. Nous avons essayé de faire des interfaces très simples à comprendre et assez épurée.  \newline
 
-Nous avions rencontré des problèmes pour certains types d'écrans (notamment les écrans 4K), où certains composants avaient du mal à s'afficher. C'est pour cela que grâce aux Spacers (représentés en bleu sur l'image ci-dessus), les composants s'adapent en fonction de la taille de la fenêtre. Chaque utilisateur pourra donc redimensionner la fenêtre selon ses goûts.
+Nous avions rencontré des problèmes pour certains types d'écrans (notamment les écrans 4K), où certains composants avaient du mal à s'afficher. C'est pour cela que grâce aux Spacers (représentés en bleu sur l'image ci-dessus), les composants s'adaptent en fonction de la taille de la fenêtre. Chaque utilisateur pourra donc redimensionner la fenêtre selon ses goûts.
 
 \subsubsection{Gestion des actions sur l'interface : Qt}
 
@@ -238,7 +237,7 @@ Ainsi, pour chaque point, on regarde ses voisins en ne gardant que ses voisins l
 La segmentation d'un nuage de points de plusieurs millions de points est un procédé coûteux en temps et en espace. En effet, une approche naïve consisterait à copier les points et les ajouter dans des listes correspondant à des régions. Cependant, la recopie d'une telle quantité de points est trop coûteuse. Il convient donc de travailler par référence en manipulant plutôt les index de ces points.
 Afin de réaliser cela, nous utilisons une structure de données fournie par Cloud Compare: le nuage de point par référence (ReferenceCloud). Cette structure se base sur un nuage de point déjà existant et contient un index des points du nuage. On manipule ainsi deux index, un index local (les points du nuage par référence, ajoutés) et un index global (les points du nuage de base). \newline
 
-La recherche des plus proche voisins est également une étape couteuse en temps. Une autre structure de donnée fournie par CloudCompare fournit les méthodes de recherche du plus proche voisin optimisée pour de multiples appels enchainés. Il s'agit de la structure Octree. Dans cette structure, le nuage est découpé en cellules pouvant se subdiviser en plusieurs autres niveaux de cellules. L'implémentation de cette structure contient la méthode "findNearestNeighborsStartingFromCell", qui réalise la recherche des plus proches voisins dans le nuage à partir d'un point donné. \newline
+La recherche des plus proches voisins est également une étape coûteuse en temps. Une autre structure de donnée fournie par CloudCompare fournit les méthodes de recherche du plus proche voisin optimisée pour de multiples appels enchainés. Il s'agit de la structure Octree. Dans cette structure, le nuage est découpé en cellules pouvant se subdiviser en plusieurs autres niveaux de cellules. L'implémentation de cette structure contient la méthode "findNearestNeighborsStartingFromCell", qui réalise la recherche des plus proches voisins dans le nuage à partir d'un point donné. \newline
 
 Bien qu'implémenté, cet algorithme n'a pas été suffisamment testé. Sa complexité étant en $O(n^{2})$, le temps de calcul sur plusieurs millions de points est considérable. Ce problème est dû aux multiples recherches de voisinages de points.
 
