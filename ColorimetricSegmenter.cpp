@@ -400,13 +400,13 @@ void ColorimetricSegmenter::filterScalar()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	double marginError = static_cast<double>(scalarDlg->margin->value()) / 100.0;
-	ScalarType first = scalarDlg->first->value() - (marginError * scalarDlg->first->value());
-	ScalarType second = scalarDlg->second->value() - (marginError * scalarDlg->second->value());
+	ScalarType min = std::min(scalarDlg->first->value(), scalarDlg->second->value());
+	ScalarType max = std::max(scalarDlg->first->value(), scalarDlg->second->value());
+	min -= (marginError * min); 
+	max += (marginError * max); 
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 	for (ccPointCloud* cloud : clouds) {
-		const ScalarType min = std::min(first, second);
-		const ScalarType max = std::max(first, second);
 
 		// Use only references for speed reasons
 		CCLib::ReferenceCloud* filteredCloudInside = new CCLib::ReferenceCloud(cloud);
@@ -1055,12 +1055,12 @@ ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud, unsigned char K, i
 	if (!theCloud || K == 0)
 	{
 		assert(false);
-		return false;
+		return nullptr;
 	}
 
 	unsigned n = theCloud->size();
 	if (n == 0)
-		return false;
+		return nullptr;
 
 	//on a besoin de memoire ici !
 	std::vector<ccColor::Rgb> theKMeans;	//K clusters centers
@@ -1079,7 +1079,7 @@ ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud, unsigned char K, i
 	catch (const std::bad_alloc&)
 	{
 		//not enough memory
-		return false;
+		return nullptr;
 	}
 
 	//init classes centers (regularly sampled
