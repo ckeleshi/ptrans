@@ -300,7 +300,7 @@ Malgré une solution qui semble fonctionner, nous pouvons quand même ressentir 
 
 \subsubsection{Filtrage via l'espace colorimétrique Hue-Saturation-Value (HSV)}
 
-Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous avons donc décidé d'utiliser l'espace colorimétrique HSV (Teinte, Saturation, Valeur en français).
+Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous avons donc décidé d'utiliser l'espace colorimétrique HSV (Teinte, Saturation, Valeur en français). Cet espace nous semble plus intéressant que du simple RGB, notamment car dans le cas du RGB, la teinte d'une couleur va être définie par l'ensemble des trois composantes. Pour le HSV, c'est uniquement la composante "Teinte" qui va la définir. Grâce à cela, nous allons pouvoir définir des bornes en utilisant uniquement une variable, au lieu de trois. De plus, il va être plus facile de détecter un point avec une couleur plus ou moins sombre grâce aux deux autres composantes.
 
 \begin{figure}[H]
 \center
@@ -310,7 +310,7 @@ Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous a
 
  La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuances de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
-Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
+Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. En effet, les points dans le nuage sur CloudCompare, ont des valeurs uniquement avec du RGB. Il n'y avait pas de conversion RGB en HSV disponible sur le code source du projet CloudCompare, nous avons donc du le faire nous même. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
 
 La description de l'algorithme de conversion est disponible ici \cite{B02}. \newline
 
