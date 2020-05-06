@@ -274,14 +274,18 @@ Nous pouvons voir dans cet exemple, les valeurs RGB d'un point qui a été séle
 
 Notre première idée a donc été d'exploiter ces trois valeurs, et d'avoir un premier filtrage du nuage. Pour ce faire, nous avons réalisé un algorithme consistant à sélectionner uniquement les points qui ont des valeurs RGB proches d'un point dans le nuage. Dans nos premières itérations, nous nous basions uniquement sur la sélection d'un point, pour en définir des bornes RGB qui vont constituer notre plage de points à garder, grâce à un pourcentage d'écart. Suite à des réunions avec le client, une autre solution alternative a été de sélectionner deux points, pour directement définir nos bornes. \newline
 
-Pour cela, nous avons développé dans un premier temps, l'interface utilisateur. Cette dernière est composée de deux points à renseigner, par leurs valeurs RGB. Afin de simplifier l'utilisation du plugin, nous avons intégré un bouton afin de sélectionner un point directement sur le nuage, et qui va ensuite renseigner les valeurs RGB du point sélectionné automatiquement. Enfin, nous avons aussi un champ afin d'écarter les limites de nos bornes RGB, pour accepter des points qui sont proches des bornes renseignées. \newline
+Pour cela, nous avons développé dans un premier temps, l'interface utilisateur. Cette dernière est composée de deux points à renseigner, par leurs valeurs RGB. Afin de simplifier l'utilisation du plugin, nous avons intégré un bouton afin de sélectionner un point directement sur le nuage, et qui va ensuite renseigner les valeurs RGB du point sélectionné automatiquement. \newline
+
+Il est aussi possible de choisir les points que l'utilisateur veut garder. Le choix de l'option "Retain" permet à l'utilisateur de créer un sous-scan où les points affichés seront les points qui sont à l'intérieurs des bornes. Inversement, l'option "Exclude" va permettre de créer un sous-scan avec les points qui seront hors de l'intervalle choisis. Enfin, la dernière option "Both" va permettre de réaliser les deux options. Nous aurons donc à la fin, deux sous-scans où la somme va permettre de retrouver le scan original.
+
+Nous avons enfin un champ afin d'écarter les limites de nos bornes RGB, pour accepter des points qui sont proches des bornes renseignées.  \newline
 
 \begin{figure}[H]
 \center \includegraphics[width=0.8\textwidth]{./img/ui_filter_rgb.png}
   \caption{\label{} Interface filtrage RGB}
 \end{figure}
 
-Après le renseignement des bornes inférieures et supérieures en RGB, et la validation de la fenêtre, le plugin va recalculer les bornes si un pourcentage d'écart à été renseigné. Une fois ces nouvelles bornes calculées, il reste donc à parcourir l'ensemble des points du nuage, et de vérifier pour chaque point, si ses valeurs RGB sont à l'intérieur des bornes. Les points qui respectent cette condition sont gardés dans une liste de points. Cette dernière va ensuite nous servir pour créer un nouveau nuage de points.
+Après le renseignement des différents paramètres, et la validation de la fenêtre via le bouton "OK", le plugin va recalculer les bornes si un pourcentage d'écart à été renseigné. Une fois ces nouvelles bornes calculées, il reste donc à parcourir l'ensemble des points du nuage, et de vérifier pour chaque point, si ses valeurs RGB sont à l'intérieur des bornes. Les points qui respectent cette condition sont gardés dans une liste de points, et les autres seront stockés dans une autre liste. Ces deux listes vont nous permettre de créer des sous-scans sur CloudCompare, selon le choix sélectionné par l'utilisateur.\newline
 
 \begin{figure}[H]
 \center
@@ -343,7 +347,18 @@ Les plages de couleurs que nous avons fixé sont donc les suivantes :
     \item Rouge : $330 < teinte \leq 360$ \newline
 \end{itemize}
 
-Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il ne nous reste donc qu'à ajouter les points qui sont de la même catégorie que le point sélectionné. Ci-dessous, un exemple de ce filtrage, identique à celui pour le RGB :
+Nous pouvons donc maintenant classifier nos points selon nos composantes HSV. Il ne nous reste donc qu'à ajouter les points qui sont de la même catégorie que le point sélectionné. \newline
+
+Au niveau de l'interface, elle est très similaire à celle du RGB, en ajoutant les trois nouvelles composantes du HSV.
+
+\begin{figure}[H]
+\center \includegraphics[width=0.8\textwidth]{./img/ui_filter_hsv.PNG}
+  \caption{\label{} Interface filtrage HSV}
+\end{figure}
+
+Il est possible d'utiliser le point picking afin de choisir directement un point sur le nuage, ce qui va remplir les trois champs RED / GREEN / BLUE. Lorsque un de ces trois champs est modifié, les trois autres champs HUE / SAT / VAL sont automatiquement modifiés. Il est aussi possible de modifier les valeurs directement en modifiant un des champs. \newline
+
+Ci-dessous, un exemple de ce filtrage, identique à celui pour le RGB :
 
 \begin{figure}[H]
 \center
@@ -382,7 +397,6 @@ Un autre exemple sur un autre nuage de points va nous permettre de mieux voir le
 Nous remarquons donc une nette amélioration au niveau de la sélection des tuyaux blancs, surtout pour les tuyaux qui ont une couleur blanche mais avec un peu d'ombre. Même si on obtient des résidus, nous pouvons maintenant récupérer avec plus de précision les points que nous voulons. \newline
 
 Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
-
 
 \subsection{Tone mapping}
 
