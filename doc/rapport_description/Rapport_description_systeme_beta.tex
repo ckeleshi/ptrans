@@ -268,7 +268,6 @@ Cependant, l'utilisation du lab a des désavantages, il faudra réaliser la conv
 De plus, la représentation lab requière plus d'espace mémoire. En effet, lors d'un jeu de tests, on a pu constater qu'entre segmentation naïve RGB et CIELAB, le ratio de temps d'exécution était environ de 15.
 Après discussion avec le client, il a été convenu de nous concentrer sur d'autres algorithmes et de chercher vers d'autres espaces colorimétriques où la conversion est moins complexe.
 
-
 \subsubsection{Filtrage via les valeurs RGB}
 
 Notre première solution développée pour obtenir un filtrage, est d'utiliser l'espace colorimétrique le plus commun : le RGB. Dans un nuage de points en couleur, chacun de ces points possède des valeurs de rouge, vert et bleu, de 0 à 255 en intensité.
@@ -320,9 +319,9 @@ Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous a
 \caption{\label{} Description de l'espace colorimétrique HSV}
 \end{figure}
 
- La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuances de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
+La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuances de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
-Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. En effet, les points dans le nuage sur CloudCompare, ont des valeurs uniquement avec du RGB. Il n'y avait pas de conversion RGB en HSV disponible sur le code source du projet CloudCompare, nous avons donc du le faire nous même. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
+Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. En effet, les points dans le nuage sur CloudCompare, ont des valeurs uniquement avec du RGB. Il n'y avait pas de conversion RGB en HSV disponible sur le code source du projet CloudCompare, nous avons donc dû le faire nous même. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
 
 La description de l'algorithme de conversion est disponible ici \cite{B02}. \newline
 
@@ -332,7 +331,7 @@ Tout d'abord, nous avons commencé par analyser la composante de la saturation. 
 
 Dans le cas d'une couleur grise, nous pouvons donc analyser la composante de la valeur. Ici, nous avons remarqué qu'il est donc possible de distinguer 3 couleurs principales : noir, gris et blanc. Nous avons donc défini le noir comme étant une valeur entre 0 et 25, gris pour une valeur entre 26 et 60, et blanc pour une valeur entre 61 et 100. \newline
 
-Dans le cas où nous avons une couleur non grise, nous avons décomposé l'analyse de la valeur en deux parties seulement : une couleur noire et les autres couleurs. \newline
+Dans le cas où nous avons une couleur non-grise, nous avons décomposé l'analyse de la valeur en deux parties seulement : une couleur noire et les autres couleurs. \newline
 
 Une couleur noire aura une valeur entre 0 et 25. Il n'y aura donc pas besoin d'analyser la teinte. Dans le cas contraire, il faudra l'analyser pour séparer les gammes de couleurs. \newline
 
@@ -344,7 +343,7 @@ Concernant la dernière composante, qui est la teinte, nous nous sommes aidé du
 \caption{\label{} Cercle chromatique}
 \end{figure}
 
-Les plages de couleurs que nous avons fixé sont donc les suivantes :
+Les plages de couleurs que nous avons fixées sont donc les suivantes :
 
 \begin{itemize}
     \item Rouge : $0 \leq teinte \leq 30$
@@ -411,7 +410,7 @@ Les limites de cette méthode sont que les plages de couleurs sont fixes dans le
 
 Il s'agit d'une fonctionnalité ajoutée à posteriori compte tenu de l'avancement du projet. En effet, il était initialement prévu d'ajouter une fonction permettant de générer de la fausse couleur pour un nuage de points en nuances de gris. Au cours du développement, nous nous sommes aperçu que cette fonctionnalité était déjà présente. Il était par conséquent devenu inutile d'en redévelopper une. Il manquait cependant un outil de filtrage pour ce type de nuage de points. Nous avons donc ajouté un système de filtrage par valeur scalaire. La valeur scalaire correspond à une valeur d'intensité représentée sous format décimal avec une valeur allant de 0 à 1. \newline
 
-Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utilisateur est invité à renseigner la valeur du point le plus "clair"(une valeur plus proche de 1) et la valeur du plus "foncé" (une valeur plus proche de 0). Il est toujours possible de déterminer ces valeurs en effectuant un point-picking. Un pourcentage d'écart peut être renseigné et recalculera en conséquence les bornes. On peut également choisir si on désire sélectionner les points compris dans l'intervalle de valeurs, ou au contraire ceux qui n'y sont pas inclus. Une fois ce paramétrage réalisé, le nuage est segmenté et un nouveau sous-nuage est créé. Ci-dessous, un exemple de ce filtrage sur les points avec une forte inensité:
+Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utilisateur est invité à renseigner la valeur du point le plus "clair"(une valeur plus proche de 1) et la valeur du plus "foncé" (une valeur plus proche de 0). Il est toujours possible de déterminer ces valeurs en effectuant un point-picking. Un pourcentage d'écart peut être renseigné et recalculera en conséquence les bornes. On peut également choisir si on désire sélectionner les points compris dans l'intervalle de valeurs, ou au contraire ceux qui n'y sont pas inclus. Une fois ce paramétrage réalisé, le nuage est segmenté et un nouveau sous-nuage est créé. Ci-dessous, un exemple de ce filtrage sur les points avec une forte intensité:
 
 \begin{figure}[H]
 \center \includegraphics[width=0.8\textwidth]{./img/scalar_menu.png}
@@ -430,7 +429,7 @@ Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utili
 \caption{\label{} Filtrage scalaire: après}
 \end{figure}
 
-Afin de pouvoir distinguer les intensités plus facilement sur l'exemple, nous avons choisi d'appliquer une fausse couleur. Les points de forte intensités tendent vers le rouge, les plus faible, vers le vert. On peut voir sur le résultat que les points se rapprochant le plus du rouge avant le filtrage sont sélectionnés. Ce qui correspond aux attentes. On pourra noter qu'une nouvelle échelle de couleur est réalisée par CloudCompare, les points n'ont donc plus la même correspondance de couleur.
+Afin de pouvoir distinguer les intensités plus facilement sur l'exemple, nous avons choisi d'appliquer une fausse couleur. Les points de fortes intensités tendent vers le rouge, les plus faible, vers le vert. On peut voir sur le résultat que les points se rapprochant le plus du rouge avant le filtrage sont sélectionnés. Ce qui correspond aux attentes. On pourra noter qu'une nouvelle échelle de couleur est réalisée par CloudCompare, les points n'ont donc plus la même correspondance de couleur.
 
 \subsection{Tone mapping}
 
