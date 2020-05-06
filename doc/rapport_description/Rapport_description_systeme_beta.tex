@@ -384,6 +384,28 @@ Nous remarquons donc une nette amélioration au niveau de la sélection des tuya
 
 Les limites de cette méthode sont que les plages de couleurs sont fixes dans le code. Il serait possible d'afficher un mode "avancé" pour l'utilisateur, afin qu'il puisse définir lui-même ses bornes. Après discussion avec les demandes du client, cette option étant facultative et avec un manque de temps sur le projet, nous n'avons pas développé cette partie.
 
+\subsubsection{Filtrage via la valeur scalaire}
+
+Il s'agit d'une fonctionnalité ajoutée à posteriori compte tenu de l'avancement du projet. En effet, il était initialement prévu d'ajouter une fonction permettant de générer de la fausse couleur pour un nuage de points en nuances de gris. Au cours du développement, nous nous sommes aperçu que cette fonctionnalité était déjà présente. Il était par conséquent devenu inutile d'en redévelopper une. Il manquait cependant un outil de filtrage pour ce type de nuage de points. Nous avons donc ajouté un système de filtrage par valeur scalaire. La valeur scalaire correspond à une valeur d'intensité représentée sous format décimal avec une valeur allant de 0 à 1. \newline
+
+Nous nous sommes basés sur la même interface que pour le filtrage RGB. L'utilisateur est invité à renseigner la valeur du point le plus "clair"(une valeur plus proche de 1) et la valeur du plus "foncé" (une valeur plus proche de 0). Il est toujours possible de déterminer ces valeurs en effectuant un point-picking. Un pourcentage d'écart peut être renseigné et recalculera en conséquence les bornes. On peut également choisir si on désire sélectionner les points compris dans l'intervalle de valeurs, ou au contraire ceux qui n'y sont pas inclus. Une fois ce paramétrage réalisé, le nuage est segmenté et un nouveau sous-nuage est créé.
+
+\begin{figure}[H]
+\center \includegraphics[width=0.8\textwidth]{./img/ui_filter_rgb.png}
+  \caption{\label{} Interface filtrage scalaire}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/ex_rgb_avant.PNG}
+\caption{\label{} Filtrage scalaire : avant}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.7\textwidth]{./img/ex_rgb_apres.PNG}
+\caption{\label{} Filtrage scalaire: après}
+\end{figure}
 
 \subsection{Tone mapping}
 
