@@ -89,13 +89,13 @@ Afin de répondre aux besoins, qui sont de pouvoir :
 
 Le service proposé doit permettre aux utilisateurs de réaliser ces tâches. Nous avons d'abord défini en tant qu'utilisateurs de la solution, ceux qui utiliseront "ScanSap" qu'il s'agisse de client ou de membre de l'entreprise TagLabs. Ainsi, nous visons des utilisateurs voulant manipuler des nuages de point en 3D. Ces personnes sont équipés de matériels puissants pour faire cela.\newline
 
-N'existant pas d'outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare. Il permet la manipulation et le traitement des nuages. De plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source. \newline
+N'existant pas d'outil permettant l'ajout direct de fonctionnalités extérieures au sein du logiciel "ScanSap", nous avons décidé avec l'entreprise de réaliser un plugin sur un autre logiciel de manipulation de nuages de points. Le logiciel en question est CloudCompare. Il permet la manipulation et le traitement des nuages. De plus, sa licence open source autorise l'ajout de fonctionnalités tant que nous les livrons aussi en open source. \newline
 
 Cette décision fut prise pour répondre non seulement à l'ensemble des besoins, mais aussi car CloudCompare prend déjà en charge deux besoins, la lecture et l'exportation des scans. En faisant ce choix, nous pouvons nous consacrer à la recherche et la réalisation des autres besoins de la segmentation, et de la fausse couleur.
 
 \subsection{Description de la solution}
 
-Comme dit précédemment, la solution proposée pour répondre à la problématique s'articule autour d'un service de type plugin utilisateur. Le plugin est intégré dans les composants tiers de CloudCompare, il comprend (comprendra) les fonctionnalités de segmentation suivant la plage colorimétrique et la génération de fausses couleurs sur un scan en intensité. \newline
+Comme dit précédemment, la solution proposée pour répondre à la problématique s'articule autour d'un service de type plugin utilisateur. Le plugin est intégré dans les composants tiers de CloudCompare, il comprend les fonctionnalités de segmentation suivant la plage colorimétrique en RGB, HSV et en valeurs scalaires et du Tone mapping.  \newline
 
 Les utilisateurs pourront y accéder en les sélectionnant dans le menu défilant qui liste les différents plugins présents. Les diagrammes de séquence qui suivent, détaillent et illustrent le fonctionnement de l'expérience utilisateur. \newline
 
@@ -179,7 +179,7 @@ La structure du code source de CloudCompare est organisée pour éviter d'avoir 
 
 Le fichier le plus important pour la compilation du projet est le "CMakeLists.txt". En effet, il contient le nom de la classe principale du projet ainsi que tous les fichiers à inclure lors de la compilation.
 Si la structure du projet est correcte, et les fichiers correctement configurés, une option sélectionnable apparaît dans CMake.
-Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator tout autre IDE (tel que Visual Studio, en sélectionnant l'option appropriée).
+Il est alors possible de construire le projet pour qu'il soit éditable à l'aide de QtCreator ou tout autre IDE (tel que Visual Studio, en sélectionnant l'option appropriée).
 
 \subsubsection{Intégration du nouveau plugin dans le projet CloudCompare}
 
@@ -193,7 +193,7 @@ Nous avons représenté la structure globale du plugin, avec ce schéma ci-desso
   \caption{\label{} Structure de notre plugin}
 \end{figure}
 
-Nous pouvons observer que le plugin se compose de deux types de classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare d'un type de filtrage. Pour chaque type de filtrage que nous montrerons par la suite, il faudra créer un nouveau fichier "Dialog".
+Nous pouvons observer que le plugin se compose de deux types de classes. La première, ColorimetricSegmenter, est la classe qui va permettre le traitement des données, et la classe RgbDialog est la classe pour créer l'interface sur CloudCompare d'un type de filtrage. Pour chaque type de filtrage que nous montrerons par la suite, il a fallu créer un nouveau fichier "Dialog".
 
 \subsubsection{Classe de traitement : ColorimetricSegmenter}
 
@@ -217,7 +217,7 @@ QtCreator permet de concevoir graphiquement un panneau au travers d'une interfac
   \caption{\label{} Exemple QtCreator : RgbDialog}
 \end{figure}
 
-Concrètement, nous avons par exemple, un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.c" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.c" afin d'ajouter des traitements. \newline
+Concrètement, nous avons par exemple, un fichier "RgbDialog.ui", créé avec le logiciel Qt Creator. Grâce à ce fichier, en générant le projet, les fichiers "RgbDialog.h" et "RgbDialog.cpp" se créent. Il est ensuite possible d'ajouter des méthodes dans le fichier "RgbDialog.cpp" afin d'ajouter des traitements. \newline
 
 Au niveau de l'interface en elle-même, il s'agit essentiellement de boutons et de champs de texte. Nous avons essayé de faire des interfaces très simples à comprendre et assez épurée.  \newline
 
@@ -235,7 +235,7 @@ Dans notre cas, nous avons par exemple ajouté des signaux sur référençant le
 
 \subsection{Description des algorithmes}
 
-Nous allons présenter ici les différents algorithmes qui nous avons pu développer. Le traitement du nuage de points est composé de deux grandes parties. D'une part, nous avons la segmentation des points dans le nuage. D'autre part, nous devons réaliser nos différents types de filtrage, afin de sélectionner des points qui nous intéressent.
+Nous allons présenter ici les différents algorithmes qui nous avons pu développer. Le traitement du nuage de points est composé de deux grandes parties. D'une part, nous avons la segmentation des points dans le nuage. D'autre part, nous devons réaliser nos différents types de filtrage, afin de sélectionner des points qui nous intéressent ainsi que le Tone mapping.
 
 \subsubsection{Algorithme de segmentation}
 
@@ -311,7 +311,7 @@ Afin d'avoir plus de précisions sur la sélection de plages de couleurs, nous a
 
 La teinte va nous permettre de définir la couleur du point, entre 0 et 360 degrés. La saturation et la valeur, en pourcentage, nous donnent respectivement des informations sur la pureté de la couleur (0 est égal à pas de couleur, donc en nuances de gris entre le blanc et le noir, et 100 pour une couleur vive), et l'intensité lumineuse (0 pour du noir, 100 pour une couleur très claire). \newline
 
-Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. En effet, les points dans le nuage sur CloudCompare, ont des valeurs uniquement avec du RGB. Il n'y avait pas de conversion RGB en HSV disponible sur le code source du projet CloudCompare, nous avons donc dû le faire nous même. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
+Pour utiliser cet espace colorimétrique, il faut convertir nos valeurs RGB d'un point, en HSV. En effet, les points dans le nuage sur CloudCompare, ont des valeurs uniquement avec du RGB. Il n'y avait pas de conversion RGB en HSV disponible sur le code source du projet CloudCompare, nous avons donc dû le faire nous-même. La conversion est nommée rgb2hsv dans le fichier HSVDialog.cpp. \newline
 
 La description de l'algorithme de conversion est disponible ici \cite{B02}. \newline
 
