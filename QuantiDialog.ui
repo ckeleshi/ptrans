@@ -50,12 +50,15 @@
      </widget>
     </item>
     <item>
-     <widget class="QSpinBox" name="area_quanti">
+     <widget class="QDoubleSpinBox" name="area_quanti">
+      <property name="decimals">
+       <number>0</number>
+      </property>
       <property name="minimum">
-       <number>1</number>
+       <double>1.000000000000000</double>
       </property>
       <property name="maximum">
-       <number>255</number>
+       <double>255.000000000000000</double>
       </property>
      </widget>
     </item>
@@ -110,6 +113,9 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="margin">
+       <number>0</number>
       </property>
      </widget>
     </item>
