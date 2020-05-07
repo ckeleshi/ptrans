@@ -1,6 +1,6 @@
 #include "QuantiDialog.h"
 
-
+#include<cmath>
 #include <QVariant>
 QuantiDialog::QuantiDialog(QWidget* parent)
 	: QDialog(parent)
@@ -21,5 +21,5 @@ QuantiDialog::QuantiDialog(QWidget* parent)
 */
 void QuantiDialog::updateLabelValues()
 {
-	nb_color_label->setText(QString::fromStdString(std::to_string(static_cast<int>(pow(area_quanti->value(), 3)))));
+    nb_color_label->setText(QString::fromStdString(std::to_string(static_cast<int>(pow(area_quanti->value(), 3)))));
 }

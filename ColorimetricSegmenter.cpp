@@ -692,8 +692,14 @@ void ColorimetricSegmenter::filterRgbWithSegmentation()
 		return;
 	}
 
+    // Retrieve parameters from dialog
+    if (m_app->pickingHub()) {
+        m_pickingHub = m_app->pickingHub();
+    }
+
 	// Retrieve parameters from dialog
-	rgbDlg = new RgbDialog(m_pickingHub, (QWidget*)m_app->getMainWindow());
+    rgbDlg = new RgbDialog(m_pickingHub, (QWidget*)m_app->getMainWindow());
+    rgbDlg->show();
 
 	auto start = std::chrono::high_resolution_clock::now();
 
