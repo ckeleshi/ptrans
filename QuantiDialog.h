@@ -9,15 +9,12 @@
 
 class QuantiDialog : public QDialog, public Ui::QuantiDialog
 {
-Q_OBJECT
+	Q_OBJECT
 public:
 	explicit QuantiDialog(QWidget* parent = 0);
 
 
 public slots:
-	void updateLabelValue(double value) {
-		nb_color_label->setText(QString::fromStdString(std::to_string(value * value)));
-	}
+	void updateLabelValues();
 };
-
 #endif 
