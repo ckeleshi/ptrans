@@ -1,0 +1,156 @@
+\documentclass[12pt,titlepage,french]{article}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\pagestyle{plain}
+
+\usepackage{booktabs,makecell,tabu}
+\usepackage{comment}
+\renewcommand\theadfont{\bfseries}
+
+\linespread{1.5}
+
+\newcounter{firstbib}
+
+\begin{document}
+%\renewcommand{\thesection}{\arabic{section}} % utilisé pour spécifier la numérotation des sections
+
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\center
+
+  \includegraphics[width=0.45\textwidth]{../../ressources/img_logos/logo_polytech.png}\\[1cm]
+
+  \includegraphics[width=0.45\textwidth]{../../ressources/img_logos/logo_taglabs.png}
+
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Rapport itération 6\\[0.15cm] }
+Classification colorimétrique de nuages de points 3D\\
+Version 1.0\\
+Le \today \\
+\HRule \\[1.5cm]
+Ronan Collier,
+Mathieu Letrone,
+Tri-Thien Truong
+\\[1cm]
+\end{titlepage}
+
+\tableofcontents % table des matières
+\newpage
+\listoffigures  % table des figures
+\newpage
+
+\section{Rappel des objectifs de l'itération}
+Cette itération étant la dernière du projet, nous devions finaliser les fonctionnalités et corriger les derniers bugs relevés via le feedback. Il nous fallait aussi nous concentrer sur la réalisation de différents rapports, notamment le rapport de description du système beta et le rapport de recette.
+
+Les tâches que nous nous sommes fixées sont les suivantes :
+
+\begin{itemize}
+    \item Désactivation des filtrages selon le nuage sélectionné
+    \item Redéfinir les bornes RGB
+    \item Implémentation du filtrage scalaire
+    \item Réaliser les tâches du feedback (points externes/internes, indications, icônes)
+    \item Finir algo k-means/autre algorithme
+    \item Terminer algorithme sélection de points
+    \item Faire le lien entre tone mapping et filtrage
+\end{itemize}
+
+
+\section{Production / réalisation durant l'itération}
+
+Nous développerons ici chaque objectif que nous nous sommes fixé pour cette itération.
+
+
+\subsection{Désactivation des filtrages selon le nuage}
+
+Lors du test de notre plugin par le client et le créateur de CloudCompare, M. Daniel Girardeau-Montaut, un problème a été remonté notamment lorsque l'on utilisait un type de filtrage, pour un nuage de points qui ne le concernait pas. Par exemple, il était possible jusqu'au début d'itération de pouvoir appliquer le filtrage RGB pour un nuage de points en valeurs scalaires. Ce problème a été corrigé en désactivant les filtrages selon le nuage sélectionné. \newline
+
+Pour faire cela, nous avons deux booléens : un pour vérifier si le/les nuages sélectionnés sont en couleurs, et l'autre booléen pour les valeurs scalaires. \newline
+
+Il est possible ensuite de vérifier via la méthode "hasColors" et "hasDisplayedScalarField" d'un objet "ccHObject" nos conditions. Il nous suffit ensuite d'activer ou non les boutons permettant aux filtrages, grâce à nos deux booléens. \newline
+
+Nous avons aussi défini que si un nuage en couleurs et un nuage en valeurs scalaires sont sélectionnés, nous n'activons aucun bouton.
+
+\begin{figure}[H]
+ \caption{\label{} Exemple d'un nuage en couleurs}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/color_cloud.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{} Exemple d'un nuage en gris}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/grey_cloud.PNG}
+  \end{center}
+\end{figure}
+
+\subsection{Redéfinir les bornes RGB}
+
+Lors de l'itération précédente, nous avons voulu réfléchir à un moyen pour détecter automatiquement les bornes minimum et maximum du filtrage RGB. En effet, lorsque l'utilisateur choisissait un point avec des valeurs élevées en tant que premier point, et des valeurs faibles pour le second, notre filtrage ne pouvait pas bien fonctionner. \newline
+
+Nous avons essayé d'utiliser l'espace colorimétrique HSV pour déterminer quel point était plus sombre que l'autre, notamment avec la Saturation et la Valeur, mais nous nous sommes rendu compte que cela était trop complexe et pas forcément viable. \newline
+
+La dernière solution qui a été retenue, et la plus simple à implémenter, est le fait de déterminer la valeur minimum et maximum pour chaque composante RGB entre les deux points. On aurait alors deux potentielles nouvelles couleurs, selon les valeurs des points sélectionnés.
+
+\begin{figure}[H]
+ \caption{\label{} Exemple filtrage RGB}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/rgb_ui.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{} Résultat des bornes du filtrage RGB}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/rgb_res.PNG}
+  \end{center}
+\end{figure}
+
+Dans cet exemple, nous pouvons constater que dans le premier point sélectionné, les valeurs des composantes Rouge et Vert sont supérieures que dans le deuxième point. \newline
+
+Dans le résultat, nous avons utilisé les valeurs Rouge et Vert du deuxième point, en tant que borne minimum. La nouvelle couleur qui servira de borne inférieure est donc "100/100/200" et supérieure "200/150/230".
+
+\subsection{Implémentation du filtrage scalaire}
+% TODO
+
+\subsection{Tâches du feedback : points externes/internes}
+
+\subsection{Tâches du feedback : icônes}
+% TODO
+
+\subsection{Algo K-means}
+% TODO
+
+\subsection{Fin de l'implémentation de l'algorithme de sélection de points}
+% TODO
+
+\subsection{Lien Tone mapping et filtrages}
+
+
+\section{Risques éliminés durant l'itération}
+
+
+\section{Feedback}
+
+
+\section{Commentaires sur l'itération}
+
+Cette section va présenter nos ressentis sur notre itération. Cela peut correspondre à la façon dont nous avons pu gérer la charge de travail que nous avions prévu en début d'itération, des potentiels imprévus, points positifs/négatifs, et autres.
+
+\subsection{Commentaires sur l'itération de façon générale}
+
+
+\subsection{Commentaires sur les méthodes de travail/changements de méthode}
+
+
+\section{Objectifs de la prochaine itération}
+
+\end{document}
