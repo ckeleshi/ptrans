@@ -164,7 +164,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	{
 		m_action_filterRgb = new QAction("Filter RGB", this);
 		m_action_filterRgb->setToolTip("Filter the points on the selected cloud by RGB color");
-		m_action_filterRgb->setIcon(getIcon());
+        m_action_filterRgb->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_rgb.png"));
 
 		// Connect appropriate signal
 		connect(m_action_filterRgb, &QAction::triggered, this, &ColorimetricSegmenter::filterRgb);
@@ -196,7 +196,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	{
 		m_action_filterHSV = new QAction("Filter HSV", this);
 		m_action_filterHSV->setToolTip("Filter the points on the selected cloud by HSV color");
-		m_action_filterHSV->setIcon(getIcon());
+        m_action_filterHSV->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_hsv.png"));
 
 		// Connect appropriate signal
 		connect(m_action_filterHSV, &QAction::triggered, this, &ColorimetricSegmenter::filterHSV);
@@ -212,7 +212,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	{
 		m_action_filterScalar = new QAction("Filter scalar", this);
 		m_action_filterScalar->setToolTip("Filter the points on the selected cloud using scalar field");
-		m_action_filterScalar->setIcon(getIcon());
+        m_action_filterScalar->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_scalar.png"));
 
 		// Connect appropriate signal
 		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalar);
