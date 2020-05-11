@@ -123,6 +123,31 @@ Dans le résultat, nous avons utilisé les valeurs Rouge et Vert du deuxième po
 
 \subsection{Tâches du feedback : points externes/internes}
 
+Nous avons ajouté une fonctionnalité qui est maintenant disponible pour tous les types de filtrages, qui est le choix des points à garder. En effet, précédemment, nous gardions uniquement les points qui respecte les bornes définies par l'utilisateur, donc nous gardions uniquement les points similaires au choix de l'utilisateur. Maintenant, il est possible de choisir si l'utilisateur veut garder ces points, ou les points qui sont hors des bornes. Cela permet à l'utilisateur de supprimer certains points, en utilisant nos filtrages. \newline
+
+\begin{figure}[H]
+ \caption{\label{} Choix des points à garder}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/choix.PNG}
+  \end{center}
+\end{figure}
+
+Ici, nous pouvons voir que nous avons trois choix.  Le choix de l'option "Retain" permet à l'utilisateur de créer un sous-scan où les points affichés seront les points qui sont à l'intérieurs des bornes. Inversement, l'option "Exclude" va permettre de créer un sous-scan avec les points qui seront hors de l'intervalle choisi. Enfin, la dernière option "Both" va permettre de réaliser les deux options. Nous aurons donc à la fin, deux sous-scans où la somme va permettre de retrouver le scan original.
+
+\begin{figure}[H]
+ \caption{\label{} Résultat du scan pour les points du choix "Retain"}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/choix_ex_1.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{}  Résultat du scan pour les points du choix "Exclude"}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/choix_ex_2.PNG}
+  \end{center}
+\end{figure}
+
 \subsection{Tâches du feedback : icônes}
 % TODO
 
@@ -133,10 +158,34 @@ Dans le résultat, nous avons utilisé les valeurs Rouge et Vert du deuxième po
 % TODO
 
 \subsection{Lien Tone mapping et filtrages}
+Après avoir développé le Tone mapping, il nous fallait faire des tests avec nos algorithmes de filtrages, et ainsi voir les résultats obtenus.
 
+\begin{figure}[H]
+ \caption{\label{}  Exemple d'application du tone mapping : scan original}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/tm_example_1.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{}  Exemple d'application du tone mapping : scan avec tone mapping}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/tm_example_2.PNG}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{}  Exemple d'application du tone mapping : scan filtré}
+ \begin{center}
+ \includegraphics[width=0.8\textwidth]{./img/tm_example_3.PNG}
+  \end{center}
+\end{figure}
+
+Nous avons appliqué sur le scan original, du tone mapping avec 8 couleurs. Nous pouvons voir qu'une partie des points jaunâtres à été considéré comme du blanc, car les points étaient très claires. Après filtrage, nous avons voulu gardé que les points blancs, afin de mettre en valeur les tuyaux blancs. Nous avons des bons résultats, puisque nous avons même les points gris des tuyaux qui sont cachés, mais nous avons aussi du résidu, comme les points blancs de l'escalier jaunâtre.
 
 \section{Risques éliminés durant l'itération}
 
+Durant cette dernière itération, nous avons pu terminer de nombreux bugs qui pouvait faire planter l'application. Malheureusement, nous n'avons pas pu obtenir des résultats satisfaisants pour l'algorithme de sélection de points, que nous avons donc arrêté par manque de temps.
 
 \section{Feedback}
 
@@ -147,10 +196,10 @@ Cette section va présenter nos ressentis sur notre itération. Cela peut corres
 
 \subsection{Commentaires sur l'itération de façon générale}
 
+Cette itération s'est plutôt bien déroulé de façon générale. Nous avons eu du temps pour travailler sur le projet. Nous avons quand même accordé beaucoup de temps sur la mise au propre du code et des différents rapports, afin de préparer le rendu final du projet transversal.
 
 \subsection{Commentaires sur les méthodes de travail/changements de méthode}
 
-
-\section{Objectifs de la prochaine itération}
+Nos méthodes de travail ont été les mêmes que pour les autres itérations.
 
 \end{document}
