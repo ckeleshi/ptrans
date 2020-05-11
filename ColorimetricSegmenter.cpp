@@ -227,8 +227,8 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
 		m_action_ToonMapping_Hist = new QAction("Histogram Clustering", this);
-		m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator");
-		m_action_ToonMapping_Hist->setIcon(getIcon());
+        m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator using histogram equalization");
+        m_action_ToonMapping_Hist->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_quantif.png"));
 
 		// Connect appropriate signal
 		connect(m_action_ToonMapping_Hist, &QAction::triggered, this, &ColorimetricSegmenter::HistogramClustering);
@@ -243,8 +243,8 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
 		m_action_ToonMapping_KMeans = new QAction("Kmeans Clustering", this);
-		m_action_ToonMapping_KMeans->setToolTip("Quantified cloud generator");
-		m_action_ToonMapping_KMeans->setIcon(getIcon());
+        m_action_ToonMapping_KMeans->setToolTip("Quantified cloud generator using kmeans method");
+        m_action_ToonMapping_KMeans->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_quantif.png"));
 
 		// Connect appropriate signal
 		connect(m_action_ToonMapping_KMeans, &QAction::triggered, this, &ColorimetricSegmenter::KmeansClustering);

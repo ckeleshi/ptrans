@@ -4,6 +4,7 @@
     <file>images/icon_rgb.png</file>
     <file>images/icon_hsv.png</file>
     <file>images/icon_scalar.png</file>
+    <file>images/icon_quantif.png</file>
     <file>info.json</file>
   </qresource>
 </RCC>
