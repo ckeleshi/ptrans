@@ -572,7 +572,59 @@ Durant cette itération, les temps prévus sont plutôt bien respectés par rapp
 
 \subsection{Rapport de recette}
 
-Cette section sera présente pour le rapport final de la description du système (version beta).
+Ce rapport de recette va permettre d'avoir des retours sur l'installation du projet et des différentes fonctionnalités qui ont été développées / non développées.
+
+\subsubsection {Installation}
+
+Ce projet contient un code source avec le logiciel CloudCompare, et notre plugin. Ce dernier se situe dans le dossier "plugins". \newline
+
+C'est un projet CMake, que nous générons avec la version 3.16.1 de CMake GUI. Une fois celui-ci généré, nous utilisons Visual Studio 15 (2017) pour la compilation, avec le SDK windows 10.0.17763.0. Le fichier généré sera "ColorimetricSegmenter.dll".\newline
+
+Au niveau de l'installation côté client, il aura donc le fichier ".dll", qu'il faudra ajouter dans CloudCompare. Pour cela, il devra tout d'abord installer CloudCompare. La version 2.11.beta est une version qui permet de faire fonctionner notre plugin, mais les versions antérieures ne le permettent pas. Il faudra ensuite aller dans le répertoire d'installation (celui de base est "C:\textbackslash Program Files\textbackslash CloudCompare"), et insérer le fichier ".dll" dans le sous-dossier "plugins". \newline
+
+Une fois que CloudCompare est lancé, il est maintenant possible de voir notre plugin ColorimetricSegmenter dans l'onglet Plugins, et aussi les icônes dans la barre de raccourcis. \newline
+
+Nous avions rencontré des problèmes de compatibilité lorsque nous compilions avec une version plus récente de Visual Studio (2019), et donc une version du SDK windows plus récente. Certaines machines avec d'anciennes mise à jour de windows ne pouvaient pas faire fonctionner le plugin. En utilisant la version 2017 de Visual Studio, ce problème a été résolu.
+
+\subsubsection {Résultats des User Stories}
+
+Lors de la réalisation du cahier des charges, nous avions prévus des User Stories, afin de décrire en détail le fonctionnement de nos fonctionnalités. Suite au rapport de sprint review de l'itération 2, nous avions décidé, avec la recommendation et l'accord du client et du tuteur académique, de passer sur un plugin pour CloudCompare. Cette décision permettait d'utiliser un outil complet et spécialisé dans le domaine du traitement de nuage de points, donc de nous éviter de développer des fonctionnalités déjà existantes sur d'autres outils. Certaines User Stories ont donc été modifiées, notamment la lecture d'un nuage de points et l'exportation, pour être remplacé par l'implémentation d'un nouveau plugin sur CloudCompare. Les nouvelles User Stories du sprint review sont les suivantes :
+
+\begin{itemize}
+  \item US1 : Intégrer un plugin CloudCompare
+  \item US2 : Isoler un élément dans le nuage de points, selon sa plage de couleur
+  \item US3 : Créer des sous-scans suite au filtrage\\
+\end{itemize}
+
+Au niveau des tests d'acceptation, il faut noter que comme nous les avions rédigé au début de projet, nous ne savions pas vraiment comment nos fonctionnalités allaient se dérouler. Certains scénarios peuvent donc être différents par rapport à ce que nous avons maintenant. Ces tests d'acceptation, par User Story, sont les suivants : \\
+
+\textbf{\og US1 : Intégrer un plugin CloudCompare\fg{}}
+
+En tant qu'utilisateur du logiciel CloudCompare, je souhaite voir dans la liste des plugins, un nouveau filtre personnalisé afin d'y ajouter un nouvel algorithme de segmentation.
+
+\textbf{Tests d'acceptation :}
+
+\begin{enumerate}
+    \item \textbf{Scénario 1}
+
+Étant donné que je suis sur le logiciel CloudCompare\\
+Quand j'affiche la liste des plugins\\
+Alors un nouveau bouton du filtre personnalisé apparaît\\
+\end{enumerate}
+
+
+\subsubsection {Recette fonctionnelle du commanditaire}
+
+Toutes nos fonctionnalités ont été testées et validées par le client. il a pu tester nos algorithmes sur des cas réelles de nuage de points, et nous faire remonter certains problèmes, que nous avons pour la plupart corrigés.
+% TODO parler du tone mapping
+
+\subsubsection {Fonctionnalités du cahier des charges non développées / non validées}
+
+% TODO Algo sélection de points
+
+% TODO Tone mapping K-means ?
+
+\newpage
 \begin{thebibliography}{3}
 	\bibitem{cc} Présentation de Cloud Compare: \url{https://www.danielgm.net/cc/}
 	\bibitem{3DList} Liste regroupant les principales bibliothèques 3D: \url{https://github.com/openMVG/awesome_3DReconstruction_list#mesh-storage-processing}

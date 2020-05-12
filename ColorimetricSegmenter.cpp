@@ -45,7 +45,7 @@ ColorimetricSegmenter::ColorimetricSegmenter(QObject* parent)
 	: QObject(parent)
 	, ccStdPluginInterface(":/CC/plugin/ColorimetricSegmenter/info.json")
 	, m_action_filterRgb(nullptr)
-	, m_action_filterRgbWithSegmentation(nullptr)
+	/*, m_action_filterRgbWithSegmentation(nullptr)*/
 	, m_action_filterHSV(nullptr)
 	, m_action_filterScalar(nullptr)
 	, m_action_ToonMapping_Hist(nullptr)
@@ -87,10 +87,10 @@ void ColorimetricSegmenter::onNewSelection(const ccHObject::Container& selectedE
 		return;
 	}
 
-	if (m_action_filterRgbWithSegmentation == nullptr)
+	/*if (m_action_filterRgbWithSegmentation == nullptr)
 	{
 		return;
-	}
+	}*/
 
 	if (m_action_filterScalar == nullptr)
 	{
@@ -136,7 +136,7 @@ void ColorimetricSegmenter::onNewSelection(const ccHObject::Container& selectedE
 
 	m_action_filterRgb->setEnabled(false);
 	m_action_filterHSV->setEnabled(false);
-	m_action_filterRgbWithSegmentation->setEnabled(false);
+	//m_action_filterRgbWithSegmentation->setEnabled(false);
 	m_action_filterScalar->setEnabled(false);
 	m_action_ToonMapping_Hist->setEnabled(false);
 	m_action_ToonMapping_KMeans->setEnabled(false);
@@ -146,7 +146,7 @@ void ColorimetricSegmenter::onNewSelection(const ccHObject::Container& selectedE
 	if ((activateColorFilters != activateScalarFilter) && !selectedEntities.empty()) {
 		m_action_filterRgb->setEnabled(activateColorFilters);
 		m_action_filterHSV->setEnabled(activateColorFilters);
-		m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
+		//m_action_filterRgbWithSegmentation->setEnabled(activateColorFilters);
 		m_action_filterScalar->setEnabled(activateScalarFilter);
 		m_action_ToonMapping_Hist->setEnabled(activateColorFilters);
 		m_action_ToonMapping_KMeans->setEnabled(activateColorFilters);
@@ -176,7 +176,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	}
 
 	
-	if (!m_action_filterRgbWithSegmentation)
+	/*if (!m_action_filterRgbWithSegmentation)
 	{
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
@@ -190,7 +190,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		connect(m_action_filterRgbWithSegmentation, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
 		connect(m_action_filterRgbWithSegmentation, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
 		connect(m_action_filterRgbWithSegmentation, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-	}
+	}*/
 
 	// HSV Filter
 	if (!m_action_filterHSV)
@@ -257,7 +257,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 	}
 
 
-	return { m_action_filterRgb, m_action_filterHSV, m_action_filterRgbWithSegmentation, m_action_filterScalar,m_action_ToonMapping_Hist, m_action_ToonMapping_KMeans };
+	return { m_action_filterRgb, m_action_filterHSV, /*m_action_filterRgbWithSegmentation,*/ m_action_filterScalar,m_action_ToonMapping_Hist, m_action_ToonMapping_KMeans };
 }
 
 // Get all point clouds that are selected in CC

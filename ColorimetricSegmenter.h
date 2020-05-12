@@ -153,7 +153,7 @@ private:
 		toolbar and an entry in the plugin menu.
 	**/
 	QAction* m_action_filterRgb;
-	QAction* m_action_filterRgbWithSegmentation;
+	//QAction* m_action_filterRgbWithSegmentation;
 	QAction* m_action_filterHSV;
 	QAction* m_action_filterScalar;
 	QAction* m_action_ToonMapping_Hist;
