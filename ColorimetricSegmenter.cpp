@@ -175,6 +175,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 	}
 
+	
 	if (!m_action_filterRgbWithSegmentation)
 	{
 		// Here we use the default plugin name, description, and icon,
@@ -227,7 +228,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
 		m_action_ToonMapping_Hist = new QAction("Histogram Clustering", this);
-        m_action_ToonMapping_Hist->setToolTip("Quantified cloud generator using histogram equalization");
+        m_action_ToonMapping_Hist->setToolTip("Quantify the number of colors using Histogram Clustering");
         m_action_ToonMapping_Hist->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_quantif_h.png"));
 
 		// Connect appropriate signal
@@ -243,7 +244,7 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 		// Here we use the default plugin name, description, and icon,
 		// but each action should have its own.
 		m_action_ToonMapping_KMeans = new QAction("Kmeans Clustering", this);
-        m_action_ToonMapping_KMeans->setToolTip("Quantified cloud generator using kmeans method");
+        m_action_ToonMapping_KMeans->setToolTip("Quantify the number of colors using Kmeans Clustering");
         m_action_ToonMapping_KMeans->setIcon(QIcon(":/CC/plugin/ColorimetricSegmenter/images/icon_quantif_k.png"));
 
 		// Connect appropriate signal
@@ -316,17 +317,27 @@ void ColorimetricSegmenter::filterRgb()
 	// Start timer
 	auto start = std::chrono::high_resolution_clock::now();
 
-	// Get margin value (percent)
-	double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
-
 	// Get all values to make the color range with RGB values
-	int redInf = std::min(rgbDlg->red_first->value(), rgbDlg->red_second->value()) - (marginError * std::min(rgbDlg->red_first->value(), rgbDlg->red_second->value()));
-	int redSup = std::max(rgbDlg->red_first->value(), rgbDlg->red_second->value()) + (marginError * std::max(rgbDlg->red_first->value(), rgbDlg->red_second->value()));
-	int greenInf = std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()) - (marginError * std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
-	int greenSup = std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()) + (marginError * std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value()));
-	int blueInf = std::min(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()) - (marginError * std::min(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()));
-	int blueSup = std::max(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()) + (marginError * std::max(rgbDlg->blue_first->value(), rgbDlg->blue_second->value()));
+	int redInf = std::min(rgbDlg->red_first->value(), rgbDlg->red_second->value());
+	int redSup = std::max(rgbDlg->red_first->value(), rgbDlg->red_second->value());
+	int greenInf = std::min(rgbDlg->green_first->value(), rgbDlg->green_second->value());
+	int greenSup = std::max(rgbDlg->green_first->value(), rgbDlg->green_second->value());
+	int blueInf = std::min(rgbDlg->blue_first->value(), rgbDlg->blue_second->value());
+	int blueSup = std::max(rgbDlg->blue_first->value(), rgbDlg->blue_second->value());
 
+	if (rgbDlg->margin->value() > 0) {
+		// Get margin value (percent)
+		double marginError = static_cast<double>(rgbDlg->margin->value()) / 100.0;
+
+		redInf   -= marginError * redInf;
+		redSup   += marginError * redSup;
+		greenInf -= marginError * greenInf;
+		greenSup += marginError * greenSup;
+		blueInf  -= marginError * blueInf;
+		blueSup  += marginError * blueSup;
+	}
+
+	// Set to min or max value (0-255)
 	redInf = (redInf < MIN_VALUE ? MIN_VALUE : redInf);
 	greenInf = (greenInf < MIN_VALUE ? MIN_VALUE : greenInf);
 	blueInf = (blueInf < MIN_VALUE ? MIN_VALUE : blueInf);
@@ -347,9 +358,9 @@ void ColorimetricSegmenter::filterRgb()
 			for (unsigned j = 0; j < cloud->size(); ++j)
 			{
 				const ccColor::Rgb& rgb = cloud->getPointColor(j);
-				(rgb.r > redInf&& rgb.r < redSup &&
-					rgb.g > greenInf&& rgb.g < greenSup &&
-					rgb.b > blueInf&& rgb.b < blueSup) ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
+				(rgb.r >= redInf&& rgb.r <= redSup &&
+					rgb.g >= greenInf&& rgb.g <= greenSup &&
+					rgb.b >= blueInf&& rgb.b <= blueSup) ? addPoint(filteredCloudInside, j) : addPoint(filteredCloudOutside, j);
 			}
 			std::string name = "Rmin:" + std::to_string(redInf) + "/Gmin:" + std::to_string(greenInf) + "/Bmin:" + std::to_string(blueInf) +
 				"/Rmax:" + std::to_string(redSup) + "/Gmax:" + std::to_string(greenSup) + "/Bmax:" + std::to_string(blueSup);

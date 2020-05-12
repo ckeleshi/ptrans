@@ -279,6 +279,9 @@
         <property name="text">
          <string>Retain</string>
         </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item alignment="Qt::AlignHCenter">
