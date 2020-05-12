@@ -81,7 +81,15 @@ En tant qu'utilisateur du logiciel CloudCompare, je souhaite voir dans la liste 
 Étant donné que je suis sur le logiciel CloudCompare\\
 Quand j'affiche la liste des plugins\\
 Alors un nouveau bouton du filtre personnalisé apparaît\\
+Alors les fonctionnalités dans le plugin sont désactivées\\
 
+    \item \textbf{Scénario 2}
+
+Étant donné que je suis sur le logiciel CloudCompare\\
+Quand j'importe un nuage de points \\
+Quand je sélectionne le scan correspondant \\
+Quand j'affiche la liste des plugins\\
+Alors les fonctionnalités dans le plugin sont activées\\
 \end{enumerate}
 
 \textbf{\og US2 : Isoler un élément dans le nuage de points, selon sa plage de couleur\fg{}}
@@ -95,8 +103,8 @@ En tant qu'utilisateur du logiciel, je souhaite isoler un élément dans le nuag
 
 Étant donné que j'ai affiché un nuage de points via un fichier\\
 Quand je clique sur l'option pour isoler un élément\\
-Alors une interface apparaît avec un point picker\\
-Quand je sélectionne un point\\
+Alors une interface avec un color picker apparaît\\
+Quand je sélectionne une plage de couleur\\
 Et que je clique sur le bouton de validation\\
 Alors l'interface disparaît\\
 Et le nuage de points n'affiche uniquement que les points respectant la plage d'intensité de couleur.
@@ -105,8 +113,8 @@ Et le nuage de points n'affiche uniquement que les points respectant la plage d'
 
 Étant donné que j'ai affiché un nuage de points via un fichier\\
 Quand je clique sur l'option pour isoler un élément\\
-Alors une interface apparaît avec un point picker\\
-Quand je sélectionne un point\\
+Alors une interface avec un color picker apparaît\\
+Quand je sélectionne une plage de couleur\\
 Et que je clique sur le bouton d'annulation\\
 Alors l'interface disparaît\\
 \end{enumerate}
