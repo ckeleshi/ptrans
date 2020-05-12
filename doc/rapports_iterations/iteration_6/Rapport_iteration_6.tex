@@ -151,8 +151,43 @@ Ici, nous pouvons voir que nous avons trois choix.  Le choix de l'option "Retain
 \subsection{Tâches du feedback : icônes}
 % TODO
 
-\subsection{Algo K-means}
-% TODO
+\subsection{Tone Mapping}
+
+\subsubsection{Amélioration de l'interface : segmentation par l'histogramme}
+
+La première interface était précaire.
+Le nombre de couleurs dans la palette après le traitement était inconnu par l'utilisateur à moins que celui-ci connaisse le fonctionnement de l'algorithme.
+Ainsi, un champs texte mis à jour en fonction de l'indice saisi par l'utilisateur a été ajouté, ce champs explicite le nombre de couleur.
+L'utilisateur peut visualiser visualiser l'indice dont qu'il sélectionnera suivant le nombre de couleurs dont il a besoin.
+
+\begin{figure}[H]
+ \caption{\label{} Nouvelle interface : segmentation par histogramme}
+ \begin{center}
+ \includegraphics[width=0.7\textwidth]{./img/HistogramDialog.PNG}
+  \end{center}
+\end{figure}
+
+\subsubsection{Algorithme K-means}
+
+L'algorithme K-means est connu dans la quantification d'images.
+Le fonctionnement de l'algorithme est assez simple.
+
+L'utilisateur saisi le nombre de classe de couleurs qu'il souhaite.
+On initialise K centres (centroïdes), on affecte chaque point au centre qui est le plus proche de lui.
+Pour les K groupes formés, on recalcule le centre. On répète ces tâches d'affectation et de recalculs jusqu'à convergence.
+
+Bien que l'algorithme K-means doit se terminer lorsqu'il n'y a plus de variation entre deux itérations,
+une limite d'itérations saisie par l'utilisateur a été mise afin qu'il puisse obtenir un résultat dans un temps modéré, même s'il n'y a pas eu stabilisation.
+
+L'algorithme k-means contrairement à la segmentation de l'histogramme, est dépendant des centroïdes à l'initialisation. Et nécessite plus de temps d'exécution.
+Voici un exemple de résultat :
+
+\begin{figure}[H]
+ \caption{\label{} Exemple de résultats K-means (k=10)}
+ \begin{center}
+ \includegraphics[width=1\textwidth]{./img/kmeans_It.PNG}
+  \end{center}
+\end{figure}
 
 \subsection{Fin de l'implémentation de l'algorithme de sélection de points}
 % TODO
