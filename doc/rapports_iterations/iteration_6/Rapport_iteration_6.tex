@@ -119,7 +119,23 @@ Dans cet exemple, nous pouvons constater que dans le premier point sélectionné
 Dans le résultat, nous avons utilisé les valeurs Rouge et Vert du deuxième point, en tant que borne minimum. La nouvelle couleur qui servira de borne inférieure est donc "100/100/200" et supérieure "200/150/230".
 
 \subsection{Implémentation du filtrage scalaire}
-% TODO
+
+Notre plugin gérait très bien les nuages de points RGB. Cependant, nous n'avions aucune fonctionnalité permettant de gérer les nuages de points en intensité de gris. Étant donné que Cloud Compare gère nativement la fausse couleur pour ce type de nuage, nous n'avions plus la nécessité de développer une telle fonctionnalité. Nous avons donc pu nous accorder du temps afin de développer une méthode de filtrage par valeurs scalaires. \newline
+
+Cette méthode a le même fonctionnement que les filtrages précédents, la seule différence est que ce filtrage s'effectue seulement entre deux valeurs : la plus haute (plus proche de 1) et la plus basse (plus proche de 0). Au niveau de l'interface, nous reprenons le travail effectué sur le RGB. L'utilisateur n'a cependant plus qu'une seule valeur à remplir pour chaque point. \newline
+
+\begin{figure}[H]
+\center \includegraphics[width=0.6\textwidth]{./img/scalar_menu.png}
+  \caption{\label{} Interface filtrage scalaire}
+\end{figure}
+
+\begin{figure}[H]
+\center
+\includegraphics[width=0.9\textwidth]{./img/scalaire_avant_apres.png}
+\caption{\label{} Filtrage scalaire : avant}
+\end{figure}
+
+Afin de pouvoir distinguer les intensités plus facilement sur l'exemple, nous avons choisi d'appliquer une fausse couleur. Les points de fortes intensités tendent vers le rouge, les plus faible, vers le vert.
 
 \subsection{Tâches du feedback : points externes/internes}
 
@@ -149,7 +165,25 @@ Ici, nous pouvons voir que nous avons trois choix.  Le choix de l'option "Retain
 \end{figure}
 
 \subsection{Tâches du feedback : icônes}
-% TODO
+
+Pour pouvoir déployer notre plugin, nous devions donner une identité graphique à notre plugin. Jusqu'alors, il n'en avait aucune, nous utilisions l'icône du plugin d'exemple pour toutes les fonctions ajoutées à la barre de menu. Suite au retour du client, nous avons créé des icônes pour chacune de nos fonctions ainsi qu'une icône générale pour notre plugin. \newline
+
+\begin{figure}[H]
+ \caption{\label{} Icônes lors de la sélection d'un nuage RGB}
+ \begin{center}
+ \includegraphics[width=0.7\textwidth]{./img/icones_rgb.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+ \caption{\label{} Icônes lors de la sélection d'un nuage scalaire}
+ \begin{center}
+ \includegraphics[width=0.7\textwidth]{./img/icones_scal.png}
+  \end{center}
+\end{figure}
+
+On peut voir sur les images que les icônes gardent une certaine ressemblance. On retrouve la forme du nuage dans toutes les icônes. \newline
+Nous avons essayé de faire en sorte de rendre les icônes les plus explicites possibles pour l'utilisateur. Pour les fonctions de filtrage, un gradient de couleur marqué par deux séparations ainsi qu'une flèche signifie à l'utilisateur que la fonction extrait une partie du nuage d'une plage de couleur précise. Afin de mieux différencier les filtrages RGB et HSV, nous avons jouté leur sigle à l'icône. Nous avons gardé le même principe pour les fonctions de quantification. Ainsi, on retrouve un nuage séparé en 3 couleurs franches, signifiant que l'on souhaite réduire le nombre de couleurs. \newline
 
 \subsection{Tone Mapping}
 
@@ -190,7 +224,7 @@ Voici un exemple de résultat :
 \end{figure}
 
 \subsection{Fin de l'implémentation de l'algorithme de sélection de points}
-% TODO
+Nous avons corrigé tous les problèmes qui empêchaient l'exécution de l'algorithme. Cependant, nous n'avons pu obtenir de résultats satisfaisants. Sa complexité étant en $O(n^{2})$, le temps de calcul sur plusieurs millions de points est considérable. Ce problème est dû aux multiples recherches de voisinages de points. Nous avons fait le choix de ne pas le présenter dans la version finale de notre programme. L'implémentation restera malgré tout présente dans les sources pour d'éventuels repreneurs. \newline
 
 \subsection{Lien Tone mapping et filtrages}
 Après avoir développé le Tone mapping, il nous fallait faire des tests avec nos algorithmes de filtrages, et ainsi voir les résultats obtenus.
