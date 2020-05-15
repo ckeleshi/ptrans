@@ -421,7 +421,7 @@ on calcule la couleur moyenne de toutes les partitions et on affecte les couleur
  \begin{figure}[H]
 \center
 \includegraphics[width=0.5\textwidth]{./img/HistogramDialog.png}
-\caption{\label{} Interface quantification par histogramme}
+\caption{\label{ui_tonemapping} Interface quantification par histogramme}
 \end{figure}
 
 L'image ci-dessus montre l'interface utilisateur pour la quantification par l'histogramme.
@@ -431,7 +431,7 @@ Une spinBox permet à l'utilisateur de choisir le coefficient dans une amplitude
 \begin{figure}[H]
 \center
 \includegraphics[width=0.75\textwidth]{./img/ExpToonMapping.png}
-\caption{\label{} Exemples du Tone Mapping}
+\caption{\label{application_tonemapping} Exemples du Tone Mapping}
 \end{figure}
 
 Les limites de cette méthode résident dans les couleurs moyennes.
@@ -697,28 +697,35 @@ En tant qu'utilisateur du logiciel, je souhaite créer des sous-scans quantifié
 
 \textbf{Tests d'acceptation :}
 \begin{enumerate}
-
     \item \textbf{Scénario 1}
 
 Étant donné que j'ai affiché un nuage de points via un fichier\\
-Quand je clique sur le bouton pour traiter mon nuage de points\\
-Alors une interface de paramètres apparaît\\
-Quand je valide les paramètres\\
+Quand je clique sur l'option pour quantifier le nuage\\
+Alors une interface apparaît\\
+Quand je sélectionne le coefficient de traitement\\
+Et que je clique sur le bouton de validation\\
 Alors l'interface disparaît\\
-Alors des sous-scans s'affichent dans la liste des scans
+Et le nuage de points s'affiche quatifié respectant le nombre de couleurs.
+
+    \item \textbf{Scénario 2}
+
+Étant donné que j'ai affiché un nuage de points via un fichier\\
+Quand je clique sur l'option pour quantifier le nuage\\
+Alors une interface apparaît\\
+Quand je sélectionne le coefficient de traitement\\
+Et que je clique sur le bouton d'annulation\\
+Alors l'interface disparaît\\
 \end{enumerate}
 
-\begin{figure}[H]
-\makebox[\textwidth][c]{\includegraphics[width=0.5\textwidth]{./img/us4_1.png}}
-    \caption{\label{} Résultat US4 - S1}
-\end{figure}
 
-Lorsque l'utilisateur valide une fenêtre d'un filtrage , la fenêtre disparaît pour revenir sur un nouveau scan, celui qui est automatiquement sélectionné, et donc affiché sur le logiciel. Le scan original est encore présent (Antargaz\_Scan\_006), et un ou plusieurs sous-scans apparaissent, avec des noms qui affichent les paramètres utilisés selon le type de traitement. Ce test d'acceptation valide donc notre quatrième User Story.
+Ces scénarios ont été ajoutés par la suite par demande au client puisqu'ils ne figuraient pas dans ceux définis au départ du projet.
+Sur cet exemple d'interface dans l'image \ref{ui_tonemapping}, nous pouvons voir le coefficient de traitement. Les boutons de validation ou d'annulation sont les boutons "OK" et "Cancel". Si l'utilisateur clique sur le bouton Cancel, rien ne se passe, et s'il clique sur le bouton OK, un nouveau nuage de points apparaît, avec le résultat de la quantification \ref{application_tonemapping}. Ces scénarios sont cependant non passants des défaillances subsistent. Ces défaillances seront expliquées dans la sous-partie suivante. \newline
+
 
 \subsubsection {Recette fonctionnelle du commanditaire}
 
 Toutes nos fonctionnalités ont été testées et validées par le client. il a pu tester nos algorithmes sur des cas réelles de nuage de points, et nous faire remonter certains problèmes, que nous avons pour la plupart corrigés.
-La fonctionnalité du Tone Mapping demandé au cours du projet par le client, c'est trouvé avec quelques défaillances à quantifier le nuage. Lorsque celui-ci est significatif et avec une répartition de la population dans certaines zones de l'histogramme. Les images qui suivantes illustrent ce cas de défaillance.
+La fonctionnalité du Tone Mapping demandé au cours du projet par le client, s'est trouvé avoir quelques défaillances à quantifier le nuage, lorsque celui-ci est significatif et avec une répartition de la population dans certaines zones de l'histogramme. Les images suivantes illustrent ce cas de défaillance.
 \begin{figure}[H]
 \makebox[\textwidth][c]{\includegraphics[width=0.6\textwidth]{./img/casToneMapping.PNG}}
 \makebox[\textwidth][c]{\includegraphics[width=0.6\textwidth]{./img/FailToneMapping.PNG}}
