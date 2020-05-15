@@ -688,18 +688,48 @@ Alors des sous-scans s'affichent dans la liste des scans
     \caption{\label{} Résultat US3 - S1}
 \end{figure}
 
-Lorsque l'utilisateur valide une fenêtre d'un filtrage (ici le HSV par exemple), la fenêtre disparaît pour revenir sur un nouveau scan, celui qui est automatiquement sélectionné, et donc affiché sur le logiciel. Le scan original est encore présent (Antargaz\_Scan\_001), et un ou plusieurs sous-scans apparaissent, avec des noms qui affichent les paramètres utilisés selon le type de filtrage. Ce test d'acceptation valide donc notre troisième User Story.
+Lorsque l'utilisateur valide une fenêtre d'un filtrage (ici le HSV par exemple), la fenêtre disparaît pour revenir sur un nouveau scan, celui qui est automatiquement sélectionné, et donc affiché sur le logiciel. Le scan original est encore présent (Antargaz\_Scan\_001), et un ou plusieurs sous-scans apparaissent, avec des noms qui affichent les paramètres utilisés selon le type de filtrage. Ce test d'acceptation valide donc notre troisième User Story.\newline
+
+\textbf{\og US4 : Créer des sous-scans quantifiés suite au Tone Mapping\fg{}}
+
+Ces scénarios ont été ajoutés par la suite par demande au client puisqu'ils ne figuraient pas dans ceux définis au départ du projet.
+En tant qu'utilisateur du logiciel, je souhaite créer des sous-scans quantifiés après traitement, afin de restreindre ma palette de couleurs.
+
+\textbf{Tests d'acceptation :}
+\begin{enumerate}
+
+    \item \textbf{Scénario 1}
+
+Étant donné que j'ai affiché un nuage de points via un fichier\\
+Quand je clique sur le bouton pour traiter mon nuage de points\\
+Alors une interface de paramètres apparaît\\
+Quand je valide les paramètres\\
+Alors l'interface disparaît\\
+Alors des sous-scans s'affichent dans la liste des scans
+\end{enumerate}
+
+\begin{figure}[H]
+\makebox[\textwidth][c]{\includegraphics[width=0.5\textwidth]{./img/us4_1.png}}
+    \caption{\label{} Résultat US4 - S1}
+\end{figure}
+
+Lorsque l'utilisateur valide une fenêtre d'un filtrage , la fenêtre disparaît pour revenir sur un nouveau scan, celui qui est automatiquement sélectionné, et donc affiché sur le logiciel. Le scan original est encore présent (Antargaz\_Scan\_006), et un ou plusieurs sous-scans apparaissent, avec des noms qui affichent les paramètres utilisés selon le type de traitement. Ce test d'acceptation valide donc notre quatrième User Story.
 
 \subsubsection {Recette fonctionnelle du commanditaire}
 
 Toutes nos fonctionnalités ont été testées et validées par le client. il a pu tester nos algorithmes sur des cas réelles de nuage de points, et nous faire remonter certains problèmes, que nous avons pour la plupart corrigés.
-% TODO parler du tone mapping
+La fonctionnalité du Tone Mapping demandé au cours du projet par le client, c'est trouvé avec quelques défaillances à quantifier le nuage. Lorsque celui-ci est significatif et avec une répartition de la population dans certaines zones de l'histogramme. Les images qui suivantes illustrent ce cas de défaillance.
+\begin{figure}[H]
+\makebox[\textwidth][c]{\includegraphics[width=0.6\textwidth]{./img/casToneMapping.PNG}}
+\makebox[\textwidth][c]{\includegraphics[width=0.6\textwidth]{./img/FailToneMapping.PNG}}
+    \caption{\label{} Anomalie Tone Mapping}
+\end{figure}
 
 \subsubsection {Fonctionnalités du cahier des charges non développées / non validées}
 
 % TODO Algo sélection de points
 
-% TODO Tone mapping K-means ?
+Comme dit dans précédemment, au vu des défaillances pouvant avoir lieu avec la fonctionnalité du Tone Mapping, le client a pris la décision de ne pas la valider. Dans le cas d'une reprise du projet, il faudrait expérimenter une approche ne prenant pas comme représentant la moyenne de la classe. Ainsi, on pourrait se diriger vers des algorithmes de Median cut ou d'Octree.
 
 \newpage
 \begin{thebibliography}{3}
