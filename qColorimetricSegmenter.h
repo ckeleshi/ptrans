@@ -1,5 +1,4 @@
-#ifndef EXAMPLE_PLUGIN_HEADER
-#define EXAMPLE_PLUGIN_HEADER
+#pragma once
 
 //##########################################################################
 //#                                                                        #
@@ -35,36 +34,14 @@
 #include "QuantiDialog.h"
 #include "KmeansDlg.h"
 
-//! Example qCC plugin
-/** Replace 'ExamplePlugin' by your own plugin class name throughout and then
-	check 'ExamplePlugin.cpp' for more directions.
-
-	Each plugin requires an info.json file to provide information about itself -
-	the name, authors, maintainers, icon, etc..
-
-	The one method you are required to implement is 'getActions'. This should
-	return all actions (QAction objects) for the plugin. CloudCompare will
-	automatically add these with their icons in the plugin toolbar and to the
-	plugin menu. If	your plugin returns	several actions, CC will create a
-	dedicated toolbar and a	sub-menu for your plugin. You are responsible for
-	connecting these actions to	methods in your plugin.
-
-	Use the ccStdPluginInterface::m_app variable for access to most of the CC
-	components (database, 3D views, console, etc.) - see the ccMainAppInterface
-	class in ccMainAppInterface.h.
-**/
 const int MIN_VALUE = 0;
 const int MAX_VALUE = 255;
 
 class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
 	Q_OBJECT
-		Q_INTERFACES(ccStdPluginInterface)
-
-		// Replace "Example" by your plugin name (IID should be unique - let's hope your plugin name is unique ;)
-		// The info.json file provides information about the plugin to the loading system and
-		// it is displayed in the plugin information dialog.
-		Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
+	Q_INTERFACES(ccPluginInterface ccStdPluginInterface)
+	Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.ColorimetricSegmenter" FILE "info.json")
 
 public:
 	explicit ColorimetricSegmenter(QObject* parent = nullptr);
@@ -109,12 +86,12 @@ private:
 
 	void KmeansClustering();
 
-	void addPoint(CCLib::ReferenceCloud* filteredCloud, unsigned int j);
+	void addPoint(CCCoreLib::ReferenceCloud* filteredCloud, unsigned int j);
 
 	template <typename T>
-	void createClouds(T& dlg, ccPointCloud* cloud, CCLib::ReferenceCloud* filteredCloudInside, CCLib::ReferenceCloud* filteredCloudOutside, std::string name);
+	void createClouds(T& dlg, ccPointCloud* cloud, CCCoreLib::ReferenceCloud* filteredCloudInside, CCCoreLib::ReferenceCloud* filteredCloudOutside, std::string name);
 
-	void createCloud(ccPointCloud* cloud, CCLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
+	void createCloud(ccPointCloud* cloud, CCCoreLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
 
 	//picked point callbacks
 	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
@@ -132,7 +109,7 @@ private:
 	 * @param TD Threshold distance between neighbouring points.
 	 * @return Vector containing the resulting regions.
 	 */
-	std::vector<CCLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
+	std::vector<CCCoreLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
 
 	/**
 	 * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
@@ -144,7 +121,7 @@ private:
 	 * @param Min Minimal size for a region.
 	 * @return Vector containing the resulting merged and refined regions.
 	 */
-	std::vector<CCLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
+	std::vector<CCCoreLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCCoreLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
 
 
 	//! Default action
@@ -180,5 +157,3 @@ private:
 	const double TRR = 2.0;
 	const unsigned Min = 2;
 };
-
-#endif
