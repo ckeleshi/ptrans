@@ -943,24 +943,28 @@ Compute the average color (RGB)
 @param bucket : vector of indexes of points
 Returns average color (RGB)
 */
-ccColor::Rgb computeAverageColor(const ccPointCloud& cloud, const std::vector<unsigned>& bucket) {
-	unsigned  red = 0, green = 0, blue = 0;
-	unsigned length = bucket.size();
+ccColor::Rgb computeAverageColor(const ccPointCloud& cloud, const std::vector<unsigned>& bucket)
+{
+	size_t count = bucket.size();
+	if (count == 0)
+	{
+		return ccColor::whiteRGB;
+	}
 
 	//other formula to compute the average can be used
-	for (unsigned point : bucket) {
+	size_t red = 0, green = 0, blue = 0;
+	for (unsigned point : bucket)
+	{
 		const ccColor::Rgb rgb = cloud.getPointColor(point);
 		red += rgb.r;
 		green += rgb.g;
 		blue += rgb.b;
-
 	}
-	red = floor(red / length);
-	blue = floor(blue / length);
-	green = floor(green / length);
-	ccColor::Rgb res;
 
-	res.r = static_cast<unsigned char>(red); res.b = static_cast<unsigned char>((blue)); res.g = static_cast<unsigned char>((green));
+	ccColor::Rgb res(	static_cast<ColorCompType>(std::min(red   / count, static_cast<size_t>(ccColor::MAX))),
+						static_cast<ColorCompType>(std::min(green / count, static_cast<size_t>(ccColor::MAX))),
+						static_cast<ColorCompType>(std::min(blue  / count, static_cast<size_t>(ccColor::MAX))));
+
 	return res;
 }
 
@@ -1142,7 +1146,8 @@ ccPointCloud* computeKmeansClustering(ccPointCloud* theCloud, unsigned char K, i
 		{
 			ccColor::Rgb newMean = (KGroups[j].size() > 0 ? computeAverageColor(*theCloud, KGroups[j]) : theKMeans[j]);
 
-			if (theOldKNums[j] != theKNums[j]) {
+			if (theOldKNums[j] != theKNums[j])
+			{
 				meansHaveMoved = true;
 			}
 
