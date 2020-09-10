@@ -1,30 +1,35 @@
 cmake_minimum_required( VERSION 3.0 )
 
-# CloudCompare example for standard plugins
+option( PLUGIN_STANDARD_QCOLORIMETRIC_SEGMENTER "Check to install colorimetric segmenter plugin" OFF )
 
-# REPLACE ALL 'ExamplePlugin' OCCURENCES BY YOUR PLUGIN NAME
-# AND ADAPT THE CODE BELOW TO YOUR OWN NEEDS!
+if ( PLUGIN_STANDARD_QCOLORIMETRIC_SEGMENTER )
 
-# Add an option to CMake to control whether we build this plugin or not
-option( PLUGIN_COLORIMETRIC_SEGMENTER "Check to install segmenter plugin" OFF )
+    project( QCOLORIMETRIC_SEGMENTER_PLUGIN )
 
-if ( PLUGIN_COLORIMETRIC_SEGMENTER )
-	# Name the plugin
-    project( ColorimetricSegmenter )
+	AddPlugin( NAME ${PROJECT_NAME} )
 
-    	# we need includes from the main CC source dir
 	include_directories( ${CloudCompare_SOURCE_DIR} )
+	
+	target_sources( ${PROJECT_NAME}
+		PRIVATE
+			${CMAKE_CURRENT_SOURCE_DIR}/qColorimetricSegmenter.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/qColorimetricSegmenter.h
+			${CMAKE_CURRENT_SOURCE_DIR}/qColorimetricSegmenter.qrc
+			${CMAKE_CURRENT_SOURCE_DIR}/HSVDialog.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/HSVDialog.h
+			${CMAKE_CURRENT_SOURCE_DIR}/HSVDialog.ui
+			${CMAKE_CURRENT_SOURCE_DIR}/KmeansDlg.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/KmeansDlg.h
+			${CMAKE_CURRENT_SOURCE_DIR}/KmeansDlg.ui
+			${CMAKE_CURRENT_SOURCE_DIR}/QuantiDialog.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/QuantiDialog.h
+			${CMAKE_CURRENT_SOURCE_DIR}/QuantiDialog.ui
+			${CMAKE_CURRENT_SOURCE_DIR}/RgbDialog.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/RgbDialog.h
+			${CMAKE_CURRENT_SOURCE_DIR}/RgbDialog.ui
+			${CMAKE_CURRENT_SOURCE_DIR}/ScalarDialog.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/ScalarDialog.h
+			${CMAKE_CURRENT_SOURCE_DIR}/ScalarDialog.ui
+	)
 
-    list( APPEND CC_PLUGIN_CUSTOM_HEADER_LIST ${CloudCompare_SOURCE_DIR}/../common/ccPickingListener.h )
-    list( APPEND CC_PLUGIN_CUSTOM_HEADER_LIST ${CloudCompare_SOURCE_DIR}/../common/ccPickingHub.h )
-	list( APPEND CC_PLUGIN_CUSTOM_SOURCE_LIST ${CloudCompare_SOURCE_DIR}/../common/ccPickingHub.cpp )
-    
-    # load any subdirectories (see qAdditionalIO for an example)
-    # add_subdirectory( LIB1 )
-    
-    include( ../../CMakePluginTpl.cmake )
-    
-    # set dependencies to necessary libraries (see qPCV for an example)
-    # target_link_libraries( ${PROJECT_NAME} LIB1 )
-    # include_directories( ${LIB1_INCLUDE_DIR} )
 endif()
