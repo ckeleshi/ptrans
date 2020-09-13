@@ -41,33 +41,34 @@ struct Hsv
 		float minComp = std::min(std::min(r, g), b);
 		float deltaComp = maxComp - minComp;
 
-		h = 0;
+		float hue = 0;
 		if (deltaComp != 0)
 		{
 			if (r == maxComp)
 			{
-				h = (g - b) / deltaComp;
+				hue = (g - b) / deltaComp;
 			}
 			else
 			{
 				if (g == maxComp)
 				{
-					h = 2 + (b - r) / deltaComp;
+					hue = 2 + (b - r) / deltaComp;
 				}
 				else
 				{
-					h = 4 + (r - g) / deltaComp;
+					hue = 4 + (r - g) / deltaComp;
 				}
 			}
-			h *= 60;
-			if (h < 0)
-				h += 360;
+			hue *= 60;
+			if (hue < 0)
+				hue += 360;
 		}
 
-		s = (maxComp == 0 ? 0 : (deltaComp / maxComp) * 100);
-		v = maxComp * 100;
+		h = (static_cast<uint16_t>(hue) % 360);
+		s = static_cast<uint16_t>(maxComp == 0 ? 0 : (deltaComp / maxComp) * 100);
+		v = static_cast<uint16_t>(maxComp * 100);
 	}
 
 	// HSV components
-	float h, s, v;
+	uint16_t h, s, v;
 };

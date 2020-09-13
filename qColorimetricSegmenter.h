@@ -93,19 +93,30 @@ private:
 	//! Segment a cloud with RGB color
 	void filterRgbWithSegmentation();
 
+	//! Region (shared)
+	typedef QSharedPointer<CCCoreLib::ReferenceCloud> Region;
+	//! Region set
+	typedef std::vector<Region> RegionSet;
+
 	/**
-	 * @brief regionGrowing Segmentation method grouping the points into regions of similar colors.
+	 * @brief Segmentation method grouping the points into regions of similar colors.
 	 * Method described in Qingming Zhan, Yubin Liang, Yinghui Xiao, 2009 "Color-based segmentation of point clouds".
+	 * @param regions output regions
 	 * @param pointCloud The point cloud to segment.
 	 * @param TNN Point-point colorimetrical similarity threshold.
 	 * @param TPP Number of neighbours to search using KNN.
 	 * @param TD Threshold distance between neighbouring points.
-	 * @return Vector containing the resulting regions.
+	 * @return success.
 	 */
-	std::vector<CCCoreLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
+	static bool RegionGrowing(	RegionSet& regions,
+								ccPointCloud* pointCloud,
+								const unsigned TNN,
+								const double TPP,
+								const double TD);
 
 	/**
-	 * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
+	 * @brief Merge previously created regions in 'regionGrowing' method.
+	 * @param mergedRegions refined and merged regions
 	 * @param basePointCloud The base segmented point cloud used to create the regions.
 	 * @param regions Vector containing the regions.
 	 * @param TNN Point-point colorimetrical similarity threshold.
@@ -114,7 +125,13 @@ private:
 	 * @param Min Minimal size for a region.
 	 * @return Vector containing the resulting merged and refined regions.
 	 */
-	std::vector<CCCoreLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCCoreLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
+	static bool RegionMergingAndRefinement(	RegionSet& mergedRegions,
+											ccPointCloud* basePointCloud,
+											const RegionSet& regions,
+											const unsigned TNN,
+											const double TRR,
+											const double TD,
+											const unsigned Min);
 
 private: //members
 
