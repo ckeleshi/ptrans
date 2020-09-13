@@ -17,36 +17,57 @@
 //#                                                                        #
 //##########################################################################
 
-#include <ui_ScalarDialog.h>
-#include "ccPickingListener.h"
+//qCC_db
+#include <ccColorTypes.h>
 
-//Qt
-#include <QDialog>
-
-class ccGLWindow;
-class ccPickingHub;
-
-/*
-	Get the values of the RGB interface, and interactions
-*/
-class ScalarDialog : public QDialog, public ccPickingListener, public Ui::ScalarDialog
+//! HSV color
+struct Hsv
 {
-	Q_OBJECT
-public:
-    explicit ScalarDialog(ccPickingHub* pickingHub, QWidget* parent = nullptr);
+	//! Default constrctor
+	Hsv()
+		: h(0)
+		, s(0)
+		, v(0)
+	{
+	}
 
-	//! Inherited from ccPickingListener
-	virtual void onItemPicked(const PickedItem& pi);
+	//! Constrctor from a RGB color
+	Hsv(const ccColor::Rgb& rgb)
+	{
+		float r = rgb.r / 255.0f;
+		float g = rgb.g / 255.0f;
+		float b = rgb.b / 255.0f;
+		float maxComp = std::max(std::max(r, g), b);
+		float minComp = std::min(std::min(r, g), b);
+		float deltaComp = maxComp - minComp;
 
-public slots:
-	void pickPoint_first(bool);
-	void pickPoint_second(bool);
+		h = 0;
+		if (deltaComp != 0)
+		{
+			if (r == maxComp)
+			{
+				h = (g - b) / deltaComp;
+			}
+			else
+			{
+				if (g == maxComp)
+				{
+					h = 2 + (b - r) / deltaComp;
+				}
+				else
+				{
+					h = 4 + (r - g) / deltaComp;
+				}
+			}
+			h *= 60;
+			if (h < 0)
+				h += 360;
+		}
 
-protected: //members
+		s = (maxComp == 0 ? 0 : (deltaComp / maxComp) * 100);
+		v = maxComp * 100;
+	}
 
-	//! Picking window (if any)
-	ccGLWindow* m_pickingWin;
-
-	//! Picking hub
-	ccPickingHub* m_pickingHub;
+	// HSV components
+	float h, s, v;
 };

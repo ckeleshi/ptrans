@@ -1,3 +1,5 @@
+#pragma once
+
 //##########################################################################
 //#                                                                        #
 //#            CLOUDCOMPARE PLUGIN: ColorimetricSegmenter                  #
@@ -15,30 +17,13 @@
 //#                                                                        #
 //##########################################################################
 
-#ifndef HSVDialog_H
-#define HSVDialog_H
-
 #include <ui_HSVDialog.h>
-#include "ccPickingListener.h"
+#include <ccPickingListener.h>
 
 //Qt
-#include <ccHObject.h>
 #include <QDialog>
-#include <qcheckbox.h>
 
-class ccGLWindow;
-class ccPlane;
-class ccHObject;
 class ccPickingHub;
-
-/*
-	Struct for HSV
-*/
-typedef struct {
-	double h;
-	double s;
-	double v;
-} hsv;
 
 /*
 	Get the values of the HSV interface, and interactions
@@ -47,13 +32,11 @@ class HSVDialog : public QDialog, public ccPickingListener, public Ui::HSVDialog
 {
 	Q_OBJECT
 public:
-	explicit HSVDialog(ccPickingHub* pickingHub, QWidget* parent = 0);
+	explicit HSVDialog(ccPickingHub* pickingHub, QWidget* parent = nullptr);
 
 
 	//! Inherited from ccPickingListener
 	virtual void onItemPicked(const PickedItem& pi);
-
-	hsv rgb2hsv(ccColor::Rgb rgb);
 
 public slots:
 	void pickPoint(bool);
@@ -61,12 +44,7 @@ public slots:
 
 protected: //members
 
-	//! Picking window (if any)
-	ccGLWindow* m_pickingWin;
-
 	//! Picking hub
 	ccPickingHub* m_pickingHub;
 
 };
-
-#endif // HSVDialog_H

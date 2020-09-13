@@ -40,15 +40,15 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="area_quanti">
-       <property name="decimals">
-        <number>0</number>
-       </property>
+      <widget class="QSpinBox" name="area_quanti">
        <property name="minimum">
-        <double>1.000000000000000</double>
+        <number>1</number>
        </property>
        <property name="maximum">
-        <double>255.000000000000000</double>
+        <number>1000</number>
+       </property>
+       <property name="value">
+        <number>4</number>
        </property>
       </widget>
      </item>
