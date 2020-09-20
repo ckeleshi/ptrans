@@ -66,26 +66,6 @@ ColorimetricSegmenter::ColorimetricSegmenter(QObject* parent)
 {
 }
 
-void ColorimetricSegmenter::handleNewEntity(ccHObject* entity)
-{
-	Q_ASSERT(entity && m_app);
-	m_app->addToDB(entity);
-}
-
-void ColorimetricSegmenter::handleEntityChange(ccHObject* entity)
-{
-	Q_ASSERT(entity && m_app);
-	entity->prepareDisplayForRefresh_recursive();
-	m_app->refreshAll();
-	m_app->updateUI();
-}
-
-void ColorimetricSegmenter::handleErrorMessage(QString message)
-{
-	if (m_app)
-		m_app->dispToConsole(message, ccMainAppInterface::ERR_CONSOLE_MESSAGE);
-}
-
 void ColorimetricSegmenter::onNewSelection(const ccHObject::Container& selectedEntities)
 {
 	// Only enable our action if something is selected.
@@ -137,11 +117,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_filterRgb, &QAction::triggered, this, &ColorimetricSegmenter::filterRgb);
-
-		connect(m_action_filterRgb, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterRgb, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterRgb, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-
 	}
 
 	/*if (!m_action_filterRgbWithSegmentation)
@@ -154,10 +129,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_filterRgbWithSegmentation, &QAction::triggered, this, &ColorimetricSegmenter::filterRgbWithSegmentation);
-
-		connect(m_action_filterRgbWithSegmentation, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterRgbWithSegmentation, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterRgbWithSegmentation, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 	}*/
 
 	// HSV Filter
@@ -169,11 +140,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_filterHSV, &QAction::triggered, this, &ColorimetricSegmenter::filterHSV);
-
-		connect(m_action_filterHSV, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterHSV, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterHSV, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-
 	}
 
 	// Scalar filter
@@ -185,11 +151,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_filterScalar, &QAction::triggered, this, &ColorimetricSegmenter::filterScalar);
-
-		connect(m_action_filterScalar, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_filterScalar, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-
 	}
 	
 	if (!m_action_histogramClustering)
@@ -200,11 +161,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_histogramClustering, &QAction::triggered, this, &ColorimetricSegmenter::HistogramClustering);
-
-		connect(m_action_histogramClustering, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_histogramClustering, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_histogramClustering, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
-
 	}
 	
 	if (!m_action_kMeansClustering)
@@ -217,10 +173,6 @@ QList<QAction*> ColorimetricSegmenter::getActions()
 
 		// Connect appropriate signal
 		connect(m_action_kMeansClustering, &QAction::triggered, this, &ColorimetricSegmenter::KmeansClustering);
-
-		connect(m_action_kMeansClustering, SIGNAL(newEntity(ccHObject*)), this, SLOT(handleNewEntity(ccHObject*)));
-		connect(m_action_kMeansClustering, SIGNAL(entityHasChanged(ccHObject*)), this, SLOT(handleEntityChange(ccHObject*)));
-		connect(m_action_kMeansClustering, SIGNAL(newErrorMessage(QString)), this, SLOT(handleErrorMessage(QString)));
 	}
 
 	return {	m_action_filterRgb,

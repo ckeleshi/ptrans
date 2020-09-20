@@ -42,27 +42,6 @@ public:
 	void onNewSelection(const ccHObject::Container& selectedEntities) override;
 	QList<QAction*> getActions() override;
 
-public slots:
-	//! Handles new entity
-	void handleNewEntity(ccHObject*);
-
-	//! Handles entity (visual) modification
-	void handleEntityChange(ccHObject*);
-
-	//! Handles new error message
-	void handleErrorMessage(QString);
-
-signals:
-
-	//! Signal emitted when an entity is (visually) modified
-	void entityHasChanged(ccHObject*);
-
-	//! Signal emitted when a new entity is created by the filter
-	void newEntity(ccHObject*);
-
-	//! Signal emitted when a new error message is produced
-	void newErrorMessage(QString);
-
 private:
 	std::vector<ccPointCloud*> getSelectedPointClouds();
 
