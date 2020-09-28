@@ -233,7 +233,7 @@
            <string>Pick the plane center (click again to cancel)</string>
           </property>
           <property name="icon">
-           <iconset resource="../../../qCC/icones.qrc">
+           <iconset resource="../../../../qCC/icons.qrc">
             <normaloff>:/CC/images/ccPointPicking.png</normaloff>:/CC/images/ccPointPicking.png</iconset>
           </property>
           <property name="checkable">
@@ -314,7 +314,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../qCC/icones.qrc"/>
+  <include location="../../../../qCC/icons.qrc"/>
  </resources>
  <connections>
   <connection>

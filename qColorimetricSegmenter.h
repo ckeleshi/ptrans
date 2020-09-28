@@ -18,24 +18,15 @@
 //##########################################################################
 
 #include "ccStdPluginInterface.h"
-#include "ccPointCloud.h"
+
+//CCCoreLib
+#include <ReferenceCloud.h>
+
+//Qt
 #include <QObject>
 #include <QtGui>
 
-#include <ccPickingListener.h>
-#include <ccPickingHub.h>
-#include <ccGLWindow.h>
-#include "ccPointCloud.h"
-#include "ccScalarField.h"
-
-#include "RgbDialog.h"
-#include "HSVDialog.h"
-#include "ScalarDialog.h"
-#include "QuantiDialog.h"
-#include "KmeansDlg.h"
-
-const int MIN_VALUE = 0;
-const int MAX_VALUE = 255;
+class ccPointCloud;
 
 class ColorimetricSegmenter : public QObject, public ccStdPluginInterface
 {
@@ -51,27 +42,6 @@ public:
 	void onNewSelection(const ccHObject::Container& selectedEntities) override;
 	QList<QAction*> getActions() override;
 
-public slots:
-	//! Handles new entity
-	void handleNewEntity(ccHObject*);
-
-	//! Handles entity (visual) modification
-	void handleEntityChange(ccHObject*);
-
-	//! Handles new error message
-	void handleErrorMessage(QString);
-
-signals:
-
-	//! Signal emitted when an entity is (visually) modified
-	void entityHasChanged(ccHObject*);
-
-	//! Signal emitted when a new entity is created by the filter
-	void newEntity(ccHObject*);
-
-	//! Signal emitted when a new error message is produced
-	void newErrorMessage(QString);
-
 private:
 	std::vector<ccPointCloud*> getSelectedPointClouds();
 
@@ -86,33 +56,46 @@ private:
 
 	void KmeansClustering();
 
-	void addPoint(CCCoreLib::ReferenceCloud* filteredCloud, unsigned int j);
+	bool addPoint(CCCoreLib::ReferenceCloud& filteredCloud, unsigned int j);
 
 	template <typename T>
-	void createClouds(T& dlg, ccPointCloud* cloud, CCCoreLib::ReferenceCloud* filteredCloudInside, CCCoreLib::ReferenceCloud* filteredCloudOutside, std::string name);
+	void createClouds(	T& dlg,
+						ccPointCloud* cloud,
+						const CCCoreLib::ReferenceCloud& filteredCloudInside,
+						const CCCoreLib::ReferenceCloud& filteredCloudOutside,
+						QString name);
 
-	void createCloud(ccPointCloud* cloud, CCCoreLib::ReferenceCloud* referenceCloud, std::string name, bool inside);
-
-	//picked point callbacks
-	//void pointPicked(ccHObject* entity, unsigned itemIdx, int x, int y, const CCVector3& P);
-	//virtual void onItemPicked(const ccPickingListener::PickedItem& pi); //inherited from ccPickingListener
+	void createCloud(	ccPointCloud* cloud,
+						const CCCoreLib::ReferenceCloud& referenceCloud,
+						QString name);
 
 	//! Segment a cloud with RGB color
 	void filterRgbWithSegmentation();
 
+	//! Region (shared)
+	typedef QSharedPointer<CCCoreLib::ReferenceCloud> Region;
+	//! Region set
+	typedef std::vector<Region> RegionSet;
+
 	/**
-	 * @brief regionGrowing Segmentation method grouping the points into regions of similar colors.
+	 * @brief Segmentation method grouping the points into regions of similar colors.
 	 * Method described in Qingming Zhan, Yubin Liang, Yinghui Xiao, 2009 "Color-based segmentation of point clouds".
+	 * @param regions output regions
 	 * @param pointCloud The point cloud to segment.
 	 * @param TNN Point-point colorimetrical similarity threshold.
 	 * @param TPP Number of neighbours to search using KNN.
 	 * @param TD Threshold distance between neighbouring points.
-	 * @return Vector containing the resulting regions.
+	 * @return success.
 	 */
-	std::vector<CCCoreLib::ReferenceCloud*>* regionGrowing(ccPointCloud* pointCloud, const unsigned TNN, const double TPP, const double TD);
+	static bool RegionGrowing(	RegionSet& regions,
+								ccPointCloud* pointCloud,
+								const unsigned TNN,
+								const double TPP,
+								const double TD);
 
 	/**
-	 * @brief regionMergingAndRefinement Merge previously created regions in 'regionGrowing' method.
+	 * @brief Merge previously created regions in 'regionGrowing' method.
+	 * @param mergedRegions refined and merged regions
 	 * @param basePointCloud The base segmented point cloud used to create the regions.
 	 * @param regions Vector containing the regions.
 	 * @param TNN Point-point colorimetrical similarity threshold.
@@ -121,39 +104,23 @@ private:
 	 * @param Min Minimal size for a region.
 	 * @return Vector containing the resulting merged and refined regions.
 	 */
-	std::vector<CCCoreLib::ReferenceCloud*>* regionMergingAndRefinement(ccPointCloud* basePointCloud, std::vector<CCCoreLib::ReferenceCloud*>* regions, const unsigned TNN, const double TRR, const double TD, const unsigned Min);
+	static bool RegionMergingAndRefinement(	RegionSet& mergedRegions,
+											ccPointCloud* basePointCloud,
+											const RegionSet& regions,
+											const unsigned TNN,
+											const double TRR,
+											const double TD,
+											const unsigned Min);
 
+private: //members
 
-	//! Default action
-	/** You can add as many actions as you want in a plugin.
-		Each action will correspond to an icon in the dedicated
-		toolbar and an entry in the plugin menu.
-	**/
 	QAction* m_action_filterRgb;
 	//QAction* m_action_filterRgbWithSegmentation;
 	QAction* m_action_filterHSV;
 	QAction* m_action_filterScalar;
-	QAction* m_action_ToonMapping_Hist;
-	QAction* m_action_ToonMapping_KMeans;
+	QAction* m_action_histogramClustering;
+	QAction* m_action_kMeansClustering;
 
-
-	//! Picking hub
-	ccPickingHub* m_pickingHub = nullptr;
-
-	RgbDialog* rgbDlg;
-	HSVDialog* hsvDlg;
-	ScalarDialog* scalarDlg;
-	QuantiDialog* quantiDlg;
-	KmeansDlg* kmeansDlg;
-
-
-	//link to application windows
-	//ccGLWindow* m_window;
-	//QMainWindow* m_main_window;
-
-	const unsigned TNN = 1;
-	const double TPP = 2.0;
-	const double TD = 2.0;
-	const double TRR = 2.0;
-	const unsigned Min = 2;
+	//! Error state after the last call to addPoint
+	bool m_addPointError;
 };

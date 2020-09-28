@@ -14,29 +14,19 @@
 //#    COPYRIGHT:	Tri-Thien TRUONG, Ronan COLLIER, Mathieu LETRONE       #
 //#                                                                        #
 //##########################################################################
+
 #include "ScalarDialog.h"
-
-//local
-#include "mainwindow.h"
-
-//Qt
-#include <QVariant>
-#include <QApplication>
-#include <QClipboard>
-#include <QFileDialog>
-#include <QMenu>
-#include <QMessageBox>
-#include <QSettings>
 
 //common
 #include <ccPickingHub.h>
-
 #include <ccGenericPointCloud.h>
-#include <ccPointCloud.h>
 
 //qCC_gl
 #include <ccGLWidget.h>
 #include <ccGLWindow.h>
+
+//Qt
+#include <QCheckBox>
 
 /*
 	Constructor
