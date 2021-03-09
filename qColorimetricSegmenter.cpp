@@ -553,7 +553,7 @@ bool ColorimetricSegmenter::RegionGrowing(	RegionSet& regions,
 	if (!pointCloud || pointCloud->size() == 0)
 	{
 		Q_ASSERT(false);
-		return nullptr;
+		return false;
 	}
 	size_t pointCount = pointCloud->size();
 
