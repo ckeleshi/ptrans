@@ -30,9 +30,11 @@
 //Qt
 #include <QCheckBox>
 
-/*
-	Constructor
-*/
+//Semi-persistent parameters
+static int s_lastR = 0;
+static int s_lastG = 0;
+static int s_lastB = 0;
+
 HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
 	, Ui::HSVDialog()
@@ -40,12 +42,12 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 {
 	assert(pickingHub);
 
-	setModal(false);
 	setupUi(this);
+	setModal(false);
 
-	red->setValue(0);
-	green->setValue(0);
-	blue->setValue(0);
+	red->setValue(s_lastR);
+	green->setValue(s_lastG);
+	blue->setValue(s_lastB);
 
 	updateColorButton();
 
@@ -54,6 +56,7 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	connect(red, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
 	connect(green, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
 	connect(blue, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
+	connect(this, &QDialog::accepted, this, &HSVDialog::storeParameters);
 
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
@@ -65,14 +68,18 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	);
 }
 
+void HSVDialog::storeParameters()
+{
+	s_lastR = red->value();
+	s_lastG = green->value();
+	s_lastB = blue->value();
+}
+
 void HSVDialog::updateColorButton()
 {
 	ccQtHelpers::SetButtonColor(rgbColorToolButton, QColor(red->value(), green->value(), blue->value()));
 }
 
-/*
-	Method for the picking point functionnality
-*/
 void HSVDialog::pickPoint(bool state)
 {
 	if (!m_pickingHub)
@@ -98,9 +105,6 @@ void HSVDialog::pickPoint(bool state)
 	pointPickingButton_first->blockSignals(false);
 }
 
-/*
-	Method applied after a point is picked by picking point functionnality
-*/
 void HSVDialog::onItemPicked(const PickedItem& pi)
 {
 	if (!pi.entity || !m_pickingHub)
@@ -139,9 +143,6 @@ void HSVDialog::onItemPicked(const PickedItem& pi)
 	}
 }
 
-/*
-	Method applied after entering a value in RGB text fields
-*/
 void HSVDialog::updateValues()
 {
 	ccColor::Rgb rgb(red->value(), green->value(), blue->value());

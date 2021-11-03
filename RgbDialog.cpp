@@ -29,9 +29,15 @@
 //Qt
 #include <QCheckBox>
 
-/*
-	Constructor
-*/
+//Semi-persistent parameters
+static int s_lastFirstR = 0;
+static int s_lastFirstG = 0;
+static int s_lastFirstB = 0;
+static int s_lastSecondR = 0;
+static int s_lastSecondG = 0;
+static int s_lastSecondB = 0;
+static int s_lastMargin = 0;
+
 RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
 	, Ui::RgbDialog()
@@ -39,8 +45,16 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 {
 	assert(pickingHub);
 
-	setModal(false);
 	setupUi(this);
+	setModal(false);
+
+	red_first->setValue(s_lastFirstR);
+	green_first->setValue(s_lastFirstG);
+	blue_first->setValue(s_lastFirstB);
+	red_second->setValue(s_lastSecondR);
+	green_second->setValue(s_lastSecondG);
+	blue_second->setValue(s_lastSecondB);
+	margin->setValue(s_lastMargin);
 
 	updateFirstColorButton();
 	updateSecondColorButton();
@@ -54,7 +68,7 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	connect(red_second,   qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
 	connect(green_second, qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
 	connect(blue_second,  qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
-
+	connect(this, &QDialog::accepted, this, &RgbDialog::storeParameters);
 
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
@@ -63,6 +77,17 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 			if (pointPickingButton_second->isChecked()) pointPickingButton_second->setChecked(false);
 		}
 	);
+}
+
+void RgbDialog::storeParameters()
+{
+	s_lastFirstR = red_first->value();
+	s_lastFirstG = green_first->value();
+	s_lastFirstB = blue_first->value();
+	s_lastSecondR = red_second->value();
+	s_lastSecondG = green_second->value();
+	s_lastSecondB = blue_second->value();
+	s_lastMargin = margin->value();
 }
 
 void RgbDialog::updateFirstColorButton()

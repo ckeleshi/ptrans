@@ -40,6 +40,9 @@ public:
 public slots:
 	void pickPoint_first(bool);
 	void pickPoint_second(bool);
+protected slots:
+	//! Store semi-persistent parameters for the next run
+	void storeParameters();
 
 protected: //methods
 	void updateFirstColorButton();
