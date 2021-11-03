@@ -44,9 +44,6 @@ public slots:
 
 protected: //members
 
-	//! Picking window (if any)
-	ccGLWindow* m_pickingWin;
-
 	//! Picking hub
 	ccPickingHub* m_pickingHub;
 };

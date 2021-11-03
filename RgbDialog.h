@@ -41,10 +41,11 @@ public slots:
 	void pickPoint_first(bool);
 	void pickPoint_second(bool);
 
-protected: //members
+protected: //methods
+	void updateFirstColorButton();
+	void updateSecondColorButton();
 
-	//! Picking window (if any)
-	ccGLWindow* m_pickingWin;
+protected: //members
 
 	//! Picking hub
 	ccPickingHub* m_pickingHub;

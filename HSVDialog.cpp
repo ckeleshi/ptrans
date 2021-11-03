@@ -20,8 +20,9 @@
 //Local
 #include "HSV.h"
 
-//qCC
+//common
 #include <ccPickingHub.h>
+#include <ccQtHelpers.h>
 
 //qCC_db
 #include <ccGenericPointCloud.h>
@@ -46,12 +47,14 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 	green->setValue(0);
 	blue->setValue(0);
 
+	updateColorButton();
+
 	//link between Ui and actions
 	connect(pointPickingButton_first, &QCheckBox::toggled, this, &HSVDialog::pickPoint);
-	connect(red, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
-	connect(green, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
-	connect(blue, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &HSVDialog::updateValues);
-		
+	connect(red, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
+	connect(green, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
+	connect(blue, qOverload<int>(&QSpinBox::valueChanged), this, &HSVDialog::updateValues);
+
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
 	{
@@ -60,6 +63,11 @@ HSVDialog::HSVDialog(ccPickingHub* pickingHub, QWidget* parent)
 			m_pickingHub->removeListener(this);
 	}
 	);
+}
+
+void HSVDialog::updateColorButton()
+{
+	ccQtHelpers::SetButtonColor(rgbColorToolButton, QColor(red->value(), green->value(), blue->value()));
 }
 
 /*
@@ -95,18 +103,27 @@ void HSVDialog::pickPoint(bool state)
 */
 void HSVDialog::onItemPicked(const PickedItem& pi)
 {
-	assert(pi.entity);
-
-	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
+	if (!pi.entity || !m_pickingHub)
 	{
-		//Get RGB values of the picked point
-		ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
-		const ccColor::Rgba& rgb = cloud->getPointColor(pi.itemIndex);
-		if (pointPickingButton_first->isChecked())
-		{
-			ccLog::Print("Point picked");
+		return;
+	}
 
-			//blocking signals to avoid updating 2 times hsv values for nothing
+	if (pointPickingButton_first->isChecked())
+	{
+		if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
+		{
+			//Get RGB values of the picked point
+			ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
+			const ccColor::Rgba& rgb = cloud->getPointColor(pi.itemIndex);
+
+			ccLog::Print(QString("Point picked: %1 - color: R=%2 G=%3 B=%4")
+				.arg(pi.itemIndex)
+				.arg(rgb.r)
+				.arg(rgb.g)
+				.arg(rgb.b)
+			);
+
+			//blocking signals to avoid updating 2 times HSV values for nothing
 			red->blockSignals(true);
 			green->blockSignals(true);
 
@@ -129,8 +146,10 @@ void HSVDialog::updateValues()
 {
 	ccColor::Rgb rgb(red->value(), green->value(), blue->value());
 
-	Hsv hsv_values(rgb);
-	hue_first->setValue(hsv_values.h);
-	sat_first->setValue(hsv_values.s);
-	val_first->setValue(hsv_values.v);
+	Hsv hsv(rgb);
+	hue->setValue(hsv.h);
+	sat->setValue(hsv.s);
+	val->setValue(hsv.v);
+
+	updateColorButton();
 }

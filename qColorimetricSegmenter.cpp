@@ -256,14 +256,14 @@ void ColorimetricSegmenter::filterRgb()
 	if (rgbDlg.margin->value() > 0)
 	{
 		// error margin
-		int marginError = static_cast<int>(rgbDlg.margin->value() * 2.56); //256 / 100%
+		int errorMargin = static_cast<int>(rgbDlg.margin->value() * 2.56); //256 / 100%
 
-		redInf   -= marginError;
-		redSup   += marginError;
-		greenInf -= marginError;
-		greenSup += marginError;
-		blueInf  -= marginError;
-		blueSup  += marginError;
+		redInf   -= errorMargin;
+		redSup   += errorMargin;
+		greenInf -= errorMargin;
+		greenSup += errorMargin;
+		blueInf  -= errorMargin;
+		blueSup  += errorMargin;
 	}
 
 	// Set to min or max value (0-255)
@@ -345,12 +345,12 @@ void ColorimetricSegmenter::filterScalar()
 	// Start timer
 	auto startTime = std::chrono::high_resolution_clock::now();
 
-	double marginError = static_cast<double>(scalarDlg.margin->value()) / 100.0;
+	double errorMargin = scalarDlg.margin->value() / 100.0;
 	ScalarType minVal = std::min(scalarDlg.first->value(), scalarDlg.second->value());
 	ScalarType maxVal = std::max(scalarDlg.first->value(), scalarDlg.second->value());
 	//DGM: this way of applying the error margin is a bit strange
-	minVal -= (marginError * minVal);
-	maxVal += (marginError * maxVal);
+	minVal -= (errorMargin * minVal);
+	maxVal += (errorMargin * maxVal);
 
 	std::vector<ccPointCloud*> clouds = getSelectedPointClouds();
 	for (ccPointCloud* cloud : clouds)
@@ -770,15 +770,15 @@ void ColorimetricSegmenter::filterRgbWithSegmentation()
 	auto startTime = std::chrono::high_resolution_clock::now();
 
 	// Get margin value (percent)
-	double marginError = rgbDlg.margin->value() / 100.0;
+	double errorMargin = rgbDlg.margin->value() / 100.0;
 
 	// Get all values to make the color range with RGB values
-	int redInf   = rgbDlg.red_first->value()    - static_cast<int>(marginError * rgbDlg.red_first->value());
-	int redSup   = rgbDlg.red_second->value()   + static_cast<int>(marginError * rgbDlg.red_second->value());
-	int greenInf = rgbDlg.green_first->value()  - static_cast<int>(marginError * rgbDlg.green_first->value());
-	int greenSup = rgbDlg.green_second->value() + static_cast<int>(marginError * rgbDlg.green_second->value());
-	int blueInf  = rgbDlg.blue_first->value()   - static_cast<int>(marginError * rgbDlg.blue_first->value());
-	int blueSup  = rgbDlg.blue_second->value()  + static_cast<int>(marginError * rgbDlg.blue_second->value());
+	int redInf   = rgbDlg.red_first->value()    - static_cast<int>(errorMargin * rgbDlg.red_first->value());
+	int redSup   = rgbDlg.red_second->value()   + static_cast<int>(errorMargin * rgbDlg.red_second->value());
+	int greenInf = rgbDlg.green_first->value()  - static_cast<int>(errorMargin * rgbDlg.green_first->value());
+	int greenSup = rgbDlg.green_second->value() + static_cast<int>(errorMargin * rgbDlg.green_second->value());
+	int blueInf  = rgbDlg.blue_first->value()   - static_cast<int>(errorMargin * rgbDlg.blue_first->value());
+	int blueSup  = rgbDlg.blue_second->value()  + static_cast<int>(errorMargin * rgbDlg.blue_second->value());
 
 	redInf   = std::max(0, redInf);
 	greenInf = std::max(0, greenInf);
@@ -875,9 +875,9 @@ void ColorimetricSegmenter::filterHSV()
 
 	// Get HSV values
 	Hsv hsv_first;
-	hsv_first.h = hsvDlg.hue_first->value();
-	hsv_first.s = hsvDlg.sat_first->value();
-	hsv_first.v = hsvDlg.val_first->value();
+	hsv_first.h = hsvDlg.hue->value();
+	hsv_first.s = hsvDlg.sat->value();
+	hsv_first.v = hsvDlg.val->value();
 
 	// We use look-up tables for faster comparisons
 	static const uint8_t LOW = 0;

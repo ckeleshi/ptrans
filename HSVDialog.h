@@ -42,6 +42,9 @@ public slots:
 	void pickPoint(bool);
 	void updateValues();
 
+protected: //methods
+	void updateColorButton();
+
 protected: //members
 
 	//! Picking hub

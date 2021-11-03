@@ -20,6 +20,7 @@
 //common
 #include <ccPickingHub.h>
 #include <ccGenericPointCloud.h>
+#include <ccQtHelpers.h>
 
 //qCC_gl
 #include <ccGLWidget.h>
@@ -34,7 +35,6 @@
 RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
 	, Ui::RgbDialog()
-	, m_pickingWin(nullptr)
 	, m_pickingHub(pickingHub)
 {
 	assert(pickingHub);
@@ -42,17 +42,37 @@ RgbDialog::RgbDialog(ccPickingHub* pickingHub, QWidget* parent)
 	setModal(false);
 	setupUi(this);
 
+	updateFirstColorButton();
+	updateSecondColorButton();
+
 	//Link between Ui and actions
 	connect(pointPickingButton_first, &QCheckBox::toggled, this, &RgbDialog::pickPoint_first);
 	connect(pointPickingButton_second, &QCheckBox::toggled, this, &RgbDialog::pickPoint_second);
+	connect(red_first,    qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateFirstColorButton);
+	connect(green_first,  qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateFirstColorButton);
+	connect(blue_first,   qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateFirstColorButton);
+	connect(red_second,   qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
+	connect(green_second, qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
+	connect(blue_second,  qOverload<int>(&QSpinBox::valueChanged), this, &RgbDialog::updateSecondColorButton);
+
 
 	//auto disable picking mode on quit
 	connect(this, &QDialog::finished, [&]()
-	{
-		if (pointPickingButton_first->isChecked()) pointPickingButton_first->setChecked(false);
-		if (pointPickingButton_second->isChecked()) pointPickingButton_second->setChecked(false);
-	}
+		{
+			if (pointPickingButton_first->isChecked()) pointPickingButton_first->setChecked(false);
+			if (pointPickingButton_second->isChecked()) pointPickingButton_second->setChecked(false);
+		}
 	);
+}
+
+void RgbDialog::updateFirstColorButton()
+{
+	ccQtHelpers::SetButtonColor(firstColorToolButton, QColor(red_first->value(), green_first->value(), blue_first->value()));
+}
+
+void RgbDialog::updateSecondColorButton()
+{
+	ccQtHelpers::SetButtonColor(secondColorToolButton, QColor(red_second->value(), green_second->value(), blue_second->value()));
 }
 
 /*
@@ -112,36 +132,46 @@ void RgbDialog::pickPoint_second(bool state)
 */
 void RgbDialog::onItemPicked(const PickedItem& pi)
 {
-	assert(pi.entity);
-	m_pickingWin = m_pickingHub->activeWindow();
+	if (!pi.entity || !m_pickingHub)
+	{
+		return;
+	}
 
 	if (pi.entity->isKindOf(CC_TYPES::POINT_CLOUD))
 	{
-		if (static_cast<ccGenericPointCloud*>(pi.entity)->hasColors()) {
-				//Get RGB values of the picked point
-				ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
-				const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
-				if (pointPickingButton_first->isChecked()) {
-					ccLog::Print("Point picked from first point picker");
+		ccGenericPointCloud* cloud = static_cast<ccGenericPointCloud*>(pi.entity);
+		if (cloud->hasColors())
+		{
+			//Get RGB values of the picked point
+			const ccColor::Rgb& rgb = cloud->getPointColor(pi.itemIndex);
+			ccLog::Print(QString("%0 point picked: %1 - color: R=%2 G=%3 B=%4")
+				.arg(pointPickingButton_first->isChecked() ? "First" : "Second")
+				.arg(pi.itemIndex)
+				.arg(rgb.r)
+				.arg(rgb.g)
+				.arg(rgb.b)
+			);
 
-					red_first->setValue(rgb.r);
-					green_first->setValue(rgb.g);
-					blue_first->setValue(rgb.b);
+			if (pointPickingButton_first->isChecked())
+			{
+				red_first->setValue(rgb.r);
+				green_first->setValue(rgb.g);
+				blue_first->setValue(rgb.b);
 
-					pointPickingButton_first->setChecked(false);
-				}
-				else {
-					ccLog::Print("Point picked from second point picker");
-					red_second->setValue(rgb.r);
-					green_second->setValue(rgb.g);
-					blue_second->setValue(rgb.b);
+				pointPickingButton_first->setChecked(false);
+			}
+			else
+			{
+				red_second->setValue(rgb.r);
+				green_second->setValue(rgb.g);
+				blue_second->setValue(rgb.b);
 
-					pointPickingButton_second->setChecked(false);
-				}
+				pointPickingButton_second->setChecked(false);
+			}
 		}
-		else {
-			ccLog::Print("The point cloud is not with RGB values.");
+		else
+		{
+			ccLog::Print("This point cloud doesn't have RGB colors");
 		}
-
 	}
 }
