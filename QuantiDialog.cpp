@@ -23,7 +23,7 @@ QuantiDialog::QuantiDialog(QWidget* parent)
 {
 	setupUi(this);
 
-	connect(area_quanti, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &QuantiDialog::updateLabelValues);
+	connect(area_quanti, qOverload<int>(&QSpinBox::valueChanged), this, &QuantiDialog::updateLabelValues);
 }
 /*
 	Method applied after entering a value in RGB text fields
