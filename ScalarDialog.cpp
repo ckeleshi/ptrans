@@ -22,15 +22,11 @@
 #include <ccGenericPointCloud.h>
 
 //qCC_gl
-#include <ccGLWidget.h>
 #include <ccGLWindow.h>
 
 //Qt
 #include <QCheckBox>
 
-/*
-	Constructor
-*/
 ScalarDialog::ScalarDialog(ccPickingHub* pickingHub, QWidget* parent)
 	: QDialog(parent)
     , Ui::ScalarDialog()

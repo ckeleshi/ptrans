@@ -23,7 +23,6 @@
 #include <ccQtHelpers.h>
 
 //qCC_gl
-#include <ccGLWidget.h>
 #include <ccGLWindow.h>
 
 //Qt
@@ -100,9 +99,6 @@ void RgbDialog::updateSecondColorButton()
 	ccQtHelpers::SetButtonColor(secondColorToolButton, QColor(red_second->value(), green_second->value(), blue_second->value()));
 }
 
-/*
-	Method for the first picking point functionnality
-*/
 void RgbDialog::pickPoint_first(bool state)
 {
 	if (!m_pickingHub)
@@ -126,9 +122,6 @@ void RgbDialog::pickPoint_first(bool state)
 	pointPickingButton_first->blockSignals(false);
 }
 
-/*
-	Method for the second picking point functionnality
-*/
 void RgbDialog::pickPoint_second(bool state)
 {
 	if (!m_pickingHub)
@@ -152,9 +145,6 @@ void RgbDialog::pickPoint_second(bool state)
 	pointPickingButton_second->blockSignals(false);
 }
 
-/*
-	Method applied after a point is picked by picking point functionnality
-*/
 void RgbDialog::onItemPicked(const PickedItem& pi)
 {
 	if (!pi.entity || !m_pickingHub)

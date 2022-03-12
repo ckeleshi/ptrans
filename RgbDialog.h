@@ -38,7 +38,9 @@ public:
 	virtual void onItemPicked(const PickedItem& pi);
 
 public slots:
+	//! Method for the first picking point functionnality
 	void pickPoint_first(bool);
+	//! Method for the second picking point functionnality
 	void pickPoint_second(bool);
 protected slots:
 	//! Store semi-persistent parameters for the next run
