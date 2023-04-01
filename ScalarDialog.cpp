@@ -21,9 +21,6 @@
 #include <ccPickingHub.h>
 #include <ccGenericPointCloud.h>
 
-//qCC_gl
-#include <ccGLWindow.h>
-
 //Qt
 #include <QCheckBox>
 

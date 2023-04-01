@@ -23,7 +23,6 @@
 //Qt
 #include <QDialog>
 
-class ccGLWindow;
 class ccPickingHub;
 
 /*

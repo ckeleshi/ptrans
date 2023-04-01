@@ -24,7 +24,7 @@
 #include <QDialog>
 
 class ccPickingHub;
-class ccGLWindow;
+
 /*
 	Get the values of the RGB interface, and interactions
 */

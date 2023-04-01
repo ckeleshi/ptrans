@@ -22,9 +22,6 @@
 #include <ccGenericPointCloud.h>
 #include <ccQtHelpers.h>
 
-//qCC_gl
-#include <ccGLWindow.h>
-
 //Qt
 #include <QCheckBox>
 
